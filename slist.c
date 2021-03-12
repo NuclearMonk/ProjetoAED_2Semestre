@@ -18,6 +18,7 @@ bool    SL_IsEmpty(slist* head){
 slist*  SL_NewElement(Data data){
     slist* new_element = malloc(sizeof(slist));
     SL_SetData(new_element,data);
+    return new_element;
 }
 
 void    SL_FreeElement(slist* element, void (*free_function)(Data data)){

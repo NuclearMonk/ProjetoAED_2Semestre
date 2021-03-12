@@ -40,7 +40,7 @@ slist*  SL_Prepend(slist* head,slist* element);
  *true if postpend was sucessful;
  *false if element was null and was prepended instead;
  */
-bool    SL_Pospend(slist* element,slist* new_element);
+bool    SL_InsertAfter(slist* element,slist* new_element);
 
 /*Liberta a lista usando a fucao freefunction Para libertar Data*/
 void    SL_FreeList(slist* head, void (*free_function)(Data data));

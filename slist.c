@@ -47,7 +47,7 @@ slist*  SL_Prepend(slist* head,slist* element){
     return element;
 }
 
-bool  SL_Pospend(slist* element,slist* new_element){
+bool  SL_InsertAfter(slist* element,slist* new_element){
     if(element==NULL){
         SL_Prepend(element,new_element);
         return false;

@@ -2,50 +2,53 @@
 #include <stdbool.h>
 #include "stack.h"
 
-Typedef Struct _stack{
-		Unsigned int stpointer;
-		DATA*	Array;
-}stack
+struct _stack{
+	unsigned int stpointer;
+	Data*	array;
+};
 
 
-stack* ST_New(unsigned int sz){
-	New_Stack = malloc(sz*sizeof(DATA));
-	Stpointer = 0;
+t_stack* ST_New(unsigned int sz){
+	t_stack* new_stack= malloc(sizeof(t_stack));
+	new_stack->array = malloc(sz*sizeof(Data));
+	new_stack->stpointer = 0;
+	return new_stack;
 }
 
-Void ST_Free(stack* st){
-	free(st.Array);
+void ST_Free(t_stack* st){
+	free(st->array);
 	free(st);
 }
 
 
-Void ST_Push(DATA data , stack* st){
-	st.array[++stpointer]= data;
+void ST_Push(t_stack* st,Data data ){
+	st->array[st->stpointer++]= data;
 }
 
-DATA  ST_Pop(stack* st){
-	return (st.array[st.stpointer--]);
+Data  ST_Pop(t_stack* st){
+	if(st->stpointer==0)return NULL;
+	return (st->array[--st->stpointer]);
 }
 
-DATA  ST_Peek(stack* st){
-	return(st.array[st.stpointer]);
+Data  ST_Peek(t_stack* st){
+	return(st->array[st->stpointer]);
 }
 
-Int ST_Used(stack* st){
-	Return sz.stpointer;
+int ST_Used(t_stack* st){
+	return st->stpointer;
 }
 
-Bool ST_IsEmpty(stack* st){
-	Return (sz.stpointer == 0);
+bool ST_IsEmpty(t_stack* st){
+	return (st->stpointer == 0);
 }
 
 /*Typedef struct _stack{
 	Unsigned int length;
-	slist* 	lista;
-}stack
+	t_slist* 	lista;
+};
 
 stack* ST_New(unsigned int sz){
-	St = malloc(sz*sizeof(slist));
+	St = malloc(sz*sizeof(t_slist));
 	St.length =0;
 	Lista = SL_Initialize();
 }
@@ -69,10 +72,6 @@ DATA  ST_Pop(stack* st){
     Return Aux;
 }
 
-Void DoNothing(Data data){
-	Return;
-}
-
 DATA  ST_Peek(stack* st){
 	Return SL_GetData(st.lista);
 }
@@ -85,3 +84,5 @@ Int 	ST_Used(stack* st){
 Bool 	ST_IsEmpty(stack* st){
 	Return (st.leght == 0);
 }
+
+*/

@@ -1,17 +1,22 @@
 #include <stdlib.h>
 #include <stdbool.h>
+#include "Data.h"
 
-stack* ST_New(unsigned int sz);
-Void ST_Free(stack* st);
-Void ST_Push(DATA data , stack* st);
-DATA  ST_Pop(stack* st);
-DATA  ST_Peek(stack* st);
-Int ST_Used(stack* st);
-Bool ST_IsEmpty(stack* st);
-/*Void 	ST_Free(stack* st);
-Void 	ST_Push(DATA data , stack* st);
-DATA  ST_Pop(stack* st);
-Void DoNothing(Data data);
-DATA  ST_Peek(stack* st);
-Int 	ST_Used(stack* st);
-Bool 	ST_IsEmpty(stack* st);
+typedef struct _stack t_stack;
+
+t_stack* ST_New(unsigned int sz);
+void ST_Free(t_stack* st);
+void ST_Push(t_stack* st,Data data);
+Data  ST_Pop(t_stack* st);
+Data  ST_Peek(t_stack* st);
+int ST_Used(t_stack* st);
+bool ST_IsEmpty(t_stack* st);
+
+/*
+void 	ST_Free(t_stack* st);
+void 	ST_Push(DATA data , t_stack* st);
+Data    ST_Pop(t_stack* st);
+Data    ST_Peek(t_stack* st);
+int 	ST_Used(t_stack* st);
+bool 	ST_IsEmpty(t_stack* st);
+*/

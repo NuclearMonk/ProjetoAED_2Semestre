@@ -2,6 +2,9 @@
 #include <stdbool.h>
 #include "stack.h"
 #include "slist.h"
+
+void    DoNothing(Data data);
+
 /*
 struct _stack{
 	unsigned int stpointer;
@@ -58,7 +61,7 @@ t_stack* ST_New(unsigned int sz){
 }
 
 void 	ST_Free(t_stack* st){
-	free(st->lista);
+	SL_FreeList(st->lista,&DoNothing);
 	free(st);
 }
 
@@ -69,12 +72,12 @@ void 	ST_Push(t_stack* st, Data data){
 }
 
 Data  ST_Pop(t_stack* st){
-	Data Aux = SL_GetData(st->lista);
+	Data aux = SL_GetData(st->lista);
     t_slist* aux2= st->lista;
 	st->lista = SL_GetNext(st->lista);
 	SL_FreeElement(aux2,&DoNothing);
 	st->length--;
-    return Aux;
+    return aux;
 }
 
 Data  ST_Peek(t_stack* st){

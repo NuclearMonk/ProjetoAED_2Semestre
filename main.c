@@ -8,7 +8,7 @@ void DoNothing(Data data);
 
 int main(){
     t_slist*  list = SL_Initialize();
-    t_stack*  stack = ST_New(100);
+    t_stack*  stack = ST_New(100); 
     int* aux = NULL;
     for(int i =0 ;i<100;i++){
         aux = malloc(sizeof(int));

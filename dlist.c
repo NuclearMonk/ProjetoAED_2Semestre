@@ -1,4 +1,6 @@
 #include "dlist.h"
+#include <stdio.h>
+
 
 struct _dlist
 {
@@ -61,31 +63,50 @@ void     DL_SetPrevious(t_dlist* element, t_dlist* previous){
     element->_previous= previous;
 }
 
-/*adds element at the top of the list head and returns the new head*/
-t_dlist*  DL_InsertBefore(t_dlist* head,t_dlist* element){
-    DL_SetPrevious(element,DL_GetPrevious(head));
-    DL_SetNext(DL_GetPrevious(head),element);
-    DL_SetPrevious(head,element);
-    DL_SetNext(element,head);
-    return element;
+/*adds new_element at the top of the list head and returns the new_element*/
+t_dlist*  DL_InsertBefore(t_dlist* element,t_dlist* new_element){
+    if(element==NULL){
+        DL_SetNext(new_element,NULL);
+        return new_element;
+    }
+    DL_SetPrevious(new_element,DL_GetPrevious(element));
+    if(DL_GetPrevious(element)!=NULL)   DL_SetNext(DL_GetPrevious(element),new_element);
+    DL_SetPrevious(element,new_element);
+    DL_SetNext(new_element,element);
+    return new_element;
 }
 
-/*adds element to the list between element and the one that follows element*/
+/*adds element to the list between element and the one that follows element
+ *Returns new_element*/
 t_dlist* DL_InsertAfter(t_dlist* element,t_dlist* new_element){
+    if(element==NULL){
+        DL_SetPrevious(new_element,NULL);
+        return new_element;
+    }
     DL_SetNext(new_element,DL_GetNext(element));
-    DL_SetPrevious(DL_GetNext(new_element),new_element);
+    if(DL_GetNext(new_element)!=NULL)   DL_SetPrevious(DL_GetNext(new_element),new_element);
     DL_SetNext(element,new_element);
     DL_SetPrevious(new_element,element);
     return new_element;
 }
 
-/*Liberta a lista usando a fucao freefunction Para libertar Data*/
-void    DL_FreeList(t_dlist* head, void (*free_function)(Data data)){
+/*Liberta a lista comecando na head usando a fucao freefunction Para libertar Data*/
+void    DL_FreeListHead(t_dlist* head, void (*free_function)(Data data)){
     t_dlist* next;
     while(head!=NULL){
         next = DL_GetNext(head);
         DL_FreeElement(head,free_function);
         head= next;
+    }
+}
+
+/*Liberta a lista comecando na head usando a fucao freefunction Para libertar Data*/
+void    DL_FreeListTail(t_dlist* tail, void (*free_function)(Data data)){
+    t_dlist* prev;
+    while(tail!=NULL){
+        prev = DL_GetPrevious(tail);
+        DL_FreeElement(tail,free_function);
+        tail= prev;
     }
 }
 

@@ -2,7 +2,7 @@ CC=gcc
 CFLAGS=-Wall -std=c99 -O3
  
 projeto: main.o slist.o dlist.o stack.o 
-		$(CC) $(CFLAGS) -o projeto main.o slist.o stack.o 	    	
+		$(CC) $(CFLAGS) -o projeto main.o slist.o dlist.o stack.o 	    	
 main.o: main.c
 	 	$(CC) -c $(CFLAGS) main.c
 slist.o: slist.c slist.h

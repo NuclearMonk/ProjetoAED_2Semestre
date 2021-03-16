@@ -10,7 +10,8 @@ bool     DL_IsEmpty(t_dlist* head);
 
 t_dlist* DL_NewElement(Data data);
 void     DL_FreeElement(t_dlist* element, void (*free_function)(Data data));
-void      DL_FreeList(t_dlist* head, void (*free_function)(Data data));
+void      DL_FreeListHead(t_dlist* head, void (*free_function)(Data data));
+void      DL_FreeListTail(t_dlist* tail, void (*free_function)(Data data));
 
 Data     DL_GetData(t_dlist* element);
 void     DL_SetData(t_dlist* element, Data data);

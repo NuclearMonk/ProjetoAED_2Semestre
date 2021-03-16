@@ -67,7 +67,7 @@ void 	ST_Free(t_stack* st){
 
 void 	ST_Push(t_stack* st, Data data){
 	t_slist* aux = SL_NewElement(data);
-	st->lista = SL_Prepend(st->lista, aux);
+	st->lista = SL_InsertBefore(st->lista, aux);
 	st->length ++;
 }
 

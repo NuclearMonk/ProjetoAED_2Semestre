@@ -13,7 +13,7 @@ int main(){
     for(int i =0 ;i<100;i++){
         aux = malloc(sizeof(int));
         aux[0] = i;
-        list = SL_Prepend(list,SL_NewElement(aux));
+        list = SL_InsertBefore(list,SL_NewElement(aux));
     }
     for(t_slist* auxlist =list;auxlist!=NULL; auxlist=SL_GetNext(auxlist)){
         ST_Push(stack,SL_GetData(auxlist));

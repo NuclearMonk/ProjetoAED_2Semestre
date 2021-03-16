@@ -19,7 +19,7 @@ bool    SL_IsEmpty(t_slist* head){
 
 /* returns a new allocated element that is storing the passed data*/
 t_slist*  SL_NewElement(Data data){
-    t_slist* new_element = malloc(sizeof(t_slist));
+    t_slist* new_element = (t_slist*)malloc(sizeof(t_slist));
     SL_SetData(new_element,data);
     return new_element;
 }

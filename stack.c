@@ -14,7 +14,7 @@ struct _stack{
 
 
 t_stack* ST_New(unsigned int sz){
-	t_stack* new_stack= malloc(sizeof(t_stack));
+	t_stack* new_stack= (t_stack*)malloc(sizeof(t_stack));
 	new_stack->array = malloc(sz*sizeof(Data));
 	new_stack->stpointer = 0;
 	return new_stack;
@@ -54,7 +54,7 @@ struct _stack{
 };
 
 t_stack* ST_New(unsigned int sz){
-	t_stack* new_stack = malloc(sz*sizeof(t_stack));
+	t_stack* new_stack = (t_stack*)malloc(sz*sizeof(t_stack));
 	new_stack->length = 0;
     new_stack->lista = SL_Initialize();
 	return new_stack;

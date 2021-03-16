@@ -14,7 +14,7 @@ int main(){
 
     int* aux = NULL;
     for(int i =0 ;i<100;i++){
-        aux = malloc(sizeof(int));
+        aux = (int*)malloc(sizeof(int));
         aux[0] = i;
         test_slist = SL_InsertBefore(test_slist,SL_NewElement(aux));
     }

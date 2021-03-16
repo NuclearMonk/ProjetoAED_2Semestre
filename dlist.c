@@ -21,7 +21,7 @@ bool     DL_IsEmpty(t_dlist* head){
 
 /* returns a new allocated element that is storing the passed data*/
 t_dlist* DL_NewElement(Data data){
-    t_dlist* aux = malloc(sizeof(t_dlist));
+    t_dlist* aux = (t_dlist*)malloc(sizeof(t_dlist));
     aux->_data    = data;
     aux->_next    = DL_Initialize();
     aux->_previous= DL_Initialize();

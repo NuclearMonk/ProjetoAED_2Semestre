@@ -15,7 +15,7 @@ struct _stack{
 
 t_stack* ST_New(unsigned int sz){
 	t_stack* new_stack= (t_stack*)malloc(sizeof(t_stack));
-	new_stack->array = malloc(sz*sizeof(Data));
+	new_stack->array = (Data*)malloc(sz*sizeof(Data));
 	new_stack->stpointer = 0;
 	return new_stack;
 }

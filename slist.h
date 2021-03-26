@@ -10,24 +10,24 @@
 #include <stdbool.h>
 #include "Data.h"
 
-typedef struct _slist t_slist;
+typedef struct _slist slist_t;
 
-t_slist*  SL_Initialize();
-bool    SL_IsEmpty(t_slist* head);
+slist_t*  SL_Initialize();
+bool    SL_IsEmpty(slist_t* head);
 
-t_slist*    SL_NewElement(Data data);
-void        SL_FreeElement(t_slist* element, void (*free_function)(Data data));
-void        SL_FreeList(t_slist* head, void (*free_function)(Data data));
+slist_t*    SL_NewElement(Data data);
+void        SL_FreeElement(slist_t* element, void (*free_function)(Data data));
+void        SL_FreeList(slist_t* head, void (*free_function)(Data data));
 
-Data   SL_GetData(t_slist* element);
-void    SL_SetData(t_slist* element, Data data);
-
-
-t_slist*  SL_GetNext(t_slist* element);
-void    SL_SetNext(t_slist* element, t_slist* next);
+Data   SL_GetData(slist_t* element);
+void    SL_SetData(slist_t* element, Data data);
 
 
-t_slist*  SL_InsertBefore(t_slist* head,t_slist* element);
-t_slist* SL_InsertAfter(t_slist* element,t_slist* new_element);
+slist_t*  SL_GetNext(slist_t* element);
+void    SL_SetNext(slist_t* element, slist_t* next);
 
-void    SL_Apply(t_slist* head, void (*f)(Data data));
+
+slist_t*  SL_InsertBefore(slist_t* head,slist_t* element);
+slist_t* SL_InsertAfter(slist_t* element,slist_t* new_element);
+
+void    SL_Apply(slist_t* head, void (*f)(Data data));

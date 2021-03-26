@@ -5,23 +5,23 @@
 struct _dlist
 {
     Data _data;
-    t_dlist* _next;
-    t_dlist* _previous;
+    dlist_t* _next;
+    dlist_t* _previous;
 };
 
 /*returns NULL to initialize an empty list*/
-t_dlist* DL_Initialize(){
+dlist_t* DL_Initialize(){
     return NULL;
 }
 
 /*returns true if the list has no elements*/
-bool     DL_IsEmpty(t_dlist* head){
+bool     DL_IsEmpty(dlist_t* head){
     return(head==NULL);
 }
 
 /* returns a new allocated element that is storing the passed data*/
-t_dlist* DL_NewElement(Data data){
-    t_dlist* aux = malloc(sizeof(t_dlist));
+dlist_t* DL_NewElement(Data data){
+    dlist_t* aux = (dlist_t*)malloc(sizeof(dlist_t));
     aux->_data    = data;
     aux->_next    = DL_Initialize();
     aux->_previous= DL_Initialize();
@@ -29,42 +29,42 @@ t_dlist* DL_NewElement(Data data){
 }
 
 /*destroys the provided element using the provided function*/
-void     DL_FreeElement(t_dlist* element, void (*free_function)(Data data)){
+void     DL_FreeElement(dlist_t* element, void (*free_function)(Data data)){
     free_function(DL_GetData(element));
     free(element);
 }
 
 /*returns the data stored in element*/
-Data     DL_GetData(t_dlist* element){
+Data     DL_GetData(dlist_t* element){
     return element->_data;
 }
 
 /*sets the data stored in element*/
-void     DL_SetData(t_dlist* element, Data data){
+void     DL_SetData(dlist_t* element, Data data){
     data = element->_data;
 }
 
 /*returns the element that sucedes the one provided*/
-t_dlist* DL_GetNext(t_dlist* element){
+dlist_t* DL_GetNext(dlist_t* element){
     return element->_next;
 }
 
 /*returns the element that sucedes the one provided*/
-void     DL_SetNext(t_dlist* element, t_dlist* next){
+void     DL_SetNext(dlist_t* element, dlist_t* next){
     element->_next=next;
 }
 
 /*returns the element that precedes the one provided*/
-t_dlist* DL_GetPrevious(t_dlist* element){
+dlist_t* DL_GetPrevious(dlist_t* element){
     return element->_previous;
 }
 /*returns the element that precedes the one provided*/
-void     DL_SetPrevious(t_dlist* element, t_dlist* previous){
+void     DL_SetPrevious(dlist_t* element, dlist_t* previous){
     element->_previous= previous;
 }
 
 /*adds new_element at the top of the list head and returns the new_element*/
-t_dlist*  DL_InsertBefore(t_dlist* element,t_dlist* new_element){
+dlist_t*  DL_InsertBefore(dlist_t* element,dlist_t* new_element){
     if(element==NULL){
         DL_SetNext(new_element,NULL);
         return new_element;
@@ -78,7 +78,7 @@ t_dlist*  DL_InsertBefore(t_dlist* element,t_dlist* new_element){
 
 /*adds element to the list between element and the one that follows element
  *Returns new_element*/
-t_dlist* DL_InsertAfter(t_dlist* element,t_dlist* new_element){
+dlist_t* DL_InsertAfter(dlist_t* element,dlist_t* new_element){
     if(element==NULL){
         DL_SetPrevious(new_element,NULL);
         return new_element;
@@ -91,8 +91,8 @@ t_dlist* DL_InsertAfter(t_dlist* element,t_dlist* new_element){
 }
 
 /*Liberta a lista comecando na head usando a fucao freefunction Para libertar Data*/
-void    DL_FreeListHead(t_dlist* head, void (*free_function)(Data data)){
-    t_dlist* next;
+void    DL_FreeListHead(dlist_t* head, void (*free_function)(Data data)){
+    dlist_t* next;
     while(head!=NULL){
         next = DL_GetNext(head);
         DL_FreeElement(head,free_function);
@@ -101,8 +101,8 @@ void    DL_FreeListHead(t_dlist* head, void (*free_function)(Data data)){
 }
 
 /*Liberta a lista comecando na head usando a fucao freefunction Para libertar Data*/
-void    DL_FreeListTail(t_dlist* tail, void (*free_function)(Data data)){
-    t_dlist* prev;
+void    DL_FreeListTail(dlist_t* tail, void (*free_function)(Data data)){
+    dlist_t* prev;
     while(tail!=NULL){
         prev = DL_GetPrevious(tail);
         DL_FreeElement(tail,free_function);
@@ -111,7 +111,7 @@ void    DL_FreeListTail(t_dlist* tail, void (*free_function)(Data data)){
 }
 
 /* Apply f to data to all elements in list */
-void    DL_Apply(t_dlist* head, void (*f)(Data data)){
+void    DL_Apply(dlist_t* head, void (*f)(Data data)){
     while(head!=NULL){
         f(DL_GetData(head));
         head= DL_GetNext(head);

@@ -3,11 +3,14 @@
 #include "slist.h"
 #include "stack.h"
 #include "dlist.h"
+#include "fileinterface.h"
 
 void PrintAndFree(void* number);
 void DoNothing(Data data);
 
 int main(){
+    int i=0;
+    cabecalho_t* cabecalho;
     slist_t*  test_slist = SL_Initialize();
     dlist_t*  test_dlist = DL_Initialize();
     stack_t*  test_stack = ST_New(100); 
@@ -31,6 +34,14 @@ int main(){
         PrintAndFree(DL_GetData(aux_dlist));
     }
     DL_FreeListTail(test_dlist,DoNothing);
+    FILE *fp;
+    fp=fopen("problema.txt", "r");
+    while(i<4){
+    cabecalho = le_cabecalho_prob(fp);
+    printf("tipo: %d Vincio: %d Vfinal: %d Vflag: %d \n", C_GetProblema(cabecalho), C_GetVInicial(cabecalho), C_GetVFinal(cabecalho), C_GetFlag(cabecalho));
+    i++;
+    }
+    C_Liberta(cabecalho);
 
     return 0;
 }

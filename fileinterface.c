@@ -63,22 +63,46 @@ cabecalho_t* le_cabecalho_prob(FILE *fpprob){  /*Vai ter que retornar cabecalho*
 }
 
 mapa_t* le_mapa(FILE *fpprob){
-    int vertices,arestas;
+    int vertices,arestas, i;
     if (fscanf(fpprob, "%d", &vertices) != 1){
-            exit(0);
+        exit(0);
     }
     if (fscanf(fpprob, "%d", &arestas) != 1){
-            exit(0);
+        exit(0);
     }
     mapa_t* mapa= M_Aloca(vertices,arestas);
-
+    for(i=0;i<vertices;i++){
+    le_cidade(fpprob, mapa);
+    }
+    for(i=0;i<arestas;i++){
+        le_aresta(fpprob, mapa);
+    }
     return mapa;
 }
 
 void le_cidade(FILE *fpprob,mapa_t* mapa){
-
+    int a;
+    char class[26];
+    if (fscanf(fpprob, "%d", &a) != 1){
+        exit(0);
+    }
+    if (fscanf(fpprob, "%s", class) != 1){
+        exit(0);
+    }
+    M_VerticeInsere(mapa, a, class);
 }
 
 void le_aresta(FILE *fpprob,mapa_t* mapa){
-
+    int a,b;
+    double custo;
+    if (fscanf(fpprob, "%d", &a) != 1){
+        exit(0);
+    }
+    if (fscanf(fpprob, "%d", &b) != 1){
+        exit(0);
+    }
+    if (fscanf(fpprob, "%f", &custo) != 1){
+        exit(0);
+    }
+    M_ArestaInsere(mapa, a, b, custo);
 }

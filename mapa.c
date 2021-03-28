@@ -49,4 +49,5 @@ bool    M_Adjacente(mapa_t* mapa, int a, int b){
     default:
         break;
     }
+    return false;
 }

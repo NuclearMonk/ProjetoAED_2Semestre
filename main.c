@@ -40,8 +40,9 @@ int main(){
     cabecalho = le_cabecalho_prob(fp);
     printf("tipo: %d Vincio: %d Vfinal: %d Vflag: %d \n", C_GetProblema(cabecalho), C_GetVInicial(cabecalho), C_GetVFinal(cabecalho), C_GetFlag(cabecalho));
     i++;
-    }
     C_Liberta(cabecalho);
+    }
+    fclose(fp);
 
     return 0;
 }

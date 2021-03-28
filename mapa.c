@@ -8,12 +8,15 @@ struct _mapa
     unsigned int _tipo;         /*guarda ea informacao da estrutura usada pelo mapa*/
     void*        _estrutura;    /*pointer para a estrutura*/
     unsigned int _maxvertices;
+    unsigned int _maxarestas;
 };
 
 mapa_t* M_Aloca(int vertices, int arestas){
     mapa_t* aux= (mapa_t*)malloc(sizeof(mapa_t));
     aux->_tipo=1;
     aux->_estrutura= MA_Alocar(vertices);
+    aux->_maxvertices=vertices;
+    aux->_maxarestas=arestas;
     if(aux==NULL){exit(1);}
     return aux;
 }

@@ -2,7 +2,6 @@
 
 #include <string.h>
 
-#include "cabecalho.h" /*incluido para permitir a utilizacao de structs de cabecalho*/
 
 
 /*Modificar, le para variavel auxiliar temporaria e depois escrever para um cabecalho alocado usando o struct cabecalho e retornar o cabecalho ver warnings compilacao*/

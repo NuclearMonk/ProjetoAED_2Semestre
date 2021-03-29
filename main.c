@@ -1,8 +1,5 @@
 #include <stdio.h>
 
-#include "slist.h"
-#include "stack.h"
-#include "dlist.h"
 #include "fileinterface.h"
 
 

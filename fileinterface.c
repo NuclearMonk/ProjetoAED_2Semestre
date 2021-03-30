@@ -106,11 +106,11 @@ void le_aresta(FILE *fpprob,mapa_t* mapa, int maxvertices){
         exit(0);
     }
     M_ArestaInsere(mapa, a, b, custo);
-    printmapa(mapa, maxvertices, a, b);
+    printmapa(mapa, a, b);
 }
 
-void printmapa(mapa_t *mapa, int maxvertices, int a, int b){
+void printmapa(mapa_t *mapa, int a, int b){
     double custo;
-     custo = MA_Custo((madj_t)mapa->_estrutura, maxvertices, a, b);
+     custo = M_Custo(mapa, a, b);
      printf("primeiro verice:%d e segundo: %d e o custo:%f\n", a, b, custo);
 }

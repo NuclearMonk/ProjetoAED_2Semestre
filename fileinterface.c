@@ -89,7 +89,7 @@ void le_cidade(FILE *fpprob,mapa_t* mapa){
     if (fscanf(fpprob, "%s", class) != 1){
         exit(0);
     }
-    M_VerticeInsere(mapa, a, class);
+    /*M_VerticeInsere(mapa, a, class);*/
 }
 
 void le_aresta(FILE *fpprob,mapa_t* mapa){
@@ -101,7 +101,7 @@ void le_aresta(FILE *fpprob,mapa_t* mapa){
     if (fscanf(fpprob, "%d", &b) != 1){
         exit(0);
     }
-    if (fscanf(fpprob, "%f", &custo) != 1){
+    if (fscanf(fpprob, "%lf", &custo) != 1){ /*Exige %lf para ler doubles*/
         exit(0);
     }
     M_ArestaInsere(mapa, a, b, custo);

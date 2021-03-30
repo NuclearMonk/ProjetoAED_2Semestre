@@ -9,4 +9,6 @@ void    LA_InserirAresta(ladj_t* ladj, int a, int b, double custo);
 
 double  LA_Custo(ladj_t* ladj, int a, int b);
 
+int     LA_Grau(ladj_t* ladj, int a);
+
 bool    LA_Adjacente(ladj_t ladj, int a, int b);

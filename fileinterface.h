@@ -8,4 +8,7 @@ mapa_t*      le_mapa(FILE *fpprob);
 void         le_cidade(FILE *fpprob,mapa_t* mapa);
 void         le_aresta(FILE *fpprob,mapa_t* mapa, int maxvertices);
 void         printmapa(mapa_t* mapa, int a, int b);
+FILE*        abre_ficheiro_prob(char *ficheiroprob);
+FILE*        abre_ficheiro_mapa(char *ficheiromapa);
+FILE*        abre_ficheiro_saida(char *ficheiromapa);
 

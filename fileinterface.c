@@ -114,3 +114,27 @@ void printmapa(mapa_t *mapa, int a, int b){
      custo = M_Custo(mapa, a, b);
      printf("primeiro verice:%d e segundo: %d e o custo:%f\n", a, b, custo);
 }
+
+FILE* abre_ficheiro_prob(char *ficheiroprob){
+    if(ficheiroprob = NULL){exit(0);}
+    FILE *fp;
+    fp=fopen(ficheiroprob, "r");
+    return fp;
+}
+
+FILE* abre_ficheiro_mapa(char *ficheiromapa){
+    if(ficheiromapa = NULL){exit(0);}
+    FILE *fp;
+    fp=fopen(ficheiromapa, "r");
+    return fp;
+}
+
+FILE* abre_ficheiro_saida(char *ficheiromapa){
+    char aux[]="routes";
+    char* ficheiroout=(char*)malloc((strlen(ficheiromapa)+3)*sizeof(char));
+    strncpy(ficheiroout,ficheiromapa, (strlen(ficheiromapa)-4));
+    strcat(ficheiroout, aux);
+    FILE fpout;
+    fpout=fopen(ficheiroout, "r+");
+    return fpout;
+}

@@ -2,6 +2,7 @@
 
 #include <stdlib.h>
 #include "matrizadjacencia.h"
+#include <stdio.h>
 
 struct _mapa
 {
@@ -35,7 +36,7 @@ void M_Libertar(mapa_t* mapa){
 }
 
 void    M_ArestaInsere(mapa_t* mapa, int a, int b , double custo){
-    if(0<a && a<= mapa->_maxvertices && 0<b && a<=mapa->_maxvertices)return;
+    if(!((0<a && a<= mapa->_maxvertices) && (0<b && b<=mapa->_maxvertices)))return;
     switch (mapa->_tipo)
     {
     case 1:
@@ -51,7 +52,7 @@ void    M_ArestaInsere(mapa_t* mapa, int a, int b , double custo){
   Retorna grau do vertice em todos os outros casos  
 */
 int     M_Grau(mapa_t* mapa,int vertice){
-    if(0<vertice && vertice<= mapa->_maxvertices )return -1;
+    if(!((0<vertice && vertice<= mapa->_maxvertices)))return -1;
     switch (mapa->_tipo)
     {
     case 1:
@@ -66,7 +67,7 @@ int     M_Grau(mapa_t* mapa,int vertice){
 
 /*retorna -1 caso os vertices nao pertencam ao grafo*/
 double  M_Custo(mapa_t* mapa, int a, int b){
-    if(0<a && a<= mapa->_maxvertices && 0<b && a<=mapa->_maxvertices)return -1;
+    if(!((0<a && a<= mapa->_maxvertices) && (0<b && b<=mapa->_maxvertices)))return -1;
     switch (mapa->_tipo)
     {
     case 1:
@@ -86,7 +87,7 @@ double  M_Custo(mapa_t* mapa, int a, int b){
   retorna  1 se sao ajacentes
 */
 int    M_Adjacente(mapa_t* mapa, int a, int b){
-    if(0<a && a<= mapa->_maxvertices && 0<b && a<=mapa->_maxvertices)return -1;
+    if(!((0<a && a<= mapa->_maxvertices) && (0<b && b<=mapa->_maxvertices)))return -1;
     switch (mapa->_tipo)
     {
     case 1:

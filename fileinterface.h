@@ -6,5 +6,6 @@
 cabecalho_t* le_cabecalho_prob(FILE *fpprob);
 mapa_t*      le_mapa(FILE *fpprob);
 void         le_cidade(FILE *fpprob,mapa_t* mapa);
-void         le_aresta(FILE *fpprob,mapa_t* mapa);
+void         le_aresta(FILE *fpprob,mapa_t* mapa, int maxvertices);
+void         printmapa(mapa_t* mapa, int maxvertices, int a, int b);
 

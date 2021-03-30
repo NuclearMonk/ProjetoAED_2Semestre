@@ -1,11 +1,13 @@
 #include <stdio.h>
 
 #include "fileinterface.h"
+#include "mapa.h"
 
 
 int main(){
-    int i =0;
-    cabecalho_t* cabecalho;
+    /*int i =0;*/
+    mapa_t* mapa;
+    /*cabecalho_t* cabecalho;
     FILE *fp;
     fp=fopen("problema.txt", "r");
     while(i<4){
@@ -14,8 +16,11 @@ int main(){
     i++;
     C_Liberta(cabecalho);
     }
-    fclose(fp);
-
+    fclose(fp);*/
+    FILE *fpm;
+    fpm=fopen("teste.txt", "r");
+    mapa=le_mapa(fpm);
+    fclose(fpm);
     return 0;
 }
 

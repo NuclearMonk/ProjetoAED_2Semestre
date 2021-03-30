@@ -4,6 +4,7 @@
 #include "fileinterface.h"
 #include "cabecalho.h"
 #include "mapa.h"
+#include "matrizadjacencia.h"
 
 
 /*Modificar, le para variavel auxiliar temporaria e depois escrever para um cabecalho alocado usando o struct cabecalho e retornar o cabecalho ver warnings compilacao*/
@@ -75,7 +76,7 @@ mapa_t* le_mapa(FILE *fpprob){
     le_cidade(fpprob, mapa);
     }
     for(i=0;i<arestas;i++){
-        le_aresta(fpprob, mapa);
+        le_aresta(fpprob, mapa, vertices);
     }
     return mapa;
 }
@@ -89,10 +90,10 @@ void le_cidade(FILE *fpprob,mapa_t* mapa){
     if (fscanf(fpprob, "%s", class) != 1){
         exit(0);
     }
-    /*M_VerticeInsere(mapa, a, class);*/
+    /*M_VerticeInsere(mapa, a, class);nessessario ainda criar esta funçao*/
 }
 
-void le_aresta(FILE *fpprob,mapa_t* mapa){
+void le_aresta(FILE *fpprob,mapa_t* mapa, int maxvertices){
     int a,b;
     double custo;
     if (fscanf(fpprob, "%d", &a) != 1){
@@ -101,8 +102,15 @@ void le_aresta(FILE *fpprob,mapa_t* mapa){
     if (fscanf(fpprob, "%d", &b) != 1){
         exit(0);
     }
-    if (fscanf(fpprob, "%lf", &custo) != 1){ /*Exige %lf para ler doubles*/
+    if (fscanf(fpprob, "%lf", &custo) != 1){
         exit(0);
     }
     M_ArestaInsere(mapa, a, b, custo);
+    printmapa(mapa, maxvertices, a, b);
+}
+
+void printmapa(mapa_t *mapa, int maxvertices, int a, int b){
+    double custo;
+     custo = MA_Custo((madj_t)mapa->_estrutura, maxvertices, a, b);
+     printf("primeiro verice:%d e segundo: %d e o custo:%f\n", a, b, custo);
 }

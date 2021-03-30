@@ -20,6 +20,7 @@ int main(){
     FILE *fpm;
     fpm=fopen("teste.txt", "r");
     mapa=le_mapa(fpm);
+    printmapa(mapa, 1,4 );
     fclose(fpm);
     return 0;
 }

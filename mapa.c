@@ -70,7 +70,7 @@ double  M_Custo(mapa_t* mapa, int a, int b){
     switch (mapa->_tipo)
     {
     case 1:
-        MA_Custo((madj_t*)mapa->_estrutura,mapa->_maxvertices,a,b);
+        return MA_Custo((madj_t*)mapa->_estrutura,mapa->_maxvertices,a,b);
         break;
     
     default:

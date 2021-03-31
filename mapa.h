@@ -11,4 +11,6 @@ double  M_Custo(mapa_t* mapa, int a, int b);
 
 int     M_Grau(mapa_t* mapa,int vertice);
 
-int    M_Adjacente(mapa_t* mapa, int a, int b);
+int     M_Adjacente(mapa_t* mapa, int a, int b);
+
+int     M_DistanciaExata(mapa_t* mapa, int a , int k);

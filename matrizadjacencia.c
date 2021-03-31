@@ -13,7 +13,7 @@ struct _madj
 madj_t* MA_Alocar(int vertices){
     madj_t* aux = (madj_t*)malloc(sizeof(madj_t));
     if(aux==NULL){exit(1);}
-    aux->_matriz=(double*)calloc((vertices-1)*(vertices-1),sizeof(double));
+    aux->_matriz=(double*)calloc((vertices)*(vertices),sizeof(double));
     if(aux->_matriz==NULL){exit(1);}
     aux->_grau=(unsigned int*)calloc(vertices,sizeof(unsigned int));
     if(aux->_grau==NULL){exit(1);}    
@@ -47,4 +47,33 @@ int     MA_Grau(madj_t* madj, int a){
 
 bool    MA_Adjacente(madj_t* madj,int maxvertices, int a, int b){
     return ((double)madj->_matriz[((a-1)*(maxvertices-1))+(b-1)]>0);
+}
+
+int      MA_DistanciaExata(madj_t* madj,int maxvertices, int a , int k){
+    int leitura=0;
+    int escrita = 0;
+    int aux;
+    int visitado;
+    bool* visitados = (bool*)calloc(maxvertices,sizeof(bool));
+    unsigned int* queue     = (unsigned int*)calloc(maxvertices,sizeof(unsigned int));
+    queue[escrita++]=a;  /*colocamos a na queue e incrementamos a posicao da escrita na queue*/
+    visitados[a-1]=true; /*marcamos a como vizitado*/
+    for(int i=0; i<= k;i++){    /*ate chegarmos a profundidade definida*/
+        aux=escrita-leitura;    
+        while(aux>0){           /*para todos os elementos da que nesta profundidade*/
+            visitado=queue[leitura++]; /*visitado = queue.pop*/
+            for(int j=1;j<=maxvertices;j++){
+                if(MA_Adjacente(madj,maxvertices,visitado,j)>0){
+                    if(!(visitados[j-1])){
+                        queue[escrita++]=j;
+                        visitados[j-1]=true;
+                    }
+                }
+            }
+            aux--;
+        }
+    }
+    free(visitados);
+    free(queue);
+    return escrita-leitura;
 }

@@ -115,26 +115,52 @@ void printmapa(mapa_t *mapa, int a, int b){
      printf("primeiro verice:%d e segundo: %d e o custo:%f\n", a, b, custo);
 }
 
+
 FILE* abre_ficheiro_prob(char *ficheiroprob){
-    if(ficheiroprob = NULL){exit(0);}
+    if(ficheiroprob == NULL){exit(0);}
     FILE *fp;
-    fp=fopen(ficheiroprob, "r");
+    fp=fopen(ficheiroprob, "r"); 
+    if(fp == NULL){exit(0);}
     return fp;
 }
 
 FILE* abre_ficheiro_mapa(char *ficheiromapa){
-    if(ficheiromapa = NULL){exit(0);}
+    if(ficheiromapa == NULL){exit(0);}
     FILE *fp;
     fp=fopen(ficheiromapa, "r");
+    if(fp == NULL){exit(0);}
     return fp;
 }
 
+
+
+/*Muita merda aqui aconteceu, em tempos passados havia na pagina da cadeira uma
+ pagina chamada hall of shame onde o bispo apontava os maiores disparates feitos na cadeira
+ este era um deles
+ o que acontece se o ficheriro nao tiver a extensao .maps mas sim .batatas
+ esta funcao retorna .batroutes ??? pareceme correto
+ e se o ficheiro nao tiver extensao o ficheiro foobar fica foroutes???
+ e ainda pior se o ficheiro se chamar foo strlen()-4 retorna -1 boa sorte a copiar os primeiros -1 elementos de um string
+ Recomenda-se entao que descubras como te certificares que o string tem a terminacao correta
+ E depois aplicares esses cheks ao ficheiros de entrada tambem 
+ Se quiseres marrar no problma para de ler aqui mas depois vem uma dica amiga
+ 
+ <Spoilers>
+ o iron man morre no fim do endgame
+ agora a serio:
+ https://www.tutorialspoint.com/c_standard_library/c_function_strchr.htm
+ https://www.tutorialspoint.com/c_standard_library/c_function_strrchr.htm
+ <Spoilers>
+
+*/
+
 FILE* abre_ficheiro_saida(char *ficheiromapa){
+    FILE* fpout;
     char aux[]="routes";
     char* ficheiroout=(char*)malloc((strlen(ficheiromapa)+3)*sizeof(char));
     strncpy(ficheiroout,ficheiromapa, (strlen(ficheiromapa)-4));
     strcat(ficheiroout, aux);
-    FILE fpout;
     fpout=fopen(ficheiroout, "r+");
+    if(fpout == NULL){exit(0);}
     return fpout;
 }

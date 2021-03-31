@@ -11,4 +11,5 @@ void         printmapa(mapa_t* mapa, int a, int b);
 FILE*        abre_ficheiro_prob(char *ficheiroprob);
 FILE*        abre_ficheiro_mapa(char *ficheiromapa);
 FILE*        abre_ficheiro_saida(char *ficheiromapa);
+void         resolve_problema(FILE *Fsaida, mapa_t* mapa, cabecalho_t* cabecalho);
 

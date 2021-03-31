@@ -144,6 +144,26 @@ FILE* abre_ficheiro_saida(char *ficheiromapa){
     strncpy(ficheiroout,ficheiromapa, (strlen(ficheiromapa)-4));
     strcat(ficheiroout, aux);
     fpout=fopen(ficheiroout, "r+");
-    if(fpout == NULL){exit(0);}
+    if(fpout == NULL){return NULL;}
     return fpout;
 }
+
+void         resolve_problema(FILE *Fsaida, mapa_t* mapa, cabecalho_t* cabecalho){
+    int tipo;
+    tipo = C_GetProblema(cabecalho);
+    if (tipo == 1)
+    {
+        /* code A0 */
+    }
+    else if(tipo == 2){
+        /* code B0 */
+    }
+    else if(tipo == 3){
+        /* code C0 */
+    }
+    else if(tipo == 4){
+        /* code D0 */
+    }
+    else{
+        exit(0);
+    }

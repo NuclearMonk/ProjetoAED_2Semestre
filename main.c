@@ -21,6 +21,7 @@ int main(){
     fpm=fopen("teste.txt", "r");
     mapa=le_mapa(fpm);
     printmapa(mapa, 1,4 );
+    M_Libertar(mapa);
     fclose(fpm);
     return 0;
 }

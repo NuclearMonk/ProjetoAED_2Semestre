@@ -13,3 +13,5 @@ int      MA_Grau(madj_t* madj, int a);
 
 bool     MA_Adjacente(madj_t* madj,int maxvertices, int a, int b);
 
+int      MA_DistanciaExata(madj_t* madj,int maxvertices, int a , int k);
+

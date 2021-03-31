@@ -1,8 +1,8 @@
 CC=gcc
 CFLAGS=-Wall -std=c99 -O3
  
-projeto: main.o slist.o dlist.o stack.o aresta.o fileinterface.o cabecalho.o mapa.o matrizadjacencia.o listaadjacencia.o
-		$(CC) $(CFLAGS) -o projeto main.o slist.o dlist.o stack.o aresta.o fileinterface.o cabecalho.o mapa.o matrizadjacencia.o listaadjacencia.o   	
+aedlabs: main.o slist.o dlist.o stack.o aresta.o fileinterface.o cabecalho.o mapa.o matrizadjacencia.o listaadjacencia.o
+		$(CC) $(CFLAGS) -o aedmaps main.o slist.o dlist.o stack.o aresta.o fileinterface.o cabecalho.o mapa.o matrizadjacencia.o listaadjacencia.o   	
 main.o: main.c
 	 	$(CC) -c $(CFLAGS) main.c
 slist.o: slist.c slist.h

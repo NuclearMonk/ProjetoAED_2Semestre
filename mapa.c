@@ -2,7 +2,6 @@
 
 #include <stdlib.h>
 #include "matrizadjacencia.h"
-#include <stdio.h>
 
 struct _mapa
 {
@@ -12,7 +11,7 @@ struct _mapa
     unsigned int  _maxarestas;
 };
 
-mapa_t* M_Aloca(int vertices, int arestas){
+mapa_t* M_Alocar(int vertices, int arestas){
     mapa_t* aux= (mapa_t*)malloc(sizeof(mapa_t));
     if(aux==NULL){exit(1);}
     aux->_tipo=1;
@@ -35,7 +34,7 @@ void M_Libertar(mapa_t* mapa){
     free(mapa);
 }
 
-void    M_ArestaInsere(mapa_t* mapa, int a, int b , double custo){
+void    M_InserirAresta(mapa_t* mapa, int a, int b , double custo){
     if(!((0<a && a<= mapa->_maxvertices) && (0<b && b<=mapa->_maxvertices)))return;
     switch (mapa->_tipo)
     {

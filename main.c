@@ -1,69 +1,78 @@
+#include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "fileinterface.h"
-#include "mapa.h"
 
 
 int main(int argc,char* argv[]){
-    mapa_t* mapa;
-    cabecalho_t* cabecalho;
-    if (argc != 3){exit(0);}
-    FILE *problema;
-    FILE *mapa;
-    FILE *Fsaida;
-    if((problema = abre_ficheiro_prob(argv[1])) == NULL){exit(0);}
-    if((mapa = abre_ficheiro_mapa(argv[2])) == NULL){exit(0);}
-    if(strcmp(argv[0], "-oo") == 0){
-        cabecalho = le_cabecalho_prob(problema);
-        mapa = le_mapa(mapa);
-        Fsaida = abre_ficheiro_saida(mapa);
-        resolve_problema(Fsaida, mapa, cabecalho);
+    mapa_t* mapa=NULL;
+    cabecalho_t* cabecalho=NULL;
+    FILE *fp_problemas=NULL;
+    FILE *fp_mapas=NULL;
+    FILE *fp_saida=NULL;
+
+
+    if (argc != 4){exit(0);}
+
+    fp_problemas = Abre_ficheiro_prob(argv[2]);
+    if(fp_problemas == NULL)
+    {
+        exit(0);
+    }
+
+    fp_mapas = Abre_ficheiro_mapa(argv[3]);
+    if(fp_mapas == NULL){
+        fclose(fp_problemas);
+        exit(0);
+    }
+
+    if(strcmp(argv[1], "-oo") == 0){
+        cabecalho = Le_cabecalho_prob(fp_problemas);
+        mapa = Le_mapa(fp_mapas);
+        fp_saida = Abre_ficheiro_saida(argv[3]);
+        Resolve_problema(fp_saida, mapa, cabecalho);
+        C_Libertar(cabecalho);
+        M_Libertar(mapa);
         /*executa uma vez sem loops o programa, executando so o primeiro problema no primeiro mapa*/
     }
-    else if(strcmp(argv[0], "-oa") == 0){
-        cabecalho = le_cabecalho_prob(problema);
-        while((mapa=le_mapa(mapa)) != NULL){
-            Fsaida = abre_ficheiro_saida(mapa);
-            resolve_problema(Fsaida, mapa, cabecalho);
+    else if(strcmp(argv[1], "-oa") == 0){
+        cabecalho = Le_cabecalho_prob(fp_problemas);
+        while((mapa=Le_mapa(fp_mapas)) != NULL){
+            fp_saida = Abre_ficheiro_saida(argv[3]);
+            Resolve_problema(fp_saida, mapa, cabecalho);
             /*executa programa*/
         }
+        C_Libertar(cabecalho);
+        M_Libertar(mapa);
     }
-    else if(strcmp(argv[0], "-ao") == 0){
-        mapa=le_mapa(mapa);
-        while((cabecalho = le_cabecalho_prob(problema)) != NULL){
-            Fsaida = abre_ficheiro_saida(mapa);
-            resolve_problema(Fsaida, mapa, cabecalho);
+    else if(strcmp(argv[1], "-ao") == 0){
+        mapa=Le_mapa(fp_mapas);
+        while((cabecalho = Le_cabecalho_prob(fp_problemas)) != NULL){
+            fp_saida = Abre_ficheiro_saida(argv[3]);
+            Resolve_problema(fp_saida, mapa, cabecalho);
             /*executa programa*/
         }
+        C_Libertar(cabecalho);
+        M_Libertar(mapa);
     }
-    else if(strcmp(argv[0], "-aa") == 0){
-        while((cabecalho = le_cabecalho_prob(problema)) != NULL){
-            while((mapa=le_mapa(mapa)) != NULL){
-                Fsaida = abre_ficheiro_saida(mapa);
-                resolve_problema(Fsaida, mapa, cabecalho);
+    else if(strcmp(argv[1], "-aa") == 0){
+        while((cabecalho = Le_cabecalho_prob(fp_problemas)) != NULL){
+            while((mapa=Le_mapa(fp_mapas)) != NULL){
+                fp_saida = Abre_ficheiro_saida(argv[3]);
+                Resolve_problema(fp_saida, mapa, cabecalho);
                 /*executa programa*/
             }
         }
+        C_Libertar(cabecalho);
+        M_Libertar(mapa);
     }else{
         exit(0);
     }
-    /*int i =0;
-    FILE *fp;
-    fp=fopen("problema.txt", "r");
-    while(i<4){
-    cabecalho = le_cabecalho_prob(fp);
-    printf("tipo: %d Vincio: %d Vfinal: %d Vflag: %d \n", C_GetProblema(cabecalho), C_GetVInicial(cabecalho), C_GetVFinal(cabecalho), C_GetFlag(cabecalho));
-    i++;
-    C_Liberta(cabecalho);
-    }
-    fclose(fp);
-    FILE *fpm;
-    fpm=fopen("teste.txt", "r");
-    mapa=le_mapa(fpm);
-    printmapa(mapa, 1,4 );
-    fclose(fpm);*/
-    fclose(mapa);
-    fclose(problema);
+
+    fclose(fp_mapas);
+    fclose(fp_problemas);
+    fclose(fp_saida);
     return 0;
 }
 

@@ -17,7 +17,7 @@ struct _ladj
 void    DoNothing(Data data);
 void    DoNothing(Data data){}
 
-ladj_t* LA_Aloca(unsigned int vertices, unsigned int arestas){
+ladj_t* LA_Alocar(unsigned int vertices, unsigned int arestas){
     ladj_t* aux = (ladj_t*)malloc(sizeof(ladj_t));
     if(aux==NULL)exit(1);
     aux->_n_arestas=0;
@@ -33,7 +33,7 @@ ladj_t* LA_Aloca(unsigned int vertices, unsigned int arestas){
     return aux;
 }
 
-void    LA_Liberta(ladj_t* ladj,int vertices,int arestas){
+void    LA_Libertar(ladj_t* ladj,int vertices,int arestas){
     for(int i =0;i<arestas;i++){
         A_Libertar(ladj->_array_arestas[i]);
     }

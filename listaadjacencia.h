@@ -2,8 +2,8 @@
 
 typedef struct _ladj ladj_t;
 
-ladj_t* LA_Aloca(unsigned int vertices, unsigned int arestas);
-void    LA_Liberta(ladj_t* ladj, int vertices, int arestas);
+ladj_t* LA_Alocar(unsigned int vertices, unsigned int arestas);
+void    LA_Libertar(ladj_t* ladj, int vertices, int arestas);
 
 void    LA_InserirAresta(ladj_t* ladj, int a, int b, double custo);
 

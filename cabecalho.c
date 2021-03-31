@@ -12,7 +12,7 @@ struct _cabecalho{
 
 
 /*aloca estrutura para guardar cabecalho de problemas*/
-cabecalho_t* C_Aloca(){
+cabecalho_t* C_Alocar(){
     cabecalho_t* aux = (cabecalho_t*)malloc(sizeof(cabecalho_t));
     if( aux==NULL ){
         exit(1);
@@ -27,7 +27,7 @@ cabecalho_t* C_Aloca(){
 
 
 /*liberta a estrutura de cabecalho*/
-void         C_Liberta(cabecalho_t* cabecalho){
+void         C_Libertar(cabecalho_t* cabecalho){
     free(cabecalho);
 }
 

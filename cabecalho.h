@@ -2,8 +2,8 @@
 
 typedef struct _cabecalho cabecalho_t;
 
-cabecalho_t* C_Aloca();
-void         C_Liberta(cabecalho_t* cabecalho);
+cabecalho_t* C_Alocar();
+void         C_Libertar(cabecalho_t* cabecalho);
 
 int         C_GetProblema(cabecalho_t* cabecalho);
 void        C_SetProblema(cabecalho_t* cabecalho,int problema);

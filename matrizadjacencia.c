@@ -1,6 +1,7 @@
 #include "matrizadjacencia.h"
 
 #include <stdlib.h>
+#include <stdio.h>
 
 struct _madj
 {
@@ -31,14 +32,14 @@ void    MA_Libertar(madj_t* madj){
   incrementa os graus de a e b
 */
 void    MA_InserirAresta(madj_t* madj,int maxvertices, int a , int b, double custo){
-    madj->_matriz[((a-1)*(maxvertices-1))+(b-1)]=custo;
-    madj->_matriz[((b-1)*(maxvertices)-1)+(a-1)]=custo;
+    madj->_matriz[((a-1)*(maxvertices))+(b-1)]=custo;
+    madj->_matriz[((b-1)*(maxvertices))+(a-1)]=custo;
     madj->_grau[a-1]++;
     madj->_grau[b-1]++;
 }
 
 double    MA_Custo(madj_t* madj,int maxvertices, int a, int b){
-    return (double)madj->_matriz[((a-1)*(maxvertices-1))+(b-1)];
+    return (double)madj->_matriz[((a-1)*(maxvertices))+(b-1)];
 }
 
 int     MA_Grau(madj_t* madj, int a){
@@ -46,7 +47,7 @@ int     MA_Grau(madj_t* madj, int a){
 }
 
 bool    MA_Adjacente(madj_t* madj,int maxvertices, int a, int b){
-    return ((double)madj->_matriz[((a-1)*(maxvertices-1))+(b-1)]>0);
+    return ((double)madj->_matriz[((a-1)*(maxvertices))+(b-1)]>0);
 }
 
 int      MA_DistanciaExata(madj_t* madj,int maxvertices, int a , int k){
@@ -58,12 +59,12 @@ int      MA_DistanciaExata(madj_t* madj,int maxvertices, int a , int k){
     unsigned int* queue     = (unsigned int*)calloc(maxvertices,sizeof(unsigned int));
     queue[escrita++]=a;  /*colocamos a na queue e incrementamos a posicao da escrita na queue*/
     visitados[a-1]=true; /*marcamos a como vizitado*/
-    for(int i=0; i<= k;i++){    /*ate chegarmos a profundidade definida*/
-        aux=escrita-leitura;    
+    for(int i=0; i< k;i++){    /*ate chegarmos a profundidade definida*/
+        aux=escrita-leitura;
         while(aux>0){           /*para todos os elementos da que nesta profundidade*/
             visitado=queue[leitura++]; /*visitado = queue.pop*/
             for(int j=1;j<=maxvertices;j++){
-                if(MA_Adjacente(madj,maxvertices,visitado,j)>0){
+                if(MA_Adjacente(madj,maxvertices,visitado,j)){  /*marca como visitados e adiciona a queue todos os vizinhos de de visitado*/
                     if(!(visitados[j-1])){
                         queue[escrita++]=j;
                         visitados[j-1]=true;
@@ -75,5 +76,5 @@ int      MA_DistanciaExata(madj_t* madj,int maxvertices, int a , int k){
     }
     free(visitados);
     free(queue);
-    return escrita-leitura;
+    return escrita-leitura; /*no fim do processo, todos os elementos na queue sao vertices a distancia k de a*/
 }

@@ -118,29 +118,27 @@ void printmapa(mapa_t *mapa, int a, int b){
 
 FILE* abre_ficheiro_prob(char *ficheiroprob){
     char* aux;
-    if(ficheiroprob == NULL){exit(0);}
     aux = strrchr(ficheiroprob, '.');
-    if(strcmp(aux, '.prbs') != 0){exit(0);}
+    if(strcmp(aux, ".prbs") != 0){return NULL;}
     FILE *fp;
     fp=fopen(ficheiroprob, "r"); 
-    if(fp == NULL){exit(0);}
+    if(fp == NULL){return NULL;}
     return fp;
 }
 
 FILE* abre_ficheiro_mapa(char *ficheiromapa){
     char* aux;
-    if(ficheiromapa == NULL){exit(0);}
     aux = strrchr(ficheiromapa, '.');
-    if(strcmp(aux, '.maps') != 0){exit(0);}
+    if(strcmp(aux, ".maps") != 0){return NULL;}
     FILE *fp;
     fp=fopen(ficheiromapa, "r");
-    if(fp == NULL){exit(0);}
+    if(fp == NULL){return NULL;}
     return fp;
 }
 
 FILE* abre_ficheiro_saida(char *ficheiromapa){
     FILE* fpout;
-    char aux[]='routes';
+    char aux[7]="routes";
     char* ficheiroout=(char*)malloc((strlen(ficheiromapa)+3)*sizeof(char));
     strncpy(ficheiroout,ficheiromapa, (strlen(ficheiromapa)-4));
     strcat(ficheiroout, aux);

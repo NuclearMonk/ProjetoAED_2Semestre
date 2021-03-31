@@ -14,13 +14,14 @@ cabecalho_t* le_cabecalho_prob(FILE *fpprob){  /*Vai ter que retornar cabecalho*
     char tipo[3];
     int aux;
     if (fscanf(fpprob, "%s", tipo) != 1){
-        exit(0);
+        free(cabecalho);
+        return NULL;
     }
     else if (strcmp(tipo, "A0") == 0)
     {   
         C_SetProblema(cabecalho,1);
         if (fscanf(fpprob, "%d", &aux) != 1){
-            exit(0);
+            return NULL;
         }
         C_SetVInicial(cabecalho,aux);
     }
@@ -28,11 +29,11 @@ cabecalho_t* le_cabecalho_prob(FILE *fpprob){  /*Vai ter que retornar cabecalho*
     {   
         C_SetProblema(cabecalho,2);
         if (fscanf(fpprob, "%d", &aux) != 1){
-            exit(0);
+            return NULL;
         }
         C_SetVInicial(cabecalho,aux);
         if (fscanf(fpprob, "%d", &aux) != 1){
-            exit(0);
+            return NULL;
         }
         C_SetVFinal(cabecalho,aux);
     }
@@ -40,11 +41,11 @@ cabecalho_t* le_cabecalho_prob(FILE *fpprob){  /*Vai ter que retornar cabecalho*
     {   
         C_SetProblema(cabecalho,3);
         if (fscanf(fpprob, "%d", &aux) != 1){
-            exit(0);
+            return NULL;
         }
         C_SetVInicial(cabecalho,aux);
         if (fscanf(fpprob, "%d", &aux) != 1){
-            exit(0);
+            return NULL;
         }
         C_SetVFinal(cabecalho,aux);
     }
@@ -66,10 +67,10 @@ cabecalho_t* le_cabecalho_prob(FILE *fpprob){  /*Vai ter que retornar cabecalho*
 mapa_t* le_mapa(FILE *fpprob){
     int vertices,arestas, i;
     if (fscanf(fpprob, "%d", &vertices) != 1){
-        exit(0);
+        return NULL;
     }
     if (fscanf(fpprob, "%d", &arestas) != 1){
-        exit(0);
+        return NULL;
     }
     mapa_t* mapa= M_Aloca(vertices,arestas);
     for(i=0;i<vertices;i++){

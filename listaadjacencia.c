@@ -3,7 +3,6 @@
 #include <stdlib.h>
 
 #include "Data.h"
-#include "aresta.h"
 #include "slist.h"
 #include <stdio.h>
 

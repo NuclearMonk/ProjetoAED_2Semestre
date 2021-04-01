@@ -2,6 +2,7 @@
 
 #include <stdlib.h>
 #include "matrizadjacencia.h"
+#include "listaadjacencia.h"
 
 struct _mapa
 {
@@ -16,6 +17,8 @@ mapa_t* M_Alocar(int vertices, int arestas){
     if(aux==NULL){exit(1);}
     aux->_tipo=1;
     aux->_estrutura= MA_Alocar(vertices);
+    /*aux->_tipo=2;
+    aux->_estrutura=LA_Alocar(vertices,arestas);*/
     aux->_maxvertices=vertices;
     aux->_maxarestas=arestas;
     return aux;
@@ -27,7 +30,9 @@ void M_Libertar(mapa_t* mapa){
     case 1:
         MA_Libertar((madj_t*)mapa->_estrutura);
         break;
-    
+    case 2:
+        LA_Libertar((ladj_t*)mapa->_estrutura,mapa->_maxvertices);
+        break;
     default:
         break;
     }
@@ -41,7 +46,8 @@ void    M_InserirAresta(mapa_t* mapa, int a, int b , double custo){
     case 1:
         MA_InserirAresta((madj_t*)mapa->_estrutura,mapa->_maxvertices,a,b,custo);
         break;
-    
+    case 2:
+        LA_InserirAresta((ladj_t*)mapa->_estrutura,a,b,custo);
     default:
         break;
     }
@@ -57,7 +63,8 @@ int     M_Grau(mapa_t* mapa,int vertice){
     case 1:
         return MA_Grau((madj_t*)mapa->_estrutura,vertice);
         break;
-    
+    case 2:
+        return LA_Grau((ladj_t*)mapa->_estrutura,vertice);
     default:
         return -1;
         break;
@@ -72,7 +79,8 @@ double  M_Custo(mapa_t* mapa, int a, int b){
     case 1:
         return MA_Custo((madj_t*)mapa->_estrutura,mapa->_maxvertices,a,b);
         break;
-    
+    case 2:
+        return LA_Custo((ladj_t*)mapa->_estrutura,a,b);
     default:
         return -1;
         break;

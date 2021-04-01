@@ -25,3 +25,4 @@ listaadjacencia.o: listaadjacencia.c listaadjacencia.h
 		$(CC) -c $(CFLAGS) listaadjacencia.c
 clean:
 		-rm *.o
+		-rm aedmaps

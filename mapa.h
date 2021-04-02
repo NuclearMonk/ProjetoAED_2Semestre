@@ -15,8 +15,8 @@ int     M_Adjacente(mapa_t* mapa, int a, int b);
 
 int     M_DistanciaExata(mapa_t* mapa, int a , int k);
 
-/*funçao que reorna C0 soluçao*/
-
 int    M_DistanciaExataCerta(mapa_t* mapa, int a , int k);
 
-/*funcao que retorna se dois vertices sao adajacentes recebndo mapa*/
+int    M_GetMaxArestas(mapa_t* mapa);
+
+int    M_GetMaxVertices(mapa_t* mapa);

@@ -44,7 +44,7 @@ cabecalho_t* Le_cabecalho_prob(FILE *fpprob){  /*Vai ter que retornar cabecalho*
         if (fscanf(fpprob, "%d", &aux) != 1){
             return NULL;
         }
-        C_SetVFinal(cabecalho,aux);
+        C_SetFlag(cabecalho,aux);
     }
     else if (strcmp(tipo, "D0") == 0)
     {   
@@ -104,15 +104,7 @@ void Le_aresta(FILE *fpprob,mapa_t* mapa, int maxvertices){
         exit(0);
     }
     M_InserirAresta(mapa, a, b, custo);
-    Printmapa(mapa, a, b);
 }
-
-void Printmapa(mapa_t *mapa, int a, int b){
-    double custo;
-     custo = M_Custo(mapa, a, b);
-     printf("primeiro verice:%d e segundo: %d e o custo:%f\n", a, b, custo);
-}
-
 
 FILE* Abre_ficheiro_prob(char *ficheiroprob){
     FILE *fp;
@@ -136,8 +128,8 @@ FILE* Abre_ficheiro_mapa(char *ficheiromapa){
 
 FILE* Abre_ficheiro_saida(char *ficheiromapa){
     FILE* fpout;
-    char aux[7]="routes";
-    char* ficheiroout=(char*)calloc((strlen(ficheiromapa)+3),sizeof(char));
+    char aux[8]="queries";
+    char* ficheiroout=(char*)calloc((strlen(ficheiromapa)+4),sizeof(char));
     if(ficheiroout==NULL)return NULL;
     strncpy(ficheiroout,ficheiromapa, (strlen(ficheiromapa)-4));
     strcat(ficheiroout, aux);
@@ -147,24 +139,28 @@ FILE* Abre_ficheiro_saida(char *ficheiromapa){
     return fpout;
 }
 
-void         Resolve_problema(FILE *Fsaida, mapa_t* mapa, cabecalho_t* cabecalho){
-    int tipo, grau, aux;
+void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecalho){
+    int tipo;
+    double aux;
     tipo = C_GetProblema(cabecalho);
     switch (tipo)
     {
-    case 1:
-        grau = M_Grau(mapa,C_GetVInicial(cabecalho));/*A0*/
+    case 1:/*A0*/
+        fprintf(fp_saida, "%d %d A0 %d %d\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa), C_GetVInicial(cabecalho), M_Grau(mapa,C_GetVInicial(cabecalho)));
         break;
     case 2:
-        /*B0*/
+        aux = M_Adjacente(mapa, C_GetVInicial(cabecalho), C_GetVFinal(cabecalho));/*B0*/
+        if(aux<=0)fprintf(fp_saida, "%d %d A0 %d %d -1\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa), C_GetVInicial(cabecalho), C_GetVFinal(cabecalho));
+        else fprintf(fp_saida, "%d %d B0 %d %d %.2f\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa), C_GetVInicial(cabecalho), C_GetVFinal(cabecalho), aux);
         break;
-    case 3:
-        M_DistanciaExataCerta(mapa, C_GetVInicial(cabecalho), C_GetFlag(cabecalho));/*C0*/
+    case 3:/*C0*/
+        fprintf(fp_saida, "%d %d C0 %d %d %d\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa), C_GetVInicial(cabecalho), C_GetFlag(cabecalho), M_DistanciaExataCerta(mapa, C_GetVInicial(cabecalho), C_GetFlag(cabecalho)));
         break;
-    case 4:
-        aux = M_DistanciaExata(mapa, C_GetVInicial(cabecalho), C_GetFlag(cabecalho));/*D0*/
+    case 4:/*D0*/
+        fprintf(fp_saida, "%d %d D0 %d %d %d\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa), C_GetVInicial(cabecalho), C_GetFlag(cabecalho), M_DistanciaExata(mapa, C_GetVInicial(cabecalho), C_GetFlag(cabecalho)));
         break;
     default:
         break;
     }
+    fprintf(fp_saida, "\n");
 }

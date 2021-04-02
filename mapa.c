@@ -122,9 +122,17 @@ int     M_DistanciaExata(mapa_t* mapa, int a , int k){
     return -1;
 }
 
+/*funçao que reorna C0 soluçao*/
 int    M_DistanciaExataCerta(mapa_t* mapa, int a , int k){
     if(!(0<a && a<= mapa->_maxvertices))return -1;
     if (M_DistanciaExata(mapa, a, k) >= 1)return 1;
     return 0; 
 }
 
+int    M_GetMaxArestas(mapa_t* mapa){
+    return mapa->_maxarestas;
+}
+
+int    M_GetMaxVertices(mapa_t* mapa){
+    return mapa->_maxvertices;
+}

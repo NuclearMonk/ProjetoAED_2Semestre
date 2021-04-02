@@ -114,9 +114,17 @@ int     M_DistanciaExata(mapa_t* mapa, int a , int k){
     case 1:
         return MA_DistanciaExata((madj_t*)mapa->_estrutura, mapa->_maxvertices, a, k);
         break;
-    
+     case 2:
+        return LA_DistanciaExata((ladj_t*)mapa->_estrutura, mapa->_maxvertices, a, k);
     default:
         break;
     }
     return -1;
 }
+
+int    M_DistanciaExataCerta(mapa_t* mapa, int a , int k){
+    if(!(0<a && a<= mapa->_maxvertices))return -1;
+    if (M_DistanciaExata(mapa, a, k) >= 1)return 1;
+    return 0; 
+}
+

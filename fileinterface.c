@@ -148,21 +148,21 @@ FILE* Abre_ficheiro_saida(char *ficheiromapa){
 }
 
 void         Resolve_problema(FILE *Fsaida, mapa_t* mapa, cabecalho_t* cabecalho){
-    int tipo;
+    int tipo, grau, aux;
     tipo = C_GetProblema(cabecalho);
     switch (tipo)
     {
     case 1:
-        /*A0*/
+        grau = M_Grau(mapa,C_GetVInicial(cabecalho));/*A0*/
         break;
     case 2:
         /*B0*/
         break;
     case 3:
-        /*C0*/
+        M_DistanciaExataCerta(mapa, C_GetVInicial(cabecalho), C_GetFlag(cabecalho));/*C0*/
         break;
     case 4:
-        /*D0*/
+        aux = M_DistanciaExata(mapa, C_GetVInicial(cabecalho), C_GetFlag(cabecalho));/*D0*/
         break;
     default:
         break;

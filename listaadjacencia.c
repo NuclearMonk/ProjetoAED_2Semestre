@@ -85,11 +85,42 @@ double  LA_Custo(ladj_t* ladj, int a, int b){
     return -1;
 }
 
+int      LA_DistanciaExata(ladj_t* ladj, int maxvertices, int a,int k){
+    int leitura=0;
+    int escrita = 0;
+    int aux;
+    int b;
+    slist_t* auxlista;
+    bool* visitados = (bool*)calloc(maxvertices,sizeof(bool));
+    unsigned int* queue = (unsigned int*)calloc(maxvertices,sizeof(unsigned int));
+    queue[escrita++]=a;  /*colocamos a na queue e incrementamos a posicao da escrita na queue*/
+    visitados[a-1]=true; /*marcamos a como vizitado*/
+    for(int i=0; i< k;i++){    /*ate chegarmos a profundidade definida*/
+        aux=escrita-leitura;
+        while(aux>0){           /*para todos os elementos da que nesta profundidade*/
+            for(auxlista=ladj->_array_listas[a-1]; auxlista != NULL; auxlista=SL_GetNext(auxlista)){
+                b = A_Outro((aresta_t*)SL_GetData(auxlista),a);
+                if(visitados[b-1] == false){
+                    queue[escrita++]=b;
+                    visitados[b-1]=true;
+                }
+            }
+            aux--;
+        }
+    }
+    free(visitados);
+    free(queue);
+    return escrita-leitura;
+}
 
 int     LA_Grau(ladj_t* ladj, int a){
     return ladj->_grau[a-1];
 }
 
+bool    LA_Adjacente(ladj_t* ladj, int a, int b){
+    if(LA_Custo(ladj, a, b)!=-1){return true;}
+    return false;
+}
 
 /*
  *Aloca uma aresta e coloca nela os valores passados como parametros

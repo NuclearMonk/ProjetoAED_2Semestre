@@ -149,7 +149,7 @@ void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecal
         fprintf(fp_saida, "%d %d A0 %d %d\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa), C_GetVInicial(cabecalho), M_Grau(mapa,C_GetVInicial(cabecalho)));
         break;
     case 2:
-        aux = M_Adjacente(mapa, C_GetVInicial(cabecalho), C_GetVFinal(cabecalho));/*B0*/
+        aux = M_Custo(mapa, C_GetVInicial(cabecalho), C_GetVFinal(cabecalho));/*B0*/
         if(aux<=0)fprintf(fp_saida, "%d %d A0 %d %d -1\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa), C_GetVInicial(cabecalho), C_GetVFinal(cabecalho));
         else fprintf(fp_saida, "%d %d B0 %d %d %.2f\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa), C_GetVInicial(cabecalho), C_GetVFinal(cabecalho), aux);
         break;

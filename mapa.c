@@ -15,10 +15,14 @@ struct _mapa
 mapa_t* M_Alocar(int vertices, int arestas){
     mapa_t* aux= (mapa_t*)malloc(sizeof(mapa_t));
     if(aux==NULL){exit(1);}
+    if((8*vertices*vertices)<(12+48*arestas+8*vertices)){
     aux->_tipo=1;
     aux->_estrutura= MA_Alocar(vertices);
-    /*aux->_tipo=2;
-    aux->_estrutura=LA_Alocar(vertices,arestas);*/
+    }
+    else{
+    aux->_tipo=2;
+    aux->_estrutura=LA_Alocar(vertices,arestas);
+    }
     aux->_maxvertices=vertices;
     aux->_maxarestas=arestas;
     return aux;

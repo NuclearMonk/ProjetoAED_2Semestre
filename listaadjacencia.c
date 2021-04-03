@@ -90,6 +90,7 @@ int      LA_DistanciaExata(ladj_t* ladj, int maxvertices, int a,int k){
     int escrita = 0;
     int aux;
     int b;
+    int v=0;
     slist_t* auxlista;
     bool* visitados = (bool*)calloc(maxvertices,sizeof(bool));
     unsigned int* queue = (unsigned int*)calloc(maxvertices,sizeof(unsigned int));
@@ -97,9 +98,10 @@ int      LA_DistanciaExata(ladj_t* ladj, int maxvertices, int a,int k){
     visitados[a-1]=true; /*marcamos a como vizitado*/
     for(int i=0; i< k;i++){    /*ate chegarmos a profundidade definida*/
         aux=escrita-leitura;
-        while(aux>0){           /*para todos os elementos da que nesta profundidade*/
-            for(auxlista=ladj->_array_listas[a-1]; auxlista != NULL; auxlista=SL_GetNext(auxlista)){
-                b = A_Outro((aresta_t*)SL_GetData(auxlista),a);
+        while(aux>0){     
+            v=queue[leitura++];/*para todos os elementos da que nesta profundidade*/
+            for(auxlista=ladj->_array_listas[v-1]; auxlista != NULL; auxlista=SL_GetNext(auxlista)){
+                b = A_Outro((aresta_t*)SL_GetData(auxlista),v);
                 if(visitados[b-1] == false){
                     queue[escrita++]=b;
                     visitados[b-1]=true;

@@ -68,17 +68,20 @@ void    LA_InserirAresta(ladj_t* ladj, int a, int b, double custo){
 
 double  LA_Custo(ladj_t* ladj, int a, int b){
     slist_t* aux;
+    aresta_t* auxaresta=NULL;
     if(ladj->_grau[a-1]<ladj->_grau[b-1]){
         for(aux= ladj->_array_listas[a-1];aux !=NULL; aux=SL_GetNext(aux)){
-            if(A_Outro((aresta_t*)SL_GetData(aux),a)==b){
-                return A_Custo((aresta_t*)SL_GetData(aux));
+            auxaresta= (aresta_t*)SL_GetData(aux);
+            if(A_Outro(auxaresta,a)==b){
+                return A_Custo(auxaresta);
             }
         }
     }
     else{
         for(aux= ladj->_array_listas[b-1];aux !=NULL; aux=SL_GetNext(aux)){
-            if(A_Outro((aresta_t*)SL_GetData(aux),b)==a){
-                return A_Custo((aresta_t*)SL_GetData(aux));
+            auxaresta= (aresta_t*)SL_GetData(aux);
+            if(A_Outro(auxaresta,b)==a){
+                return A_Custo(auxaresta);
             }
         }
     }

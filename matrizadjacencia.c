@@ -54,7 +54,7 @@ int      MA_DistanciaExata(madj_t* madj,int maxvertices, int a , int k){
     int leitura=0;
     int escrita = 0;
     int aux;
-    int visitado;
+    int visitado,grauvisitado;
     bool* visitados = (bool*)calloc(maxvertices,sizeof(bool));
     unsigned int* queue     = (unsigned int*)calloc(maxvertices,sizeof(unsigned int));
     queue[escrita++]=a;  /*colocamos a na queue e incrementamos a posicao da escrita na queue*/
@@ -63,13 +63,16 @@ int      MA_DistanciaExata(madj_t* madj,int maxvertices, int a , int k){
         aux=escrita-leitura;
         while(aux>0){           /*para todos os elementos da que nesta profundidade*/
             visitado=queue[leitura++]; /*visitado = queue.pop*/
+            grauvisitado=0;
             for(int j=1;j<=maxvertices;j++){
                 if(MA_Adjacente(madj,maxvertices,visitado,j)){  /*marca como visitados e adiciona a queue todos os vizinhos de de visitado*/
                     if(!(visitados[j-1])){
                         queue[escrita++]=j;
                         visitados[j-1]=true;
                     }
+                    grauvisitado++;
                 }
+                if(grauvisitado==madj->_grau[visitado-1])break;
             }
             aux--;
         }

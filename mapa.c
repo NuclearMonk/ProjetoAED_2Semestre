@@ -113,6 +113,7 @@ int    M_Adjacente(mapa_t* mapa, int a, int b){
 
 int     M_DistanciaExata(mapa_t* mapa, int a , int k){
     if(!(0<a && a<= mapa->_maxvertices))return -1;
+    if(k<0)return 0;
     switch (mapa->_tipo)
     {
     case 1:

@@ -5,7 +5,8 @@
 *
 *   Author:Manuel Soares
 */
-
+#ifndef _SLIST_H
+#define _SLIST_H
 #include <stdlib.h>
 #include <stdbool.h>
 #include "Data.h"
@@ -31,3 +32,5 @@ slist_t*    SL_InsertBefore(slist_t* head,slist_t* element);
 slist_t*    SL_InsertAfter(slist_t* element,slist_t* new_element);
 
 void        SL_Apply(slist_t* head, void (*f)(Data data));
+
+#endif

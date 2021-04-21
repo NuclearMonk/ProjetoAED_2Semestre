@@ -1,3 +1,5 @@
+#ifndef _FILEINTERFACE_H
+#define _FILEINTERFACE_H
 #include <stdio.h> 
 
 #include "cabecalho.h"
@@ -12,3 +14,4 @@ FILE*        Abre_ficheiro_mapa(char *ficheiromapa);
 FILE*        Abre_ficheiro_saida(char *ficheiromapa);
 void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecalho);
 
+#endif

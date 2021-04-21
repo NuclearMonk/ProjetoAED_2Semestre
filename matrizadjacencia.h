@@ -1,3 +1,6 @@
+#ifndef _MADJ_H
+#define _MADJ_H
+
 #include <stdbool.h>
 
 typedef struct _madj madj_t;
@@ -15,3 +18,4 @@ bool     MA_Adjacente(madj_t* madj,int maxvertices, int a, int b);
 
 int      MA_DistanciaExata(madj_t* madj,int maxvertices, int a , int k);
 
+#endif

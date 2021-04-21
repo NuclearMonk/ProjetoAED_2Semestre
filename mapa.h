@@ -1,5 +1,7 @@
-#include <stdbool.h>
+#ifndef _MAPA_H
+#define _MAPA_H
 
+#include <stdbool.h>
 typedef struct _mapa mapa_t;
 
 mapa_t* M_Alocar(int vertices, int arestas);
@@ -20,3 +22,5 @@ int    M_DistanciaExataCerta(mapa_t* mapa, int a , int k);
 int    M_GetMaxArestas(mapa_t* mapa);
 
 int    M_GetMaxVertices(mapa_t* mapa);
+
+#endif

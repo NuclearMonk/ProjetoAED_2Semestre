@@ -1,3 +1,5 @@
+#ifndef _STACK_H
+#define _STACK_H
 #include <stdlib.h>
 #include <stdbool.h>
 #include "Data.h"
@@ -20,4 +22,5 @@ Data     ST_Pop(stack_t* st);
 Data     ST_Peek(stack_t* st);
 int 	 ST_Used(stack_t* st);
 bool   	 ST_IsEmpty(stack_t* st);
+#endif
 

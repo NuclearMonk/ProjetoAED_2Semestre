@@ -1,4 +1,5 @@
-
+#ifndef _CABECALHO_H
+#define _CABECALHO_H
 
 typedef struct _cabecalho cabecalho_t;
 
@@ -19,3 +20,5 @@ void        C_SetFlag(cabecalho_t* cabecalho,int flag);
 
 double      C_GetDesvio(cabecalho_t* cabecalho);
 void        C_SetDesvio(cabecalho_t* cabecalho,double desvio);
+
+#endif

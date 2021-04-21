@@ -1,3 +1,5 @@
+#ifndef _DLIST_H
+#define _DLIST_H
 #include <stdlib.h>
 #include <stdbool.h>
 #include "Data.h"
@@ -27,3 +29,5 @@ dlist_t* DL_InsertBefore(dlist_t* head,dlist_t* element);
 dlist_t* DL_InsertAfter(dlist_t* element,dlist_t* new_element);
 
 void     DL_Apply(dlist_t* head, void (*f)(Data data));
+
+#endif

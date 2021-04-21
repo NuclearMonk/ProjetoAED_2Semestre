@@ -1,3 +1,6 @@
+#ifndef _LADJ_H
+#define _LADJ_H
+
 #include <stdbool.h>
 
 typedef struct _ladj ladj_t;
@@ -18,3 +21,5 @@ int     A_A(aresta_t* aresta);
 int     A_B(aresta_t* aresta);
 double  A_Custo(aresta_t* aresta);
 int     A_Outro(aresta_t* aresta, int vertice);
+
+#endif

@@ -33,9 +33,9 @@ int main(int argc,char* argv[]){
         fclose(fp_mapas);
         exit(0);
     }
-    fprintf(fp_saida, "%s %s %s\n", argv[1], argv[2], argv[3]);
+    fprintf(fp_saida, "%s %s %s\n\n", argv[1], argv[2], argv[3]);
 
-    if(strcmp(argv[1], "-oo") == 0){
+    if(strcmp(argv[1], "-1oo") == 0){
         cabecalho = Le_cabecalho_prob(fp_problemas);
         if(cabecalho == NULL){
             fclose(fp_problemas);
@@ -55,7 +55,7 @@ int main(int argc,char* argv[]){
         M_Libertar(mapa);
         /*executa uma vez sem loops o programa, executando so o primeiro problema no primeiro mapa*/
     }
-    else if(strcmp(argv[1], "-oa") == 0){
+    else if(strcmp(argv[1], "-1oa") == 0){
         cabecalho = Le_cabecalho_prob(fp_problemas);
         if(cabecalho == NULL){
             fclose(fp_problemas);
@@ -70,7 +70,7 @@ int main(int argc,char* argv[]){
         C_Libertar(cabecalho);
         
     }
-    else if(strcmp(argv[1], "-ao") == 0){
+    else if(strcmp(argv[1], "-1ao") == 0){
         mapa=Le_mapa(fp_mapas);
         if(mapa == NULL){
             fclose(fp_problemas);
@@ -84,13 +84,14 @@ int main(int argc,char* argv[]){
         }
         M_Libertar(mapa);
     }
-    else if(strcmp(argv[1], "-aa") == 0){
+    else if(strcmp(argv[1], "-1aa") == 0){
         while((mapa=Le_mapa(fp_mapas)) != NULL){
             while((cabecalho = Le_cabecalho_prob(fp_problemas)) != NULL){
                 Resolve_problema(fp_saida, mapa, cabecalho);/*executa programa*/
                 C_Libertar(cabecalho);
             }
             M_Libertar(mapa);
+            rewind(fp_problemas);
         }
     }else{
         exit(0);

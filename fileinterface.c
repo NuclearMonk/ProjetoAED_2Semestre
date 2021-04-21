@@ -110,7 +110,7 @@ FILE* Abre_ficheiro_prob(char *ficheiroprob){
     FILE *fp;
     char* aux;
     aux = strrchr(ficheiroprob, '.');
-    if(strcmp(aux, ".prbs") != 0){return NULL;}
+    if(strcmp(aux, ".prbs1") != 0){return NULL;}
     fp=fopen(ficheiroprob, "r"); 
     if(fp == NULL){return NULL;}
     return fp;
@@ -150,7 +150,7 @@ void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecal
         break;
     case 2:
         aux = M_Custo(mapa, C_GetVInicial(cabecalho), C_GetVFinal(cabecalho));/*B0*/
-        if(aux<=0)fprintf(fp_saida, "%d %d A0 %d %d -1\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa), C_GetVInicial(cabecalho), C_GetVFinal(cabecalho));
+        if(aux<=0)fprintf(fp_saida, "%d %d B0 %d %d -1\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa), C_GetVInicial(cabecalho), C_GetVFinal(cabecalho));
         else fprintf(fp_saida, "%d %d B0 %d %d %.2f\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa), C_GetVInicial(cabecalho), C_GetVFinal(cabecalho), aux);
         break;
     case 3:/*C0*/

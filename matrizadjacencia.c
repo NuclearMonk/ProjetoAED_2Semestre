@@ -6,7 +6,7 @@
 struct _madj
 {
     double*         _matriz; /*Matriz de doubles de ajacencia*/
-    unsigned int*    _grau;  /*Array com os graus dos vertices para reduzir o seu tempo de computacao*/
+    int*    _grau;  /*Array com os graus dos vertices para reduzir o seu tempo de computacao*/
 };
 
 
@@ -16,7 +16,7 @@ madj_t* MA_Alocar(int vertices){
     if(aux==NULL){exit(1);}
     aux->_matriz=(double*)calloc((vertices)*(vertices),sizeof(double));
     if(aux->_matriz==NULL){exit(1);}
-    aux->_grau=(unsigned int*)calloc(vertices,sizeof(unsigned int));
+    aux->_grau=(int*)calloc(vertices,sizeof(int));
     if(aux->_grau==NULL){exit(1);}    
     return aux;
 }

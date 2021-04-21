@@ -74,7 +74,7 @@ mapa_t* Le_mapa(FILE *fpprob){
     Le_cidade(fpprob, mapa);
     }
     for(i=0;i<arestas;i++){
-        Le_aresta(fpprob, mapa, vertices);
+        Le_aresta(fpprob, mapa);
     }
     return mapa;
 }
@@ -88,10 +88,11 @@ void Le_cidade(FILE *fpprob,mapa_t* mapa){
     if (fscanf(fpprob, "%s", class) != 1){
         exit(0);
     }
+    if(mapa==NULL)return;
     /*M_VerticeInsere(mapa, a, class);nessessario ainda criar esta funçao*/
 }
 
-void Le_aresta(FILE *fpprob,mapa_t* mapa, int maxvertices){
+void Le_aresta(FILE *fpprob,mapa_t* mapa){
     int a,b;
     double custo;
     if (fscanf(fpprob, "%d", &a) != 1){

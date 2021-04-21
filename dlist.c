@@ -41,7 +41,7 @@ Data     DL_GetData(dlist_t* element){
 
 /*sets the data stored in element*/
 void     DL_SetData(dlist_t* element, Data data){
-    data = element->_data;
+    element->_data=data;
 }
 
 /*returns the element that sucedes the one provided*/

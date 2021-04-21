@@ -15,8 +15,8 @@ struct _aresta
 
 struct _ladj
 {
-    unsigned int _n_arestas;
-    unsigned int* _grau;
+    int _n_arestas;
+    int* _grau;
     aresta_t*   _array_arestas;
     slist_t**    _array_listas;
 };
@@ -24,9 +24,9 @@ struct _ladj
 
 
 void    DoNothing(Data data);
-void    DoNothing(Data data){}
+void    DoNothing(Data data){data=data;}
 
-ladj_t* LA_Alocar(unsigned int vertices, unsigned int arestas){
+ladj_t* LA_Alocar(int vertices,int arestas){
     ladj_t* aux = (ladj_t*)malloc(sizeof(ladj_t));
     if(aux==NULL)exit(1);
     aux->_n_arestas=0;
@@ -37,7 +37,7 @@ ladj_t* LA_Alocar(unsigned int vertices, unsigned int arestas){
     for(int i = 0; i<vertices;i++){
         aux->_array_listas[i]=SL_Initialize();
     }
-    aux->_grau=(unsigned int*)calloc(vertices,sizeof(unsigned int));
+    aux->_grau=(int*)calloc(vertices,sizeof(int));
     if(aux->_grau==NULL)exit(1);
     return aux;
 }

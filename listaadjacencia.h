@@ -7,7 +7,7 @@ typedef struct _ladj ladj_t;
 typedef struct _aresta aresta_t;
 
 /*funcoes de Listas de adjacencia*/
-ladj_t* LA_Alocar(unsigned int vertices, unsigned int arestas);
+ladj_t* LA_Alocar(int vertices,int arestas);
 void    LA_Libertar(ladj_t* ladj, int vertices);
 void    LA_InserirAresta(ladj_t* ladj, int a, int b, double custo);
 double  LA_Custo(ladj_t* ladj, int a, int b);

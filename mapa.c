@@ -6,10 +6,10 @@
 
 struct _mapa
 {
-    unsigned int  _tipo;         /*guarda ea informacao da estrutura usada pelo mapa*/
+    int  _tipo;         /*guarda ea informacao da estrutura usada pelo mapa*/
     void*         _estrutura;    /*pointer para a estrutura*/
-    unsigned int  _maxvertices;
-    unsigned int  _maxarestas;
+    int  _maxvertices;
+    int  _maxarestas;
 };
 
 mapa_t* M_Alocar(int vertices, int arestas){

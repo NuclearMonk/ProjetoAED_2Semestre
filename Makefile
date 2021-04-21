@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -std=c99 -O3 -pedantic
+CFLAGS=-Wall  -std=c99 -O3 
  
 aedlabs: main.o slist.o dlist.o stack.o fileinterface.o cabecalho.o mapa.o matrizadjacencia.o listaadjacencia.o
 		$(CC) $(CFLAGS) -o aedmaps main.o slist.o dlist.o stack.o fileinterface.o cabecalho.o mapa.o matrizadjacencia.o listaadjacencia.o   	

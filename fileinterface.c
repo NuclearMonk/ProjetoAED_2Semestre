@@ -129,10 +129,12 @@ FILE* Abre_ficheiro_mapa(char *ficheiromapa){
 
 FILE* Abre_ficheiro_saida(char *ficheiromapa){
     FILE* fpout;
+    int len = strlen(ficheiromapa)-4;
     char aux[8]="queries";
-    char* ficheiroout=(char*)calloc((strlen(ficheiromapa)+4),sizeof(char));
+    char* ficheiroout=(char*)calloc(len+8,sizeof(char));
     if(ficheiroout==NULL)return NULL;
-    strncpy(ficheiroout,ficheiromapa, (strlen(ficheiromapa)-4));
+    strcpy(ficheiroout,ficheiromapa);
+    ficheiroout[len]='\0';
     strcat(ficheiroout, aux);
     fpout=fopen(ficheiroout, "w");
     free(ficheiroout);

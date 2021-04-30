@@ -2,6 +2,8 @@
 #define _MAPA_H
 
 #include <stdbool.h>
+
+/*Tipo abstrato, tanto pode ser uma matriz de adjacencia ou uma lista de adjacencia*/
 typedef struct _mapa mapa_t;
 
 mapa_t* M_Alocar(int vertices, int arestas);
@@ -15,9 +17,9 @@ int     M_Grau(mapa_t* mapa,int vertice);
 
 int     M_Adjacente(mapa_t* mapa, int a, int b);
 
-int     M_DistanciaExata(mapa_t* mapa, int a , int k);
+int     M_NumeroVerticesDistanciaExata(mapa_t* mapa, int a , int k);
 
-int    M_DistanciaExataCerta(mapa_t* mapa, int a , int k);
+int    M_ExistemVerticesDistanciaExata(mapa_t* mapa, int a , int k);
 
 int    M_GetMaxArestas(mapa_t* mapa);
 

@@ -4,9 +4,10 @@
 #include "fileinterface.h"
 
 
-/*Modificar, le para variavel auxiliar temporaria e depois escrever para um cabecalho alocado usando o struct cabecalho e retornar o cabecalho ver warnings compilacao*/
-/*Ja agora mesmo que n usasses isso cabecalho deveria ser um array de ints onde passavamos a informacao correta*/
-cabecalho_t* Le_cabecalho_prob(FILE *fpprob){  /*Vai ter que retornar cabecalho*/
+/*Le o cabecalho do ficheiro fornecido
+ *Retorna um struct de tipo cabecalho com os valores do problema lido
+ */
+cabecalho_t* Le_cabecalho_prob(FILE *fpprob){
     cabecalho_t* cabecalho = C_Alocar();
     char tipo[3];
     int aux;
@@ -61,6 +62,8 @@ cabecalho_t* Le_cabecalho_prob(FILE *fpprob){  /*Vai ter que retornar cabecalho*
     return cabecalho;
 }
 
+
+/*Le um mapa e retorna um struct de tipo mapa*/
 mapa_t* Le_mapa(FILE *fpprob){
     int vertices,arestas, i;
     if (fscanf(fpprob, "%d", &vertices) != 1){
@@ -79,6 +82,8 @@ mapa_t* Le_mapa(FILE *fpprob){
     return mapa;
 }
 
+
+/*Le apenas o ficheir0, na primeira fase n era preciso fazer nada com as cidades*/
 void Le_cidade(FILE *fpprob,mapa_t* mapa){
     int a;
     char class[26];
@@ -92,6 +97,8 @@ void Le_cidade(FILE *fpprob,mapa_t* mapa){
     /*M_VerticeInsere(mapa, a, class);nessessario ainda criar esta funçao*/
 }
 
+
+/*Le uma aresta e insere diretamente no mapa*/
 void Le_aresta(FILE *fpprob,mapa_t* mapa){
     int a,b;
     double custo;
@@ -141,7 +148,7 @@ FILE* Abre_ficheiro_saida(char *ficheiromapa){
     if(fpout == NULL){return NULL;}
     return fpout;
 }
-
+/*Dado um mapa e um cabecalho escreve o resultado para o ficheiro de saida*/
 void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecalho){
     int tipo;
     double aux;
@@ -157,10 +164,10 @@ void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecal
         else fprintf(fp_saida, "%d %d B0 %d %d %.2f\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa), C_GetVInicial(cabecalho), C_GetVFinal(cabecalho), aux);
         break;
     case 3:/*C0*/
-        fprintf(fp_saida, "%d %d C0 %d %d %d\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa), C_GetVInicial(cabecalho), C_GetFlag(cabecalho), M_DistanciaExataCerta(mapa, C_GetVInicial(cabecalho), C_GetFlag(cabecalho)));
+        fprintf(fp_saida, "%d %d C0 %d %d %d\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa), C_GetVInicial(cabecalho), C_GetFlag(cabecalho), M_ExistemVerticesDistanciaExata(mapa, C_GetVInicial(cabecalho), C_GetFlag(cabecalho)));
         break;
     case 4:/*D0*/
-        fprintf(fp_saida, "%d %d D0 %d %d %d\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa), C_GetVInicial(cabecalho), C_GetFlag(cabecalho), M_DistanciaExata(mapa, C_GetVInicial(cabecalho), C_GetFlag(cabecalho)));
+        fprintf(fp_saida, "%d %d D0 %d %d %d\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa), C_GetVInicial(cabecalho), C_GetFlag(cabecalho), M_NumeroVerticesDistanciaExata(mapa, C_GetVInicial(cabecalho), C_GetFlag(cabecalho)));
         break;
     default:
         break;

@@ -30,6 +30,7 @@ void    MA_Libertar(madj_t* madj){
 
 /*define matriz[a][b] e matriz[b][a] com o custo fornecido
   incrementa os graus de a e b
+  O(1)
 */
 void    MA_InserirAresta(madj_t* madj,int maxvertices, int a , int b, double custo){
     madj->_matriz[((a-1)*(maxvertices))+(b-1)]=custo;
@@ -38,18 +39,20 @@ void    MA_InserirAresta(madj_t* madj,int maxvertices, int a , int b, double cus
     madj->_grau[b-1]++;
 }
 
+/*O(1)*/
 double    MA_Custo(madj_t* madj,int maxvertices, int a, int b){
     return (double)madj->_matriz[((a-1)*(maxvertices))+(b-1)];
 }
-
+/*O(1)*/
 int     MA_Grau(madj_t* madj, int a){
     return madj->_grau[a-1];
 }
-
+/*O(1)*/
 bool    MA_Adjacente(madj_t* madj,int maxvertices, int a, int b){
     return ((double)madj->_matriz[((a-1)*(maxvertices))+(b-1)]>0);
 }
 
+/*O(V^2)*/
 int      MA_DistanciaExata(madj_t* madj,int maxvertices, int a , int k){
     int leitura=0;
     int escrita = 0;

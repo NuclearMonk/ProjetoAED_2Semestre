@@ -1,6 +1,7 @@
 #ifndef _CABECALHO_H
 #define _CABECALHO_H
 
+/*Struct que guarda todos os dados necessarios para um problema*/
 typedef struct _cabecalho cabecalho_t;
 
 cabecalho_t* C_Alocar();

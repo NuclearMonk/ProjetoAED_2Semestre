@@ -111,26 +111,32 @@ int    M_Adjacente(mapa_t* mapa, int a, int b){
     return false;
 }
 
-int     M_DistanciaExata(mapa_t* mapa, int a , int k){
-    if(!(0<a && a<= mapa->_maxvertices))return -1;
+/*modo D0 retorna o numero de vertices a distancia exata k de verticeinicial
+ *retorna -1 se o verticeinicial nao pertencer ao mapa;
+ */
+int     M_NumeroVerticesDistanciaExata(mapa_t* mapa, int verticeinicial , int k){
+    if(!(0<verticeinicial && verticeinicial<= mapa->_maxvertices))return -1;
     if(k<0)return 0;
     switch (mapa->_tipo)
     {
     case 1:
-        return MA_DistanciaExata((madj_t*)mapa->_estrutura, mapa->_maxvertices, a, k);
+        return MA_DistanciaExata((madj_t*)mapa->_estrutura, mapa->_maxvertices, verticeinicial, k);
         break;
      case 2:
-        return LA_DistanciaExata((ladj_t*)mapa->_estrutura, mapa->_maxvertices, a, k);
+        return LA_DistanciaExata((ladj_t*)mapa->_estrutura, mapa->_maxvertices, verticeinicial, k);
     default:
         break;
     }
     return -1;
 }
 
-/*funçao que reorna C0 soluçao*/
-int    M_DistanciaExataCerta(mapa_t* mapa, int a , int k){
-    if(!(0<a && a<= mapa->_maxvertices))return -1;
-    if (M_DistanciaExata(mapa, a, k) >= 1)return 1;
+/*Retorna 1 se existem vertices a distancia exata k de verticeinicial
+ *Retorna 0 se nao existirem
+ *Retorna -1 se verticeinicial nao pertencer ao mapa 
+ */
+int    M_ExistemVerticesDistanciaExata(mapa_t* mapa, int verticeinicial , int k){
+    if(!(0<verticeinicial && verticeinicial<= mapa->_maxvertices))return -1;
+    if (M_NumeroVerticesDistanciaExata(mapa, verticeinicial, k) >= 1)return 1;
     return 0; 
 }
 

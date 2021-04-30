@@ -55,6 +55,7 @@ void    LA_Libertar(ladj_t* ladj,int vertices){
 /*Cria uma aresta e insere no array de arestas
   Coloca essa aresta nas listas de adjacencia de a e de b
   incrementa o grau de a e de b
+  O(1)
  */
 void    LA_InserirAresta(ladj_t* ladj, int a, int b, double custo){
     A_Preencher(&ladj->_array_arestas[ladj->_n_arestas],a,b,custo);
@@ -65,7 +66,7 @@ void    LA_InserirAresta(ladj_t* ladj, int a, int b, double custo){
     ladj->_n_arestas++;
 }
 
-
+/*O(V) pode ser mitigado quando se keem todos os vizinhoss*/
 double  LA_Custo(ladj_t* ladj, int a, int b){
     slist_t* aux;
     aresta_t* auxaresta=NULL;
@@ -87,8 +88,8 @@ double  LA_Custo(ladj_t* ladj, int a, int b){
     }
     return -1;
 }
-
-int      LA_DistanciaExata(ladj_t* ladj, int maxvertices, int a,int k){
+/*O(V*E)*/
+int      LA_DistanciaExata(ladj_t* ladj, int maxvertices, int verticeinicial,int k){
     int leitura=0;
     int escrita = 0;
     int aux;
@@ -97,8 +98,8 @@ int      LA_DistanciaExata(ladj_t* ladj, int maxvertices, int a,int k){
     slist_t* auxlista;
     bool* visitados = (bool*)calloc(maxvertices,sizeof(bool));
     unsigned int* queue = (unsigned int*)calloc(maxvertices,sizeof(unsigned int));
-    queue[escrita++]=a;  /*colocamos a na queue e incrementamos a posicao da escrita na queue*/
-    visitados[a-1]=true; /*marcamos a como vizitado*/
+    queue[escrita++]=verticeinicial;  /*colocamos a na queue e incrementamos a posicao da escrita na queue*/
+    visitados[verticeinicial-1]=true; /*marcamos a como vizitado*/
     for(int i=0; i< k;i++){    /*ate chegarmos a profundidade definida*/
         aux=escrita-leitura;
         while(aux>0){     

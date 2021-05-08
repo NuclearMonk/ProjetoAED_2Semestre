@@ -84,17 +84,19 @@ mapa_t* Le_mapa(FILE *fpprob){
 
 
 /*Le apenas o ficheir0, na primeira fase n era preciso fazer nada com as cidades*/
-void Le_cidade(FILE *fpprob,mapa_t* mapa){
+void Le_cidade(FILE *fpprob, mapa_t* mapa){
     int a;
-    char class[26];
+    char caracteristica[27];
+
+    if(mapa==NULL)return;
     if (fscanf(fpprob, "%d", &a) != 1){
         exit(0);
     }
-    if (fscanf(fpprob, "%s", class) != 1){
+    if (fscanf(fpprob, "%s", caracteristica) != 1){
         exit(0);
     }
-    if(mapa==NULL)return;
-    /*M_VerticeInsere(mapa, a, class);nessessario ainda criar esta funçao*/
+    printf("%s", caracteristica);
+    M_InsereCarateristica(mapa, caracteristica, a);
 }
 
 
@@ -118,7 +120,7 @@ FILE* Abre_ficheiro_prob(char *ficheiroprob){
     FILE *fp;
     char* aux;
     aux = strrchr(ficheiroprob, '.');
-    if(strcmp(aux, ".prbs1") != 0){return NULL;}
+    if(strcmp(aux, ".prbs") != 0){return NULL;}
     fp=fopen(ficheiroprob, "r"); 
     if(fp == NULL){return NULL;}
     return fp;
@@ -137,7 +139,7 @@ FILE* Abre_ficheiro_mapa(char *ficheiromapa){
 FILE* Abre_ficheiro_saida(char *ficheiromapa){
     FILE* fpout;
     int len = strlen(ficheiromapa)-4;
-    char aux[8]="queries";
+    char aux[8]="routes";
     char* ficheiroout=(char*)calloc(len+8,sizeof(char));
     if(ficheiroout==NULL)return NULL;
     strcpy(ficheiroout,ficheiromapa);

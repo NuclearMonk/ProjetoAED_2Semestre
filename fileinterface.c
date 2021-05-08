@@ -95,7 +95,6 @@ void Le_cidade(FILE *fpprob, mapa_t* mapa){
     if (fscanf(fpprob, "%s", caracteristica) != 1){
         exit(0);
     }
-    printf("%s", caracteristica);
     M_InsereCarateristica(mapa, caracteristica, a);
 }
 

@@ -48,8 +48,8 @@ void M_Libertar(mapa_t* mapa){
         break;
     }
     for(int i=0;i<26;i++){
+    printf("\n|%d|", i);
     SL_Apply(mapa->arraycaract[i], &printvertice);
-    printf("\n%d ", i);
     SL_FreeList(mapa->arraycaract[i],&free);
     }
     free(mapa);
@@ -161,9 +161,9 @@ int    M_GetMaxVertices(mapa_t* mapa){
 }
 
 void M_InsereCarateristica(mapa_t* mapa,char caracteristicas[27],int vertice){
-    if(caracteristicas != NULL)return;
+    if(caracteristicas == NULL)return;
     int i=0, aux;
-    printf("%s", caracteristicas);
+    printf("%s\n", caracteristicas);
     while(caracteristicas[i]!= '\0'){
         if(caracteristicas[i]=='-' ||caracteristicas[i]<'a' || caracteristicas[i]>'z')return;
         aux = malloc(sizeof(int));

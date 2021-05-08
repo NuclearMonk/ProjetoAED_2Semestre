@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "matrizadjacencia.h"
 #include "listaadjacencia.h"
+#include "slist.h"
 
 struct _mapa
 {
@@ -10,6 +11,7 @@ struct _mapa
     void*         _estrutura;    /*pointer para a estrutura*/
     int  _maxvertices;
     int  _maxarestas;
+    slist_t* arraycaract[26]; /*array listas de inteiros indexado a caracteristica*/
 };
 
 mapa_t* M_Alocar(int vertices, int arestas){
@@ -22,6 +24,9 @@ mapa_t* M_Alocar(int vertices, int arestas){
     else{
     aux->_tipo=2;
     aux->_estrutura=LA_Alocar(vertices,arestas);
+    }
+    for(int i = 0; i<26;i++){
+        aux->arraycaract[i]=SL_Initialize();
     }
     aux->_maxvertices=vertices;
     aux->_maxarestas=arestas;
@@ -39,6 +44,9 @@ void M_Libertar(mapa_t* mapa){
         break;
     default:
         break;
+    }
+    for(int i=0;i<26;i++){
+    SL_FreeList(mapa->arraycaract[i],&free);
     }
     free(mapa);
 }
@@ -146,4 +154,18 @@ int    M_GetMaxArestas(mapa_t* mapa){
 
 int    M_GetMaxVertices(mapa_t* mapa){
     return mapa->_maxvertices;
+}
+
+void M_InsereCaracteristica(mapa_t* mapa,char caracteristicas[27],int vertice){
+    if(caracteristicas == NULL)return;
+    int i=0;
+    int* aux;
+    while(caracteristicas[i]!= '\0'){
+        if(caracteristicas[i]=='-' ||caracteristicas[i]<'a' || caracteristicas[i]>'z')return;
+        aux = (int*)malloc(sizeof(int));
+        *aux = vertice;
+        mapa->arraycaract[((int)caracteristicas[i]-'a')]=SL_InsertBefore(mapa->arraycaract[((int)caracteristicas[i]-'a')],SL_NewElement((void*)aux));
+        i++;
+    }
+    return;
 }

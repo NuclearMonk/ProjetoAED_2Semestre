@@ -16,7 +16,7 @@ int     LA_Grau(ladj_t* ladj, int a);
 bool    LA_Adjacente(ladj_t* ladj, int a, int b);
 
 /*Funcoes de arestas*/
-void    A_Preencher(aresta_t* aresta,int a, int b,double custo);
+void    A_Preencher(aresta_t* aresta,int a, int b,double custo); 
 int     A_A(aresta_t* aresta);
 int     A_B(aresta_t* aresta);
 double  A_Custo(aresta_t* aresta);

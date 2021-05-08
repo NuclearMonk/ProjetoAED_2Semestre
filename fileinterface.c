@@ -84,17 +84,18 @@ mapa_t* Le_mapa(FILE *fpprob){
 
 
 /*Le apenas o ficheir0, na primeira fase n era preciso fazer nada com as cidades*/
-void Le_cidade(FILE *fpprob,mapa_t* mapa){
+void Le_cidade(FILE *fpprob, mapa_t* mapa){
     int a;
-    char class[26];
+    char caracteristica[27];
+
+    if(mapa==NULL)return;
     if (fscanf(fpprob, "%d", &a) != 1){
         exit(0);
     }
-    if (fscanf(fpprob, "%s", class) != 1){
+    if (fscanf(fpprob, "%s", caracteristica) != 1){
         exit(0);
     }
-    if(mapa==NULL)return;
-    /*M_VerticeInsere(mapa, a, class);nessessario ainda criar esta funçao*/
+    M_InsereCaracteristica(mapa, caracteristica, a);
 }
 
 

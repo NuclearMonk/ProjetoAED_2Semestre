@@ -3,6 +3,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+
+#define CUSTO(maxvertices,a,b) (double)madj->_matriz[((a-1)*(maxvertices))+(b-1)];
+#define ADJACENTE(maxvertices,a,b) ((double)madj->_matriz[((a-1)*(maxvertices))+(b-1)])>0
+
 struct _madj
 {
     double*         _matriz; /*Matriz de doubles de ajacencia*/
@@ -41,7 +45,7 @@ void    MA_InserirAresta(madj_t* madj,int maxvertices, int a , int b, double cus
 
 /*O(1)*/
 double    MA_Custo(madj_t* madj,int maxvertices, int a, int b){
-    return (double)madj->_matriz[((a-1)*(maxvertices))+(b-1)];
+    return CUSTO(maxvertices,a,b);
 }
 /*O(1)*/
 int     MA_Grau(madj_t* madj, int a){
@@ -49,7 +53,7 @@ int     MA_Grau(madj_t* madj, int a){
 }
 /*O(1)*/
 bool    MA_Adjacente(madj_t* madj,int maxvertices, int a, int b){
-    return ((double)madj->_matriz[((a-1)*(maxvertices))+(b-1)]>0);
+    return ADJACENTE(maxvertices,a,b);
 }
 
 /*O(V^2)*/
@@ -68,7 +72,7 @@ int      MA_DistanciaExata(madj_t* madj,int maxvertices, int a , int k){
             visitado=queue[leitura++]; /*visitado = queue.pop*/
             grauvisitado=0;
             for(int j=1;j<=maxvertices;j++){
-                if(MA_Adjacente(madj,maxvertices,visitado,j)){  /*marca como visitados e adiciona a queue todos os vizinhos de de visitado*/
+                if(ADJACENTE(maxvertices,visitado,j)){  /*marca como visitados e adiciona a queue todos os vizinhos de de visitado*/
                     if(!(visitados[j-1])){
                         queue[escrita++]=j;
                         visitados[j-1]=true;

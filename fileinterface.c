@@ -95,7 +95,7 @@ void Le_cidade(FILE *fpprob, mapa_t* mapa){
     if (fscanf(fpprob, "%s", caracteristica) != 1){
         exit(0);
     }
-    M_InsereCarateristica(mapa, caracteristica, a);
+    M_InsereCaracteristica(mapa, caracteristica, a);
 }
 
 
@@ -119,7 +119,7 @@ FILE* Abre_ficheiro_prob(char *ficheiroprob){
     FILE *fp;
     char* aux;
     aux = strrchr(ficheiroprob, '.');
-    if(strcmp(aux, ".prbs") != 0){return NULL;}
+    if(strcmp(aux, ".prbs1") != 0){return NULL;}
     fp=fopen(ficheiroprob, "r"); 
     if(fp == NULL){return NULL;}
     return fp;
@@ -138,7 +138,7 @@ FILE* Abre_ficheiro_mapa(char *ficheiromapa){
 FILE* Abre_ficheiro_saida(char *ficheiromapa){
     FILE* fpout;
     int len = strlen(ficheiromapa)-4;
-    char aux[8]="routes";
+    char aux[8]="queries";
     char* ficheiroout=(char*)calloc(len+8,sizeof(char));
     if(ficheiroout==NULL)return NULL;
     strcpy(ficheiroout,ficheiromapa);

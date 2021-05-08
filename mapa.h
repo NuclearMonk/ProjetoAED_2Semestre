@@ -25,6 +25,6 @@ int    M_GetMaxArestas(mapa_t* mapa);
 
 int    M_GetMaxVertices(mapa_t* mapa);
 
-void   M_InsereCaractaristica(mapa_t* mapa, char caracteristica[27], int vertice);
+void   M_InsereCaracteristica(mapa_t* mapa, char caracteristica[27], int vertice);
 
 #endif

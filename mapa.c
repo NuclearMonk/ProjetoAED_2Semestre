@@ -156,7 +156,7 @@ int    M_GetMaxVertices(mapa_t* mapa){
     return mapa->_maxvertices;
 }
 
-void M_InsereCarateristica(mapa_t* mapa,char caracteristicas[27],int vertice){
+void M_InsereCaracteristica(mapa_t* mapa,char caracteristicas[27],int vertice){
     if(caracteristicas == NULL)return;
     int i=0;
     int* aux;

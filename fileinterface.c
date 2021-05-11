@@ -119,7 +119,7 @@ FILE* Abre_ficheiro_prob(char *ficheiroprob){
     FILE *fp;
     char* aux;
     aux = strrchr(ficheiroprob, '.');
-    if(strcmp(aux, ".prbs1") != 0){return NULL;}
+    if(strcmp(aux, ".prbs") != 0){return NULL;}
     fp=fopen(ficheiroprob, "r"); 
     if(fp == NULL){return NULL;}
     return fp;

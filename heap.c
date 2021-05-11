@@ -2,12 +2,13 @@
 #include "heap.h"
 #include <stdlib.h>
 
-#define SWAP(A,B) {int aux = heap->_array[A];heap->_array[A]=heap->_array[B];heap->_array[B]=aux;}
-#define INSERIRFIM(A) heap->_array[heap->_size++]=A;
+#define SWAP(A,B) {int aux = heap->_array[A];heap->_chaves[aux]=B;heap->_chaves[heap->array[B]]=A;heap->_array[A]=heap->_array[B];heap->_array[B]=aux;}
+#define INSERIRFIM(A) {heap->_array[heap->_size]=A;heap->_chaves[A]=heap->_size;size++;}
 
 struct _heap{
     int  _size;
     int* _array;
+    int* _chaves;
     int  (*_CompareFunction)(int keyA,int keyB);
 };
 
@@ -20,6 +21,8 @@ heap_t*   HP_Alocar(int maxsize,int  (*CompareFunction)(int keyA,int keyB)){
     if(aux==NULL)exit(0);
     aux->_size=0;
     aux->_array= (int*)calloc(maxsize,sizeof(int));
+    aux->_chaves=(int*)malloc(maxsize*sizeof(int));
+    for(int i=0;i<maxsize;i++)aux->_chaves[i]=-1;
     aux->_CompareFunction=CompareFunction;
     return aux;
 }

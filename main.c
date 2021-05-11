@@ -36,7 +36,7 @@ int main(int argc,char* argv[]){
 
     fprintf(fp_saida, "%s %s %s\n\n", argv[1], argv[2], argv[3]); /*Escreve a primeira linha do ficheiro de saida "opcao ficheiroproblemas ficheiromapas"*/
 
-    if(strcmp(argv[1], "-1oo") == 0){/*executa uma vez sem loops o programa, executando so o primeiro problema no primeiro mapa*/
+    if(strcmp(argv[1], "-oo") == 0){/*executa uma vez sem loops o programa, executando so o primeiro problema no primeiro mapa*/
         cabecalho = Le_cabecalho_prob(fp_problemas);
         if(cabecalho == NULL){
             fclose(fp_problemas);
@@ -55,7 +55,7 @@ int main(int argc,char* argv[]){
         C_Libertar(cabecalho);
         M_Libertar(mapa);
     }
-    else if(strcmp(argv[1], "-1oa") == 0){/*Le um cabecalho, e exxecuta-o para todos os mapas*/
+    else if(strcmp(argv[1], "-oa") == 0){/*Le um cabecalho, e exxecuta-o para todos os mapas*/
         cabecalho = Le_cabecalho_prob(fp_problemas);
         if(cabecalho == NULL){
             fclose(fp_problemas);
@@ -70,7 +70,7 @@ int main(int argc,char* argv[]){
         C_Libertar(cabecalho);
         
     }
-    else if(strcmp(argv[1], "-1ao") == 0){/*Le um mapa, e exxecuta-o para todos os cabecalhos*/
+    else if(strcmp(argv[1], "-ao") == 0){/*Le um mapa, e exxecuta-o para todos os cabecalhos*/
         mapa=Le_mapa(fp_mapas);
         if(mapa == NULL){
             fclose(fp_problemas);
@@ -84,7 +84,7 @@ int main(int argc,char* argv[]){
         }
         M_Libertar(mapa);
     }
-    else if(strcmp(argv[1], "-1aa") == 0){/*Le um mapa, e exxecuta-o para todos os cabecalhos, le outro mapa ate n ter mapas*/
+    else if(strcmp(argv[1], "-aa") == 0){/*Le um mapa, e exxecuta-o para todos os cabecalhos, le outro mapa ate n ter mapas*/
         while((mapa=Le_mapa(fp_mapas)) != NULL){
             while((cabecalho = Le_cabecalho_prob(fp_problemas)) != NULL){
                 Resolve_problema(fp_saida, mapa, cabecalho);
@@ -93,8 +93,6 @@ int main(int argc,char* argv[]){
             M_Libertar(mapa);
             rewind(fp_problemas);
         }
-    }else{
-        exit(0);
     }
 
     fclose(fp_mapas);

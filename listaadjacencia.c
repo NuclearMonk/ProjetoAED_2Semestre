@@ -153,8 +153,7 @@ void* LA_ZerarAresta(ladj_t* ladj, int a, int b){
 }
 
 void LA_RepoeAresta(ladj_t* ladj, int a, int b, void* aux){
-    aresta_t* auxaresta = aux;
-    A_Preencher(auxaresta, a, b, A_Custo(auxaresta));
+    A_Preencher((aresta_t*)aux, a, b, A_Custo((aresta_t*)aux));
     return;
 }
 

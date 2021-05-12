@@ -89,14 +89,3 @@ int      MA_DistanciaExata(madj_t* madj,int maxvertices, int a , int k){
     free(queue);
     return escrita-leitura; /*no fim do processo, todos os elementos na queue sao vertices a distancia k de a*/
 }
-
-void MA_Mudar_Custo(madj_t* madj, int maxvertices, int a, int b, double custo){
-    if (custo == 0){
-        madj->_matriz[((a-1)*(maxvertices))+(b-1)]=madj->custo;
-        madj->_matriz[((b-1)*(maxvertices))+(a-1)]=madj->custo;
-    }
-    else{
-        madj->_matriz[((a-1)*(maxvertices))+(b-1)]=0;
-        madj->_matriz[((b-1)*(maxvertices))+(a-1)]=0;
-    }
-}

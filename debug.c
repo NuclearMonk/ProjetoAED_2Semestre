@@ -15,9 +15,9 @@ void TestHeaps(){
     free(distancia);
 }
 
-int Less(int A, int B){
+int Less(double A, double B){
     return A<B;
 }
-int More(int A, int B){
+int More(double A, double B){
     return A>B;
 }

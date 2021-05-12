@@ -128,6 +128,36 @@ bool    LA_Adjacente(ladj_t* ladj, int a, int b){
     return false;
 }
 
+void* LA_ZerarAresta(ladj_t* ladj, int a, int b){
+    slist_t* aux;
+    aresta_t* auxaresta=NULL;
+    if(ladj->_grau[a-1]<ladj->_grau[b-1]){
+        for(aux= ladj->_array_listas[a-1];aux !=NULL; aux=SL_GetNext(aux)){
+            auxaresta= (aresta_t*)SL_GetData(aux);
+            if(A_Outro(auxaresta,a)==b){
+                A_Preencher(auxaresta, 0, 0, A_Custo(auxaresta));
+                return (void*)auxaresta;
+            }
+        }
+    }
+    else{
+        for(aux= ladj->_array_listas[b-1];aux !=NULL; aux=SL_GetNext(aux)){
+            auxaresta= (aresta_t*)SL_GetData(aux);
+            if(A_Outro(auxaresta,b)==a){
+                A_Preencher(auxaresta, 0, 0, A_Custo(auxaresta));
+                return (void*)auxaresta;
+            }
+        }
+    }
+    return NULL;
+}
+
+void LA_RepoeAresta(ladj_t* ladj, int a, int b, void* aux){
+    aresta_t* auxaresta = aux;
+    A_Preencher(auxaresta, a, b, A_Custo(auxaresta));
+    return;
+}
+
 /*
  *Aloca uma aresta e coloca nela os valores passados como parametros
  *Faz exit se a allocacao nao ocorrer

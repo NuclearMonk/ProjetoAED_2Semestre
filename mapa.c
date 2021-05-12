@@ -1,6 +1,7 @@
 #include "mapa.h"
 
 #include <stdlib.h>
+#include <stdio.h>
 #include "matrizadjacencia.h"
 #include "listaadjacencia.h"
 #include "slist.h"
@@ -17,7 +18,7 @@ struct _mapa
 mapa_t* M_Alocar(int vertices, int arestas){
     mapa_t* aux= (mapa_t*)malloc(sizeof(mapa_t));
     if(aux==NULL){exit(1);}
-    if((8*vertices*vertices)<(12+48*arestas+8*vertices)){
+    if((8*vertices*vertices)<(12+48*arestas+8*vertices)&&false){
     aux->_tipo=1;
     aux->_estrutura= MA_Alocar(vertices);
     }
@@ -168,4 +169,24 @@ void M_InsereCaracteristica(mapa_t* mapa,char caracteristicas[27],int vertice){
         i++;
     }
     return;
+}
+
+path_t*   M_DJIKSTRAS(mapa_t* mapa, int a){
+    path_t* path=NULL;
+    switch (mapa->_tipo)
+    {
+    case 2:
+        path =LA_DJIKSTRAS((ladj_t*)mapa->_estrutura, mapa->_maxvertices,a);
+        for(int i=0; i<mapa->_maxvertices;i++){
+            printf("<'%d'%d|%.2lf>\n",i+1,path->anterior[i],path->distancia[i]);
+        }
+        free(path->anterior);
+        free(path->distancia);
+        free(path);
+        break;
+    
+    default:
+        break;
+    }
+    return path;
 }

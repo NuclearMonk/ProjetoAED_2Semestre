@@ -59,6 +59,18 @@ cabecalho_t* Le_cabecalho_prob(FILE *fpprob){
         }
         C_SetFlag(cabecalho,aux);
     }
+    else if (strcmp(tipo, "A1") == 0)
+    {   
+        C_SetProblema(cabecalho,5);
+        if (fscanf(fpprob, "%d", &aux) != 1){
+            return NULL;
+        }
+        C_SetVInicial(cabecalho,aux);
+        if (fscanf(fpprob, "%d", &aux) != 1){
+            return NULL;
+        }
+        C_SetVFinal(cabecalho,aux);
+    }
     return cabecalho;
 }
 
@@ -138,8 +150,8 @@ FILE* Abre_ficheiro_mapa(char *ficheiromapa){
 FILE* Abre_ficheiro_saida(char *ficheiromapa){
     FILE* fpout;
     int len = strlen(ficheiromapa)-4;
-    char aux[8]="queries";
-    char* ficheiroout=(char*)calloc(len+8,sizeof(char));
+    char aux[8]="routes";
+    char* ficheiroout=(char*)calloc(len+7,sizeof(char));
     if(ficheiroout==NULL)return NULL;
     strcpy(ficheiroout,ficheiromapa);
     ficheiroout[len]='\0';
@@ -169,6 +181,9 @@ void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecal
         break;
     case 4:/*D0*/
         fprintf(fp_saida, "%d %d D0 %d %d %d\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa), C_GetVInicial(cabecalho), C_GetFlag(cabecalho), M_NumeroVerticesDistanciaExata(mapa, C_GetVInicial(cabecalho), C_GetFlag(cabecalho)));
+        break;
+    case 5:
+        (void)M_DJIKSTRAS(mapa,C_GetVInicial(cabecalho));
         break;
     default:
         break;

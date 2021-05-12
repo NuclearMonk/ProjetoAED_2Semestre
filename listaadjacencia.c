@@ -4,6 +4,7 @@
 
 #include "Data.h"
 #include "slist.h"
+#include "pqueue.h"
 #include <stdio.h>
 
 struct _aresta
@@ -23,9 +24,10 @@ struct _ladj
 
 
 
-void    DoNothing(Data data);
 void    DoNothing(Data data){data=data;}
-
+int Less(double A, double B){
+    return A<B;
+}
 ladj_t* LA_Alocar(int vertices,int arestas){
     ladj_t* aux = (ladj_t*)malloc(sizeof(ladj_t));
     if(aux==NULL)exit(1);
@@ -128,6 +130,38 @@ bool    LA_Adjacente(ladj_t* ladj, int a, int b){
     return false;
 }
 
+path_t*    LA_DJIKSTRAS(ladj_t* ladj,int vertices,int inicio){
+    path_t* path = (path_t*)calloc(1,sizeof(path_t));
+    pqueue_t* pq;
+    int v,u;
+    slist_t* auxlista;
+    path->anterior = (int*)malloc(vertices*sizeof(int));
+    path->distancia = (double*)malloc(vertices*sizeof(double));
+    for(int i=0;i<vertices;i++){
+        path->anterior[i]=-1;
+        path->distancia[i]=-1;
+    }
+    pq = PQ_Alocar(vertices,path->distancia,&Less);
+    PQ_InserirFim(pq,inicio-1,0);
+    while (PQ_Size(pq)>0){
+        v=PQ_PrimeiroEApaga(pq)+1;
+        for(auxlista=ladj->_array_listas[v-1]; auxlista != NULL; auxlista=SL_GetNext(auxlista)){
+            u = A_Outro((aresta_t*)SL_GetData(auxlista),v);
+            if(path->distancia[u-1]==-1){
+                PQ_InserirEUpdate(pq,u-1,path->distancia[v-1]+A_Custo((aresta_t*)SL_GetData(auxlista)));
+                path->anterior[u-1]=v;
+            }
+            else if(! Less(path->distancia[u-1],path->distancia[v-1]+A_Custo((aresta_t*)SL_GetData(auxlista)))){
+                PQ_MudarPrioridadeEUpdate(pq,u-1,path->distancia[v-1]+A_Custo((aresta_t*)SL_GetData(auxlista)));
+                path->anterior[u-1]=v;
+            }
+        }
+    }
+    PQ_Libertar(pq);
+    return path;
+}
+
+
 /*
  *Aloca uma aresta e coloca nela os valores passados como parametros
  *Faz exit se a allocacao nao ocorrer
@@ -172,3 +206,4 @@ int       A_Outro(aresta_t* aresta, int vertice){
         return -1;
     }
 }
+

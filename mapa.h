@@ -2,7 +2,7 @@
 #define _MAPA_H
 
 #include <stdbool.h>
-
+#include "pathfinding.h"
 /*Tipo abstrato, tanto pode ser uma matriz de adjacencia ou uma lista de adjacencia*/
 typedef struct _mapa mapa_t;
 
@@ -26,5 +26,7 @@ int    M_GetMaxArestas(mapa_t* mapa);
 int    M_GetMaxVertices(mapa_t* mapa);
 
 void   M_InsereCaracteristica(mapa_t* mapa, char caracteristica[27], int vertice);
+
+path_t*   M_DJIKSTRAS(mapa_t* mapa, int a);
 
 #endif

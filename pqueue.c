@@ -90,3 +90,7 @@ void            PQ_MudarPrioridadeEUpdate(pqueue_t* pqueue,int chave, double val
         HP_FixUp(pqueue,pqueue->_chaves[chave]);
     }
 }
+
+int             PQ_Size(pqueue_t* pqueue){
+    return pqueue->_n_elementos;
+}

@@ -1,8 +1,8 @@
 CC=gcc
 CFLAGS=-Wall  -std=c99 -O3 
  
-aedlabs: main.o slist.o dlist.o stack.o fileinterface.o cabecalho.o mapa.o matrizadjacencia.o listaadjacencia.o pqueue.o debug.o
-		$(CC) $(CFLAGS) -o aedmaps main.o slist.o dlist.o stack.o fileinterface.o cabecalho.o mapa.o matrizadjacencia.o listaadjacencia.o pqueue.o debug.o
+aedlabs: main.o slist.o dlist.o stack.o fileinterface.o cabecalho.o mapa.o matrizadjacencia.o listaadjacencia.o pqueue.o 
+		$(CC) $(CFLAGS) -o aedmaps main.o slist.o dlist.o stack.o fileinterface.o cabecalho.o mapa.o matrizadjacencia.o listaadjacencia.o pqueue.o pathfinding.h
 main.o: main.c
 	 	$(CC) -c $(CFLAGS) main.c
 slist.o: slist.c slist.h
@@ -23,8 +23,6 @@ listaadjacencia.o: listaadjacencia.c listaadjacencia.h
 		$(CC) -c $(CFLAGS) listaadjacencia.c
 pqueuep.o: pqueue.c pqueue.h
 		$(CC) -c $(CFLAGS) pqueue.c
-debug.o: debug.c debug.h
-		$(CC) -c $(CFLAGS) debug.c
 clean:
 		-rm *.o
 		-rm aedmaps

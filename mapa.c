@@ -180,9 +180,7 @@ path_t*   M_DJIKSTRAS(mapa_t* mapa, int a){
         for(int i=0; i<mapa->_maxvertices;i++){
             printf("<'%d'%d|%.2lf>\n",i+1,path->anterior[i],path->distancia[i]);
         }
-        free(path->anterior);
-        free(path->distancia);
-        free(path);
+        FREEPATH(path)
         break;
     
     default:

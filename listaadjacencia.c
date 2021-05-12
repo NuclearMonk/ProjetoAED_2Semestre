@@ -131,34 +131,41 @@ bool    LA_Adjacente(ladj_t* ladj, int a, int b){
 }
 
 path_t*    LA_DJIKSTRAS(ladj_t* ladj,int vertices,int inicio){
-    path_t* path = (path_t*)calloc(1,sizeof(path_t));
+   
     pqueue_t* pq;
     int v,u;
     slist_t* auxlista;
+    
+    /*Inicializacao de path uma estrututra que huarda o array distancia e o array Anterior*/
+    path_t* path = (path_t*)calloc(1,sizeof(path_t));
     path->anterior = (int*)malloc(vertices*sizeof(int));
     path->distancia = (double*)malloc(vertices*sizeof(double));
     for(int i=0;i<vertices;i++){
         path->anterior[i]=-1;
         path->distancia[i]=-1;
     }
+
+    /*inicializacao de uma priority queue que usa como prioridade de v,distancia[v-1]*/
     pq = PQ_Alocar(vertices,path->distancia,&Less);
-    PQ_InserirFim(pq,inicio-1,0);
+    
+    PQ_InserirFim(pq,inicio-1,0); /*Inserimos o vertice inicial na Priority queue como e o unico fica no inicio da queue garantidamente*/
+    
     while (PQ_Size(pq)>0){
-        v=PQ_PrimeiroEApaga(pq)+1;
-        for(auxlista=ladj->_array_listas[v-1]; auxlista != NULL; auxlista=SL_GetNext(auxlista)){
+        v=PQ_PrimeiroEApaga(pq)+1; /*v e o vertce nao visitado cuja distancia a origem e a menor*/
+        for(auxlista=ladj->_array_listas[v-1]; auxlista != NULL; auxlista=SL_GetNext(auxlista)){  /*para todo os vizinhos de v*/
             u = A_Outro((aresta_t*)SL_GetData(auxlista),v);
-            if(path->distancia[u-1]==-1){
-                PQ_InserirEUpdate(pq,u-1,path->distancia[v-1]+A_Custo((aresta_t*)SL_GetData(auxlista)));
-                path->anterior[u-1]=v;
+            if(path->distancia[u-1]==-1){                                                                   /*se o vizinho nao esta na priority queue*/
+                PQ_InserirEUpdate(pq,u-1,path->distancia[v-1]+A_Custo((aresta_t*)SL_GetData(auxlista)));    /*colocamo-lo na priority queue e definimos v como antecedente de u*/
+                path->anterior[u-1]=v;                                                                  
             }
-            else if(! Less(path->distancia[u-1],path->distancia[v-1]+A_Custo((aresta_t*)SL_GetData(auxlista)))){
-                PQ_MudarPrioridadeEUpdate(pq,u-1,path->distancia[v-1]+A_Custo((aresta_t*)SL_GetData(auxlista)));
-                path->anterior[u-1]=v;
+            else if(! Less(path->distancia[u-1],path->distancia[v-1]+A_Custo((aresta_t*)SL_GetData(auxlista)))){ /*se o vizinho estiver na priority queue e a sua prioridade atual for mairo que a nova prioridade*/
+                PQ_MudarPrioridadeEUpdate(pq,u-1,path->distancia[v-1]+A_Custo((aresta_t*)SL_GetData(auxlista))); /*Atualizamos a sua prioridade para ser a nova prioridade*/
+                path->anterior[u-1]=v;                                                                           /*definimos v como o antecedente de u*/
             }
         }
     }
-    PQ_Libertar(pq);
-    return path;
+    PQ_Libertar(pq);        /*destruimos a queue pois ja nao e necessaria*/
+    return path;            /*retornamos a estrutura path*/
 }
 
 

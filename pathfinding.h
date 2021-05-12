@@ -6,4 +6,6 @@ typedef struct _path{
     int*    anterior;
 }path_t;
 
+#define FREEPATH(A) {free(A->anterior); free(A->distancia);free(A);}
+
 #endif

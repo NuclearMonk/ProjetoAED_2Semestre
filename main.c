@@ -3,7 +3,6 @@
 #include <string.h>
 
 #include "fileinterface.h"
-#include "debug.h"
 
 
 int main(int argc,char* argv[]){
@@ -12,7 +11,6 @@ int main(int argc,char* argv[]){
     FILE *fp_problemas=NULL;
     FILE *fp_mapas=NULL;
     FILE *fp_saida=NULL;
-    TestHeaps();
 
     if (argc != 4){exit(0);}            /*verifica se existem 4 argumentos ./aedmaps -opcao problemas.prbs mapas.maps*/
 

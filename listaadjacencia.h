@@ -15,7 +15,7 @@ double  LA_Custo(ladj_t* ladj, int a, int b);
 int     LA_DistanciaExata(ladj_t* madj,int maxvertices, int a, int k);
 int     LA_Grau(ladj_t* ladj, int a);
 bool    LA_Adjacente(ladj_t* ladj, int a, int b);
-path_t* LA_DJIKSTRAS(ladj_t* ladj,int vertices,int inicio);
+path_t* LA_DJIKSTRAS(ladj_t* ladj,int vertices,int inicio, int fim);
 
 /*Funcoes de arestas*/
 void    A_Preencher(aresta_t* aresta,int a, int b,double custo); 

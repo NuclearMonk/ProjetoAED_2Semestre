@@ -163,8 +163,9 @@ FILE* Abre_ficheiro_saida(char *ficheiromapa){
 }
 /*Dado um mapa e um cabecalho escreve o resultado para o ficheiro de saida*/
 void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecalho){
-    int tipo;
+    int tipo,a,b;
     double aux;
+    path_t* path;
     tipo = C_GetProblema(cabecalho);
     switch (tipo)
     {
@@ -183,7 +184,19 @@ void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecal
         fprintf(fp_saida, "%d %d D0 %d %d %d\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa), C_GetVInicial(cabecalho), C_GetFlag(cabecalho), M_NumeroVerticesDistanciaExata(mapa, C_GetVInicial(cabecalho), C_GetFlag(cabecalho)));
         break;
     case 5:
-        (void)M_DJIKSTRAS(mapa,C_GetVInicial(cabecalho));
+        path = M_DJIKSTRAS(mapa,C_GetVFinal(cabecalho),C_GetVInicial(cabecalho));
+        if(path==NULL){
+            fprintf(fp_saida, "%d %d A1 %d %d -1\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho), C_GetVFinal(cabecalho));
+        }
+        else{
+            fprintf(fp_saida, "%d %d A1 %d %d %.2lf\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho), C_GetVFinal(cabecalho),path->distancia[C_GetVInicial(cabecalho)-1]);
+            for(a=C_GetVInicial(cabecalho);path->anterior[a-1]>0;a=b){
+                b=path->anterior[a-1];
+                if(b==-1)continue;
+                fprintf(fp_saida,"%d %d %.2lf\n",a,b,(path->distancia[a-1])-(path->distancia[b-1]));
+            }
+            FREEPATH(path)
+        }
         break;
     default:
         break;

@@ -27,6 +27,6 @@ int    M_GetMaxVertices(mapa_t* mapa);
 
 void   M_InsereCaracteristica(mapa_t* mapa, char caracteristica[27], int vertice);
 
-path_t*   M_DJIKSTRAS(mapa_t* mapa, int a);
+path_t*   M_DJIKSTRAS(mapa_t* mapa, int a,int b);
 
 #endif

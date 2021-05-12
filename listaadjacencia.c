@@ -130,7 +130,7 @@ bool    LA_Adjacente(ladj_t* ladj, int a, int b){
     return false;
 }
 
-path_t*    LA_DJIKSTRAS(ladj_t* ladj,int vertices,int inicio){
+path_t*    LA_DJIKSTRAS(ladj_t* ladj,int vertices,int inicio,int fim){
    
     pqueue_t* pq;
     int v,u;
@@ -152,6 +152,10 @@ path_t*    LA_DJIKSTRAS(ladj_t* ladj,int vertices,int inicio){
     
     while (PQ_Size(pq)>0){
         v=PQ_PrimeiroEApaga(pq)+1; /*v e o vertce nao visitado cuja distancia a origem e a menor*/
+        if(v==fim){
+            PQ_Libertar(pq);
+            return(path);
+        }
         for(auxlista=ladj->_array_listas[v-1]; auxlista != NULL; auxlista=SL_GetNext(auxlista)){  /*para todo os vizinhos de v*/
             u = A_Outro((aresta_t*)SL_GetData(auxlista),v);
             if(path->distancia[u-1]==-1){                                                                   /*se o vizinho nao esta na priority queue*/

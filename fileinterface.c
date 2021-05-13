@@ -72,9 +72,9 @@ cabecalho_t* Le_cabecalho_prob(FILE *fpprob){
         C_SetVFinal(cabecalho,aux);
     }
 
-    else if (strcmp(tipo, "B1") == 0)
+    else if (strcmp(tipo, "C1") == 0)
     {   
-        C_SetProblema(cabecalho,5);
+        C_SetProblema(cabecalho,7);
         if (fscanf(fpprob, "%d", &aux) != 1){
             return NULL;
         }
@@ -180,9 +180,10 @@ FILE* Abre_ficheiro_saida(char *ficheiromapa){
 }
 /*Dado um mapa e um cabecalho escreve o resultado para o ficheiro de saida*/
 void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecalho){
-    int tipo,a,b,comprimento;
+    int tipo,a,b,c,comprimento;
     double aux;
     path_t* path;
+    path_t* pathalternativo;
     tipo = C_GetProblema(cabecalho);
     switch (tipo)
     {
@@ -207,6 +208,7 @@ void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecal
         }
         else{
             comprimento=0;
+            c=-1;
             for(a=C_GetVInicial(cabecalho);path->anterior[a-1]>0;a=b){
                 b=path->anterior[a-1];
                 if(b==-1)continue;
@@ -222,24 +224,40 @@ void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecal
         }
         break;
     case 7:
-        path = M_DJIKSTRAS_VERTICE(mapa,C_GetVFinal(cabecalho),C_GetVInicial(cabecalho),C_GetFlag(cabecalho));
+        path = M_DJIKSTRAS(mapa,C_GetVFinal(cabecalho),C_GetVInicial(cabecalho));
         if(path==NULL){
             fprintf(fp_saida, "%d %d C1 %d %d %d -1\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho), C_GetVFinal(cabecalho),C_GetFlag(cabecalho));
         }
         else{
             comprimento=0;
+            c=-1;
             for(a=C_GetVInicial(cabecalho);path->anterior[a-1]>0;a=b){
                 b=path->anterior[a-1];
+                if(comprimento ==C_GetFlag(cabecalho)-1)c=a;
                 if(b==-1)continue;
                 comprimento++;
             }
-            fprintf(fp_saida, "%d %d C1 %d %d %d %d %.2lf\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho), C_GetVFinal(cabecalho),C_GetFlag(cabecalho),comprimento,path->distancia[C_GetVInicial(cabecalho)-1]);
+            if(c==-1){
+                fprintf(fp_saida, "%d %d C1 %d %d %d %d %.2lf -1\n",  M_GetMaxVertices(mapa),M_GetMaxArestas(mapa),C_GetVInicial(cabecalho),C_GetVFinal(cabecalho),C_GetFlag(cabecalho),comprimento,path->distancia[C_GetVInicial(cabecalho)-1]);
+            }
+            else{
+                pathalternativo=M_DJIKSTRAS_VERTICE(mapa,C_GetVFinal(cabecalho),C_GetVInicial(cabecalho),c);
+                if(pathalternativo==NULL)fprintf(fp_saida, "%d %d C1 %d %d %d %d %.2lf -1\n",  M_GetMaxVertices(mapa),M_GetMaxArestas(mapa),C_GetVInicial(cabecalho),C_GetVFinal(cabecalho),C_GetFlag(cabecalho),comprimento,path->distancia[C_GetVInicial(cabecalho)-1]);
+                else{
+                    if(pathalternativo->anterior[C_GetVInicial(cabecalho)-1]==-1){ fprintf(fp_saida, "%d %d C1 %d %d %d %d %.2lf -1\n",  M_GetMaxVertices(mapa),M_GetMaxArestas(mapa),C_GetVInicial(cabecalho),C_GetVFinal(cabecalho),C_GetFlag(cabecalho),comprimento,path->distancia[C_GetVInicial(cabecalho)-1]);printf("%d\n\n",c);{for(int i=0;i<M_GetMaxVertices(mapa);i++)printf("%d|%d\n",i+1,pathalternativo->anterior[i]);}}
+                    else{
+                        fprintf(fp_saida, "%d %d C1 %d %d %d %d %.2lf %.2lf\n",  M_GetMaxVertices(mapa),M_GetMaxArestas(mapa),C_GetVInicial(cabecalho),C_GetVFinal(cabecalho),C_GetFlag(cabecalho),comprimento,path->distancia[C_GetVInicial(cabecalho)-1],pathalternativo->distancia[C_GetVInicial(cabecalho)-1]-path->distancia[C_GetVInicial(cabecalho)-1]);
+                    }
+                }
+                FREEPATH(pathalternativo);
+            }
             for(a=C_GetVInicial(cabecalho);path->anterior[a-1]>0;a=b){
                 b=path->anterior[a-1];
                 if(b==-1)continue;
                 fprintf(fp_saida,"%d %d %.2lf\n",a,b,(path->distancia[a-1])-(path->distancia[b-1]));
             }
             FREEPATH(path)
+            
         }
     default:
         break;

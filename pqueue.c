@@ -81,7 +81,7 @@ int         PQ_PrimeiroEApaga(pqueue_t* pqueue){
 }
 
 void            PQ_MudarPrioridadeEUpdate(pqueue_t* pqueue,int chave, double valor){
-    if(pqueue->_CompareFunction(VALORCHAVE(chave),valor)){
+    if(pqueue->_CompareFunction(valor,VALORCHAVE(chave))){
         VALORCHAVE(chave)=valor;
         HP_FixDown(pqueue,pqueue->_chaves[chave]);
     }

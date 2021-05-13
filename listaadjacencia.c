@@ -129,6 +129,7 @@ bool    LA_Adjacente(ladj_t* ladj, int a, int b){
     return false;
 }
 
+/*retorna um path entre inicio e fim */
 path_t*    LA_DJIKSTRAS(ladj_t* ladj,int vertices,int inicio,int fim){
    
     pqueue_t* pq;
@@ -171,7 +172,7 @@ path_t*    LA_DJIKSTRAS(ladj_t* ladj,int vertices,int inicio,int fim){
     return path;            /*retornamos a estrutura path*/
 }
 
-
+/*retorna um path entre inicio e fim que nao passa por vertice*/
 path_t* LA_DJIKSTRAS_VERTICE(ladj_t* ladj,int vertices,int inicio, int fim,int vertice){
    
     pqueue_t* pq;

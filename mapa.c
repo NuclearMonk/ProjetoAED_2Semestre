@@ -12,7 +12,7 @@ struct _mapa
     void*         _estrutura;    /*pointer para a estrutura*/
     int  _maxvertices;
     int  _maxarestas;
-    slist_t* arraycaract[26]; /*array listas de inteiros indexado a caracteristica*/
+    slist_t* _arraycaracteristicas[26]; /*array listas de inteiros indexado a caracteristica*/
 };
 
 mapa_t* M_Alocar(int vertices, int arestas){
@@ -27,7 +27,7 @@ mapa_t* M_Alocar(int vertices, int arestas){
     aux->_estrutura=LA_Alocar(vertices,arestas);
     }
     for(int i = 0; i<26;i++){
-        aux->arraycaract[i]=SL_Initialize();
+        aux->_arraycaracteristicas[i]=SL_Initialize();
     }
     aux->_maxvertices=vertices;
     aux->_maxarestas=arestas;
@@ -46,8 +46,8 @@ void M_Libertar(mapa_t* mapa){
     default:
         break;
     }
-    for(int i=0;i<26;i++){
-    SL_FreeList(mapa->arraycaract[i],&free);
+    for(int i=0;i<26;i++){                  /*liberta o array de caracteristica*/
+    SL_FreeList(mapa->_arraycaracteristicas[i],&free);
     }
     free(mapa);
 }
@@ -162,11 +162,12 @@ void M_InsereCaracteristica(mapa_t* mapa,char caracteristicas[27],int vertice){
     if(caracteristicas == NULL)return;
     int i=0;
     int* aux;
+    /*inserimos o verice na cabeca das respetivas listas*/
     while(caracteristicas[i]!= '\0'){
         if(caracteristicas[i]=='-' ||caracteristicas[i]<'a' || caracteristicas[i]>'z')return;
         aux = (int*)malloc(sizeof(int));
         *aux = vertice;
-        mapa->arraycaract[((int)caracteristicas[i]-'a')]=SL_InsertBefore(mapa->arraycaract[((int)caracteristicas[i]-'a')],SL_NewElement((void*)aux));
+        mapa->_arraycaracteristicas[((int)caracteristicas[i]-'a')]=SL_InsertBefore(mapa->_arraycaracteristicas[((int)caracteristicas[i]-'a')],SL_NewElement((void*)aux));
         i++;
     }
     return;
@@ -200,7 +201,6 @@ path_t*   M_DJIKSTRAS_VERTICE(mapa_t* mapa, int a, int b, int vertice){
     case 2:
         return LA_DJIKSTRAS_VERTICE((ladj_t*)mapa->_estrutura, mapa->_maxvertices,a,b,vertice);
         break;
-    
     default:
         break;
     }

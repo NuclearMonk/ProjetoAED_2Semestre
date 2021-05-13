@@ -26,6 +26,7 @@ int             PQ_PrimeiroEApaga(pqueue_t* pqueue);
 /*Muda a prioridade da cahve e reordena na lista*/
 void            PQ_MudarPrioridadeEUpdate(pqueue_t* pqueue,int chave, double valor);
 
+/*n de elementos na priority queue*/
 int             PQ_Size(pqueue_t* pqueue);
 
 int Less(double A, double B);

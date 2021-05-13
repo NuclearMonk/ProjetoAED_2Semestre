@@ -91,6 +91,7 @@ int      MA_DistanciaExata(madj_t* madj,int maxvertices, int a , int k){
     return escrita-leitura; /*no fim do processo, todos os elementos na queue sao vertices a distancia k de a*/
 }
 
+/*retorna um path entre inicio e fim*/
 path_t*    MA_DJIKSTRAS(madj_t* madj,int vertices,int inicio,int fim){
    
     pqueue_t* pq;
@@ -133,6 +134,8 @@ path_t*    MA_DJIKSTRAS(madj_t* madj,int vertices,int inicio,int fim){
     return path;            /*retornamos a estrutura path*/
 }
 
+
+/*retorna um path entre inicio e fim que nao passa por vertice*/
 path_t*     MA_DJIKSTRAS_VERTICE(madj_t* madj,int vertices,int inicio,int fim,int vertice){
    
     pqueue_t* pq;

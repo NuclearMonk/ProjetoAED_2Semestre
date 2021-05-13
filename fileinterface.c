@@ -71,6 +71,23 @@ cabecalho_t* Le_cabecalho_prob(FILE *fpprob){
         }
         C_SetVFinal(cabecalho,aux);
     }
+
+    else if (strcmp(tipo, "B1") == 0)
+    {   
+        C_SetProblema(cabecalho,5);
+        if (fscanf(fpprob, "%d", &aux) != 1){
+            return NULL;
+        }
+        C_SetVInicial(cabecalho,aux);
+        if (fscanf(fpprob, "%d", &aux) != 1){
+            return NULL;
+        }
+        C_SetVFinal(cabecalho,aux);
+        if (fscanf(fpprob, "%d", &aux) != 1){
+            return NULL;
+        }
+        C_SetFlag(cabecalho,aux);
+    }
     return cabecalho;
 }
 
@@ -204,6 +221,26 @@ void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecal
             FREEPATH(path)
         }
         break;
+    case 7:
+        path = M_DJIKSTRAS_VERTICE(mapa,C_GetVFinal(cabecalho),C_GetVInicial(cabecalho),C_GetFlag(cabecalho));
+        if(path==NULL){
+            fprintf(fp_saida, "%d %d C1 %d %d %d -1\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho), C_GetVFinal(cabecalho),C_GetFlag(cabecalho));
+        }
+        else{
+            comprimento=0;
+            for(a=C_GetVInicial(cabecalho);path->anterior[a-1]>0;a=b){
+                b=path->anterior[a-1];
+                if(b==-1)continue;
+                comprimento++;
+            }
+            fprintf(fp_saida, "%d %d C1 %d %d %d %d %.2lf\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho), C_GetVFinal(cabecalho),C_GetFlag(cabecalho),comprimento,path->distancia[C_GetVInicial(cabecalho)-1]);
+            for(a=C_GetVInicial(cabecalho);path->anterior[a-1]>0;a=b){
+                b=path->anterior[a-1];
+                if(b==-1)continue;
+                fprintf(fp_saida,"%d %d %.2lf\n",a,b,(path->distancia[a-1])-(path->distancia[b-1]));
+            }
+            FREEPATH(path)
+        }
     default:
         break;
     }

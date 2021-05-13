@@ -29,4 +29,6 @@ void   M_InsereCaracteristica(mapa_t* mapa, char caracteristica[27], int vertice
 
 path_t*   M_DJIKSTRAS(mapa_t* mapa, int a,int b);
 
+path_t*   M_DJIKSTRAS_VERTICE(mapa_t* mapa, int a, int b, int vertice);
+
 #endif

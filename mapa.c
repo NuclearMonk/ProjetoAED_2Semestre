@@ -188,3 +188,21 @@ path_t*   M_DJIKSTRAS(mapa_t* mapa, int a, int b){
     }
     return NULL;
 }
+
+path_t*   M_DJIKSTRAS_VERTICE(mapa_t* mapa, int a, int b, int vertice){
+    if(!((0<a && a<= mapa->_maxvertices) && (0<b && b<=mapa->_maxvertices)))return NULL;
+    if(vertice==a || vertice == b)return NULL;
+    switch (mapa->_tipo)
+    {
+    case 1:
+        return MA_DJIKSTRAS_VERTICE((madj_t*)mapa->_estrutura,mapa->_maxvertices,a,b,vertice);
+        break;
+    case 2:
+        return LA_DJIKSTRAS_VERTICE((ladj_t*)mapa->_estrutura, mapa->_maxvertices,a,b,vertice);
+        break;
+    
+    default:
+        break;
+    }
+    return NULL;
+}

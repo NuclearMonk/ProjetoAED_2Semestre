@@ -21,4 +21,6 @@ int         MA_DistanciaExata(madj_t* madj,int maxvertices, int a , int k);
 
 path_t*     MA_DJIKSTRAS(madj_t* madj,int vertices,int inicio,int fim);
 
+path_t*     MA_DJIKSTRAS_VERTICE(madj_t* madj,int vertices,int inicio,int fim,int vertice);
+
 #endif

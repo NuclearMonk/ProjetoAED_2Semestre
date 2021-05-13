@@ -94,3 +94,7 @@ void            PQ_MudarPrioridadeEUpdate(pqueue_t* pqueue,int chave, double val
 int             PQ_Size(pqueue_t* pqueue){
     return pqueue->_n_elementos;
 }
+
+int Less(double A, double B){
+    return A<B;
+}

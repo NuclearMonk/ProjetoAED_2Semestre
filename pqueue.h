@@ -27,4 +27,6 @@ int             PQ_PrimeiroEApaga(pqueue_t* pqueue);
 void            PQ_MudarPrioridadeEUpdate(pqueue_t* pqueue,int chave, double valor);
 
 int             PQ_Size(pqueue_t* pqueue);
+
+int Less(double A, double B);
 #endif

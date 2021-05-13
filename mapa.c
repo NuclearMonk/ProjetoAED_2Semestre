@@ -18,7 +18,7 @@ struct _mapa
 mapa_t* M_Alocar(int vertices, int arestas){
     mapa_t* aux= (mapa_t*)malloc(sizeof(mapa_t));
     if(aux==NULL){exit(1);}
-    if((8*vertices*vertices)<(12+48*arestas+8*vertices)&&false){
+    if((8*vertices*vertices)<(12+48*arestas+8*vertices)){
     aux->_tipo=1;
     aux->_estrutura= MA_Alocar(vertices);
     }
@@ -113,7 +113,8 @@ int    M_Adjacente(mapa_t* mapa, int a, int b){
     case 1:
         return MA_Adjacente((madj_t*)mapa->_estrutura,mapa->_maxvertices,a,b);
         break;
-    
+    case 2:
+        return LA_Adjacente((ladj_t*)mapa->_estrutura,a,b);
     default:
         break;
     }
@@ -175,6 +176,9 @@ path_t*   M_DJIKSTRAS(mapa_t* mapa, int a, int b){
     if(!((0<a && a<= mapa->_maxvertices) && (0<b && b<=mapa->_maxvertices)))return NULL;
     switch (mapa->_tipo)
     {
+    case 1:
+        return MA_DJIKSTRAS((madj_t*)mapa->_estrutura,mapa->_maxvertices,a,b);
+        break;
     case 2:
         return LA_DJIKSTRAS((ladj_t*)mapa->_estrutura, mapa->_maxvertices,a,b);
         break;

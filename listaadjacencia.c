@@ -25,9 +25,8 @@ struct _ladj
 
 
 void    DoNothing(Data data){data=data;}
-int Less(double A, double B){
-    return A<B;
-}
+
+
 ladj_t* LA_Alocar(int vertices,int arestas){
     ladj_t* aux = (ladj_t*)malloc(sizeof(ladj_t));
     if(aux==NULL)exit(1);

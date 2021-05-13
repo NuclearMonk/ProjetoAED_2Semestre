@@ -194,7 +194,6 @@ path_t* LA_DJIKSTRAS_VERTICE(ladj_t* ladj,int vertices,int inicio, int fim,int v
     
     while (PQ_Size(pq)>0){
         v=PQ_PrimeiroEApaga(pq)+1; /*v e o vertce nao visitado cuja distancia a origem e a menor*/
-        printf("<%d>\n",v);
         if(v==vertice)continue;    /*se v for o vertice a evitar, saltamo-lo*/
         if(v==fim){
             PQ_Libertar(pq);

@@ -154,11 +154,8 @@ path_t*     MA_DJIKSTRAS_VERTICE(madj_t* madj,int vertices,int inicio,int fim,in
     
     while (PQ_Size(pq)>0){
         v=PQ_PrimeiroEApaga(pq)+1; /*v e o vertce nao visitado cuja distancia a origem e a menor*/
-        printf("<%d %.2lf %d>\n",v,path->distancia[v-1],PQ_Size(pq));
         if(v==vertice)continue;     /*se v for o vertice a evitar, saltamo-lo*/
-        
         if(v==fim){
-            printf("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n");
             PQ_Libertar(pq);
             return(path);
         }
@@ -166,13 +163,11 @@ path_t*     MA_DJIKSTRAS_VERTICE(madj_t* madj,int vertices,int inicio,int fim,in
             
             if(ADJACENTE(vertices,u,v)){
                 
-            if(path->distancia[u-1]==-1){
-                printf("Introduz %d %.2lf\n",u,path->distancia[v-1]+CUSTO(vertices,u,v));                                                                   /*se o vizinho nao esta na priority queue*/
+            if(path->distancia[u-1]==-1){                                                       /*se o vizinho nao esta na priority queue*/
                 PQ_InserirEUpdate(pq,u-1,path->distancia[v-1]+CUSTO(vertices,u,v));    /*colocamo-lo na priority queue e definimos v como antecedente de u*/
                 path->anterior[u-1]=v;                                                                  
             }
             else if(! Less(path->distancia[u-1],path->distancia[v-1]+CUSTO(vertices,u,v))){ /*se o vizinho estiver na priority queue e a sua prioridade atual for mairo que a nova prioridade*/
-                printf("Update %d %.2lf\n",u,path->distancia[v-1]+CUSTO(vertices,u,v));
                 PQ_MudarPrioridadeEUpdate(pq,u-1,path->distancia[v-1]+CUSTO(vertices,u,v)); /*Atualizamos a sua prioridade para ser a nova prioridade*/
                 path->anterior[u-1]=v;                                                                           /*definimos v como o antecedente de u*/
             }

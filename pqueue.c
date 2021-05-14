@@ -83,17 +83,11 @@ int         PQ_PrimeiroEApaga(pqueue_t* pqueue){
 void            PQ_MudarPrioridadeEUpdate(pqueue_t* pqueue,int chave, double valor){
     if(pqueue->_CompareFunction(valor,VALORCHAVE(chave))){
         VALORCHAVE(chave)=valor;
-        printf("%d\n",PQ_Size(pqueue));
-        PrintHeap(pqueue);
-        printf("FIXUP %d\n",pqueue->_chaves[chave]);
-        
         HP_FixUp(pqueue,pqueue->_chaves[chave]-1);
-        
     }
     else if(!pqueue->_CompareFunction(valor,VALORCHAVE(chave))){
         VALORCHAVE(chave)=valor;
         HP_FixDown(pqueue,pqueue->_chaves[chave]-1);
-        printf("FIXDOWN\n");
     }
 }
 

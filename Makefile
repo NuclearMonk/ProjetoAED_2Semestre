@@ -21,7 +21,7 @@ matrizadjacencia.o: matrizadjacencia.c matrizadjacencia.h
 		$(CC) -c $(CFLAGS) matrizadjacencia.c
 listaadjacencia.o: listaadjacencia.c listaadjacencia.h
 		$(CC) -c $(CFLAGS) listaadjacencia.c
-pqueuep.o: pqueue.c pqueue.h
+pqueue.o: pqueue.c pqueue.h
 		$(CC) -c $(CFLAGS) pqueue.c
 clean:
 		-rm *.o

@@ -206,3 +206,26 @@ path_t*   M_DJIKSTRAS_VERTICE(mapa_t* mapa, int a, int b, int vertice){
     }
     return NULL;
 }
+
+path_t*   M_DJIKSTRAS_ARESTA(mapa_t* mapa, int a, int b, int vertice1, int vertice2){
+    double custo;
+    path_t* path;
+    if(!((0<a && a<= mapa->_maxvertices) && (0<b && b<=mapa->_maxvertices)))return NULL;
+    if(vertice1 <=0 || vertice1 > mapa->_maxvertices || vertice2 <=0|| vertice2 > mapa->_maxvertices)return NULL;
+    switch (mapa->_tipo)
+    {
+    case 1:
+        custo=MA_Custo((madj_t*)mapa->_estrutura, mapa->_maxvertices, vertice1, vertice2);
+        MA_InserirAresta((madj_t*)mapa->_estrutura, mapa->_maxvertices, vertice1 , vertice2, 0);
+        path = MA_DJIKSTRAS((madj_t*)mapa->_estrutura,mapa->_maxvertices,a,b);
+        MA_InserirAresta((madj_t*)mapa->_estrutura, mapa->_maxvertices, vertice1 , vertice2, custo);
+        return path;
+        break;
+    case 2:
+        return LA_DJIKSTRAS_ARESTA((ladj_t*)mapa->_estrutura, mapa->_maxvertices, a, b, vertice1, vertice2);
+        break;
+    default:
+        break;
+    }
+    return NULL;
+}

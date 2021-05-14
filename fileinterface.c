@@ -11,6 +11,8 @@ cabecalho_t* Le_cabecalho_prob(FILE *fpprob){
     cabecalho_t* cabecalho = C_Alocar();
     char tipo[3];
     int aux;
+    char aux1;
+    double aux2;
     if (fscanf(fpprob, "%s", tipo) != 1){
         free(cabecalho);
         return NULL;
@@ -71,10 +73,46 @@ cabecalho_t* Le_cabecalho_prob(FILE *fpprob){
         }
         C_SetVFinal(cabecalho,aux);
     }
-
+    else if (strcmp(tipo, "B1") == 0)
+    {   
+        C_SetProblema(cabecalho,6);
+        if (fscanf(fpprob, "%d", &aux) != 1){
+            return NULL;
+        }
+        C_SetVInicial(cabecalho,aux);
+        if (fscanf(fpprob, "%d", &aux) != 1){
+            return NULL;
+        }
+        C_SetVFinal(cabecalho,aux);
+        if (fscanf(fpprob, "%c", &aux1) != 1){
+            return NULL;
+        }
+        aux = aux1 - 'a';
+        C_SetFlag(cabecalho,aux);
+        if (fscanf(fpprob, "%lf", &aux2) != 1){
+            return NULL;
+        }
+        C_SetDesvio(cabecalho,aux2);
+    }
     else if (strcmp(tipo, "C1") == 0)
     {   
         C_SetProblema(cabecalho,7);
+        if (fscanf(fpprob, "%d", &aux) != 1){
+            return NULL;
+        }
+        C_SetVInicial(cabecalho,aux);
+        if (fscanf(fpprob, "%d", &aux) != 1){
+            return NULL;
+        }
+        C_SetVFinal(cabecalho,aux);
+        if (fscanf(fpprob, "%d", &aux) != 1){
+            return NULL;
+        }
+        C_SetFlag(cabecalho,aux);
+    }
+    else if (strcmp(tipo, "D1") == 0)
+    {   
+        C_SetProblema(cabecalho,8);
         if (fscanf(fpprob, "%d", &aux) != 1){
             return NULL;
         }

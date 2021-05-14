@@ -4,6 +4,7 @@
 
 #include "Data.h"
 #include "slist.h"
+#include "pqueue.h"
 #include <stdio.h>
 
 struct _aresta
@@ -23,8 +24,8 @@ struct _ladj
 
 
 
-void    DoNothing(Data data);
 void    DoNothing(Data data){data=data;}
+
 
 ladj_t* LA_Alocar(int vertices,int arestas){
     ladj_t* aux = (ladj_t*)malloc(sizeof(ladj_t));
@@ -128,33 +129,91 @@ bool    LA_Adjacente(ladj_t* ladj, int a, int b){
     return false;
 }
 
-void* LA_ZerarAresta(ladj_t* ladj, int a, int b){
-    slist_t* aux;
-    aresta_t* auxaresta=NULL;
-    if(ladj->_grau[a-1]<ladj->_grau[b-1]){
-        for(aux= ladj->_array_listas[a-1];aux !=NULL; aux=SL_GetNext(aux)){
-            auxaresta= (aresta_t*)SL_GetData(aux);
-            if(A_Outro(auxaresta,a)==b){
-                A_Preencher(auxaresta, 0, 0, A_Custo(auxaresta));
-                return (void*)auxaresta;
+/*retorna um path entre inicio e fim */
+path_t*    LA_DJIKSTRAS(ladj_t* ladj,int vertices,int inicio,int fim){
+   
+    pqueue_t* pq;
+    int v,u;
+    slist_t* auxlista;
+    
+    /*Inicializacao de path uma estrututra que huarda o array distancia e o array Anterior*/
+    path_t* path = (path_t*)calloc(1,sizeof(path_t));
+    path->anterior = (int*)malloc(vertices*sizeof(int));
+    path->distancia = (double*)malloc(vertices*sizeof(double));
+    for(int i=0;i<vertices;i++){
+        path->anterior[i]=-1;
+        path->distancia[i]=-1;
+    }
+
+    /*inicializacao de uma priority queue que usa como prioridade de v,distancia[v-1]*/
+    pq = PQ_Alocar(vertices,path->distancia,&Less);
+    
+    PQ_InserirFim(pq,inicio-1,0); /*Inserimos o vertice inicial na Priority queue como e o unico fica no inicio da queue garantidamente*/
+    
+    while (PQ_Size(pq)>0){
+        v=PQ_PrimeiroEApaga(pq)+1; /*v e o vertce nao visitado cuja distancia a origem e a menor*/
+        if(v==fim){
+            PQ_Libertar(pq);
+            return(path);
+        }
+        for(auxlista=ladj->_array_listas[v-1]; auxlista != NULL; auxlista=SL_GetNext(auxlista)){  /*para todo os vizinhos de v*/
+            u = A_Outro((aresta_t*)SL_GetData(auxlista),v);
+            if(path->distancia[u-1]==-1){                                                                   /*se o vizinho nao esta na priority queue*/
+                PQ_InserirEUpdate(pq,u-1,path->distancia[v-1]+A_Custo((aresta_t*)SL_GetData(auxlista)));    /*colocamo-lo na priority queue e definimos v como antecedente de u*/
+                path->anterior[u-1]=v;                                                                  
+            }
+            else if(! Less(path->distancia[u-1],path->distancia[v-1]+A_Custo((aresta_t*)SL_GetData(auxlista)))){ /*se o vizinho estiver na priority queue e a sua prioridade atual for mairo que a nova prioridade*/
+                PQ_MudarPrioridadeEUpdate(pq,u-1,path->distancia[v-1]+A_Custo((aresta_t*)SL_GetData(auxlista))); /*Atualizamos a sua prioridade para ser a nova prioridade*/
+                path->anterior[u-1]=v;                                                                           /*definimos v como o antecedente de u*/
             }
         }
     }
-    else{
-        for(aux= ladj->_array_listas[b-1];aux !=NULL; aux=SL_GetNext(aux)){
-            auxaresta= (aresta_t*)SL_GetData(aux);
-            if(A_Outro(auxaresta,b)==a){
-                A_Preencher(auxaresta, 0, 0, A_Custo(auxaresta));
-                return (void*)auxaresta;
-            }
-        }
-    }
-    return NULL;
+    PQ_Libertar(pq);        /*destruimos a queue pois ja nao e necessaria*/
+    return path;            /*retornamos a estrutura path*/
 }
 
-void LA_RepoeAresta(ladj_t* ladj, int a, int b, void* aux){
-    A_Preencher((aresta_t*)aux, a, b, A_Custo((aresta_t*)aux));
-    return;
+/*retorna um path entre inicio e fim que nao passa por vertice*/
+path_t* LA_DJIKSTRAS_VERTICE(ladj_t* ladj,int vertices,int inicio, int fim,int vertice){
+   
+    pqueue_t* pq;
+    int v,u;
+    slist_t* auxlista;
+    
+    /*Inicializacao de path uma estrututra que huarda o array distancia e o array Anterior*/
+    path_t* path = (path_t*)calloc(1,sizeof(path_t));
+    path->anterior = (int*)malloc(vertices*sizeof(int));
+    path->distancia = (double*)malloc(vertices*sizeof(double));
+    for(int i=0;i<vertices;i++){
+        path->anterior[i]=-1;
+        path->distancia[i]=-1;
+    }
+
+    /*inicializacao de uma priority queue que usa como prioridade de v,distancia[v-1]*/
+    pq = PQ_Alocar(vertices,path->distancia,&Less);
+    
+    PQ_InserirFim(pq,inicio-1,0); /*Inserimos o vertice inicial na Priority queue como e o unico fica no inicio da queue garantidamente*/
+    
+    while (PQ_Size(pq)>0){
+        v=PQ_PrimeiroEApaga(pq)+1; /*v e o vertce nao visitado cuja distancia a origem e a menor*/
+        if(v==vertice)continue;    /*se v for o vertice a evitar, saltamo-lo*/
+        if(v==fim){
+            PQ_Libertar(pq);
+            return(path);
+        }
+        for(auxlista=ladj->_array_listas[v-1]; auxlista != NULL; auxlista=SL_GetNext(auxlista)){  /*para todo os vizinhos de v*/
+            u = A_Outro((aresta_t*)SL_GetData(auxlista),v);
+            if(path->distancia[u-1]==-1){                                                                   /*se o vizinho nao esta na priority queue*/
+                PQ_InserirEUpdate(pq,u-1,path->distancia[v-1]+A_Custo((aresta_t*)SL_GetData(auxlista)));    /*colocamo-lo na priority queue e definimos v como antecedente de u*/
+                path->anterior[u-1]=v;                                                                  
+            }
+            else if(! Less(path->distancia[u-1],path->distancia[v-1]+A_Custo((aresta_t*)SL_GetData(auxlista)))){ /*se o vizinho estiver na priority queue e a sua prioridade atual for mairo que a nova prioridade*/
+                PQ_MudarPrioridadeEUpdate(pq,u-1,path->distancia[v-1]+A_Custo((aresta_t*)SL_GetData(auxlista))); /*Atualizamos a sua prioridade para ser a nova prioridade*/
+                path->anterior[u-1]=v;                                                                           /*definimos v como o antecedente de u*/
+            }
+        }
+    }
+    PQ_Libertar(pq);        /*destruimos a queue pois ja nao e necessaria*/
+    return path;            /*retornamos a estrutura path*/
 }
 
 /*
@@ -201,3 +260,4 @@ int       A_Outro(aresta_t* aresta, int vertice){
         return -1;
     }
 }
+

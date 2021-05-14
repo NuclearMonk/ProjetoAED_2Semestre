@@ -12,8 +12,8 @@ struct _pqueue{
     int  _n_elementos;
     int* _heap;             /*heap de keys ordenadas por valor*/
     int* _chaves;           /*Associa a chave com a sua posicao na queue*/
-    int* _valores;          /*guarda os valores para comparacao*/
-    int  (*_CompareFunction)(int calorA,int valorB);
+    double* _valores;          /*guarda os valores para comparacao*/
+    int  (*_CompareFunction)(double valorA,double valorB);
 };
 
 void        HP_FixUp(pqueue_t* pqueue, int index){
@@ -36,7 +36,7 @@ void        HP_FixDown(pqueue_t* pqueue, int index){
     }
 }
 
-pqueue_t*   PQ_Alocar(int maxsize,int* valores,int  (*CompareFunction)(int valorA,int valorB)){
+pqueue_t*   PQ_Alocar(int maxsize,double* valores,int(*CompareFunction)(double valorA,double valorB)){
     pqueue_t* aux = (pqueue_t*)malloc(sizeof(pqueue_t));
     if(aux==NULL)exit(0);
     aux->_n_elementos=0;
@@ -58,11 +58,11 @@ void        PQ_Libertar(pqueue_t* pqueue){
 
 
 
-void        PQ_InserirFim(pqueue_t* pqueue,int chave,int valor){
+void        PQ_InserirFim(pqueue_t* pqueue,int chave,double valor){
     INSERIRFIM(chave,valor);
 }
 
-void        PQ_InserirEUpdate(pqueue_t* pqueue,int chave,int valor){
+void        PQ_InserirEUpdate(pqueue_t* pqueue,int chave,double valor){
     INSERIRFIM(chave,valor);
     HP_FixUp(pqueue,pqueue->_n_elementos-1);
 }
@@ -80,8 +80,8 @@ int         PQ_PrimeiroEApaga(pqueue_t* pqueue){
     return aux;
 }
 
-void            PQ_MudarPrioridadeEUpdate(pqueue_t* pqueue,int chave, int valor){
-    if(pqueue->_CompareFunction(VALORCHAVE(chave),valor)){
+void            PQ_MudarPrioridadeEUpdate(pqueue_t* pqueue,int chave, double valor){
+    if(pqueue->_CompareFunction(valor,VALORCHAVE(chave))){
         VALORCHAVE(chave)=valor;
         HP_FixDown(pqueue,pqueue->_chaves[chave]);
     }
@@ -89,4 +89,12 @@ void            PQ_MudarPrioridadeEUpdate(pqueue_t* pqueue,int chave, int valor)
         VALORCHAVE(chave)=valor;
         HP_FixUp(pqueue,pqueue->_chaves[chave]);
     }
+}
+
+int             PQ_Size(pqueue_t* pqueue){
+    return pqueue->_n_elementos;
+}
+
+int Less(double A, double B){
+    return A<B;
 }

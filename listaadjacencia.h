@@ -2,6 +2,7 @@
 #define _LADJ_H
 
 #include <stdbool.h>
+#include "pathfinding.h"
 
 typedef struct _ladj ladj_t;
 typedef struct _aresta aresta_t;
@@ -14,8 +15,8 @@ double  LA_Custo(ladj_t* ladj, int a, int b);
 int     LA_DistanciaExata(ladj_t* madj,int maxvertices, int a, int k);
 int     LA_Grau(ladj_t* ladj, int a);
 bool    LA_Adjacente(ladj_t* ladj, int a, int b);
-void*   LA_ZerarAresta(ladj_t* ladj, int a, int b);
-void    LA_RepoeAresta(ladj_t* ladj, int a, int b, void* aux);
+path_t* LA_DJIKSTRAS(ladj_t* ladj,int vertices,int inicio, int fim);
+path_t* LA_DJIKSTRAS_VERTICE(ladj_t* ladj,int vertices,int inicio, int fim,int vertice);
 
 /*Funcoes de arestas*/
 void    A_Preencher(aresta_t* aresta,int a, int b,double custo); 

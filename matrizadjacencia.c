@@ -3,8 +3,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "pqueue.h"
 
-#define CUSTO(maxvertices,a,b) (double)madj->_matriz[((a-1)*(maxvertices))+(b-1)];
+
+#define CUSTO(maxvertices,a,b) (double)madj->_matriz[((a-1)*(maxvertices))+(b-1)]
 #define ADJACENTE(maxvertices,a,b) ((double)madj->_matriz[((a-1)*(maxvertices))+(b-1)])>0
 
 struct _madj
@@ -88,4 +90,94 @@ int      MA_DistanciaExata(madj_t* madj,int maxvertices, int a , int k){
     free(visitados);
     free(queue);
     return escrita-leitura; /*no fim do processo, todos os elementos na queue sao vertices a distancia k de a*/
+}
+
+/*retorna um path entre inicio e fim*/
+path_t*    MA_DJIKSTRAS(madj_t* madj,int vertices,int inicio,int fim){
+   
+    pqueue_t* pq;
+    int v,u;
+    
+    /*Inicializacao de path uma estrututra que huarda o array distancia e o array Anterior*/
+    path_t* path = (path_t*)calloc(1,sizeof(path_t));
+    path->anterior = (int*)malloc(vertices*sizeof(int));
+    path->distancia = (double*)malloc(vertices*sizeof(double));
+    for(int i=0;i<vertices;i++){
+        path->anterior[i]=-1;
+        path->distancia[i]=-1;
+    }
+
+    /*inicializacao de uma priority queue que usa como prioridade de v,distancia[v-1]*/
+    pq = PQ_Alocar(vertices,path->distancia,&Less);
+    
+    PQ_InserirFim(pq,inicio-1,0); /*Inserimos o vertice inicial na Priority queue como e o unico fica no inicio da queue garantidamente*/
+    
+    while (PQ_Size(pq)>0){
+        v=PQ_PrimeiroEApaga(pq)+1; /*v e o vertce nao visitado cuja distancia a origem e a menor*/
+        if(v==fim){
+            PQ_Libertar(pq);
+            return(path);
+        }
+        for(u=1;u<=vertices;u++){  /*para todo os vizinhos de v*/
+            if(ADJACENTE(vertices,u,v)){
+            if(path->distancia[u-1]==-1){                                                                   /*se o vizinho nao esta na priority queue*/
+                PQ_InserirEUpdate(pq,u-1,path->distancia[v-1]+CUSTO(vertices,u,v));    /*colocamo-lo na priority queue e definimos v como antecedente de u*/
+                path->anterior[u-1]=v;                                                                  
+            }
+            else if(! Less(path->distancia[u-1],path->distancia[v-1]+CUSTO(vertices,u,v))){ /*se o vizinho estiver na priority queue e a sua prioridade atual for mairo que a nova prioridade*/
+                PQ_MudarPrioridadeEUpdate(pq,u-1,path->distancia[v-1]+CUSTO(vertices,u,v)); /*Atualizamos a sua prioridade para ser a nova prioridade*/
+                path->anterior[u-1]=v;                                                                           /*definimos v como o antecedente de u*/
+            }
+            }
+        }
+    }
+    PQ_Libertar(pq);        /*destruimos a queue pois ja nao e necessaria*/
+    return path;            /*retornamos a estrutura path*/
+}
+
+
+/*retorna um path entre inicio e fim que nao passa por vertice*/
+path_t*     MA_DJIKSTRAS_VERTICE(madj_t* madj,int vertices,int inicio,int fim,int vertice){
+   
+    pqueue_t* pq;
+    int v,u;
+    
+    /*Inicializacao de path uma estrututra que huarda o array distancia e o array Anterior*/
+    path_t* path = (path_t*)calloc(1,sizeof(path_t));
+    path->anterior = (int*)malloc(vertices*sizeof(int));
+    path->distancia = (double*)malloc(vertices*sizeof(double));
+    for(int i=0;i<vertices;i++){
+        path->anterior[i]=-1;
+        path->distancia[i]=-1;
+    }
+
+    /*inicializacao de uma priority queue que usa como prioridade de v,distancia[v-1]*/
+    pq = PQ_Alocar(vertices,path->distancia,&Less);
+    
+    PQ_InserirFim(pq,inicio-1,0); /*Inserimos o vertice inicial na Priority queue como e o unico fica no inicio da queue garantidamente*/
+    
+    while (PQ_Size(pq)>0){
+        v=PQ_PrimeiroEApaga(pq)+1; /*v e o vertce nao visitado cuja distancia a origem e a menor*/
+        if(v==vertice)continue;     /*se v for o vertice a evitar, saltamo-lo*/
+        if(v==fim){
+            PQ_Libertar(pq);
+            return(path);
+        }
+        for(u=1;u<=vertices;u++){  /*para todo os vizinhos de v*/
+            
+            if(ADJACENTE(vertices,u,v)){
+                
+            if(path->distancia[u-1]==-1){                                                       /*se o vizinho nao esta na priority queue*/
+                PQ_InserirEUpdate(pq,u-1,path->distancia[v-1]+CUSTO(vertices,u,v));    /*colocamo-lo na priority queue e definimos v como antecedente de u*/
+                path->anterior[u-1]=v;                                                                  
+            }
+            else if(! Less(path->distancia[u-1],path->distancia[v-1]+CUSTO(vertices,u,v))){ /*se o vizinho estiver na priority queue e a sua prioridade atual for mairo que a nova prioridade*/
+                PQ_MudarPrioridadeEUpdate(pq,u-1,path->distancia[v-1]+CUSTO(vertices,u,v)); /*Atualizamos a sua prioridade para ser a nova prioridade*/
+                path->anterior[u-1]=v;                                                                           /*definimos v como o antecedente de u*/
+            }
+            }
+        }
+    }
+    PQ_Libertar(pq);        /*destruimos a queue pois ja nao e necessaria*/
+    return path;            /*retornamos a estrutura path*/    
 }

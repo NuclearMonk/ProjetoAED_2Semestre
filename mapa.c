@@ -1,6 +1,7 @@
 #include "mapa.h"
 
 #include <stdlib.h>
+#include <stdio.h>
 #include "matrizadjacencia.h"
 #include "listaadjacencia.h"
 #include "slist.h"
@@ -11,7 +12,7 @@ struct _mapa
     void*         _estrutura;    /*pointer para a estrutura*/
     int  _maxvertices;
     int  _maxarestas;
-    slist_t* arraycaract[26]; /*array listas de inteiros indexado a caracteristica*/
+    slist_t* _arraycaracteristicas[26]; /*array listas de inteiros indexado a caracteristica*/
 };
 
 mapa_t* M_Alocar(int vertices, int arestas){
@@ -26,7 +27,7 @@ mapa_t* M_Alocar(int vertices, int arestas){
     aux->_estrutura=LA_Alocar(vertices,arestas);
     }
     for(int i = 0; i<26;i++){
-        aux->arraycaract[i]=SL_Initialize();
+        aux->_arraycaracteristicas[i]=SL_Initialize();
     }
     aux->_maxvertices=vertices;
     aux->_maxarestas=arestas;
@@ -45,8 +46,8 @@ void M_Libertar(mapa_t* mapa){
     default:
         break;
     }
-    for(int i=0;i<26;i++){
-    SL_FreeList(mapa->arraycaract[i],&free);
+    for(int i=0;i<26;i++){                  /*liberta o array de caracteristica*/
+    SL_FreeList(mapa->_arraycaracteristicas[i],&free);
     }
     free(mapa);
 }
@@ -112,7 +113,8 @@ int    M_Adjacente(mapa_t* mapa, int a, int b){
     case 1:
         return MA_Adjacente((madj_t*)mapa->_estrutura,mapa->_maxvertices,a,b);
         break;
-    
+    case 2:
+        return LA_Adjacente((ladj_t*)mapa->_estrutura,a,b);
     default:
         break;
     }
@@ -160,12 +162,47 @@ void M_InsereCaracteristica(mapa_t* mapa,char caracteristicas[27],int vertice){
     if(caracteristicas == NULL)return;
     int i=0;
     int* aux;
+    /*inserimos o verice na cabeca das respetivas listas*/
     while(caracteristicas[i]!= '\0'){
         if(caracteristicas[i]=='-' ||caracteristicas[i]<'a' || caracteristicas[i]>'z')return;
         aux = (int*)malloc(sizeof(int));
         *aux = vertice;
-        mapa->arraycaract[((int)caracteristicas[i]-'a')]=SL_InsertBefore(mapa->arraycaract[((int)caracteristicas[i]-'a')],SL_NewElement((void*)aux));
+        mapa->_arraycaracteristicas[((int)caracteristicas[i]-'a')]=SL_InsertBefore(mapa->_arraycaracteristicas[((int)caracteristicas[i]-'a')],SL_NewElement((void*)aux));
         i++;
     }
     return;
+}
+
+path_t*   M_DJIKSTRAS(mapa_t* mapa, int a, int b){
+    if(!((0<a && a<= mapa->_maxvertices) && (0<b && b<=mapa->_maxvertices)))return NULL;
+    switch (mapa->_tipo)
+    {
+    case 1:
+        return MA_DJIKSTRAS((madj_t*)mapa->_estrutura,mapa->_maxvertices,a,b);
+        break;
+    case 2:
+        return LA_DJIKSTRAS((ladj_t*)mapa->_estrutura, mapa->_maxvertices,a,b);
+        break;
+    
+    default:
+        break;
+    }
+    return NULL;
+}
+
+path_t*   M_DJIKSTRAS_VERTICE(mapa_t* mapa, int a, int b, int vertice){
+    if(!((0<a && a<= mapa->_maxvertices) && (0<b && b<=mapa->_maxvertices)))return NULL;
+    if(vertice <=0|| vertice> mapa->_maxvertices)return NULL;
+    switch (mapa->_tipo)
+    {
+    case 1:
+        return MA_DJIKSTRAS_VERTICE((madj_t*)mapa->_estrutura,mapa->_maxvertices,a,b,vertice);
+        break;
+    case 2:
+        return LA_DJIKSTRAS_VERTICE((ladj_t*)mapa->_estrutura, mapa->_maxvertices,a,b,vertice);
+        break;
+    default:
+        break;
+    }
+    return NULL;
 }

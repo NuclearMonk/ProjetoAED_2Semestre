@@ -218,7 +218,7 @@ FILE* Abre_ficheiro_saida(char *ficheiromapa){
 }
 /*Dado um mapa e um cabecalho escreve o resultado para o ficheiro de saida*/
 void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecalho){
-    int tipo,a,b,c,comprimento;
+    int tipo,a,b,c,d,comprimento;
     double aux;
     path_t* path;
     path_t* pathalternativo;
@@ -320,6 +320,53 @@ void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecal
             /*Libertamos o caminho*/
             FREEPATH(path)
         }
+        break;
+    case 8:
+        /*procuramos um caminho*/
+        path = M_DJIKSTRAS(mapa,C_GetVFinal(cabecalho),C_GetVInicial(cabecalho));
+        
+        if(path==NULL){         /*Se o Djikstras for invalido*/
+            fprintf(fp_saida, "%d %d D1 %d %d %d -1\n",  M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho),
+                                                        C_GetVFinal(cabecalho),C_GetFlag(cabecalho));
+        }
+        else{
+            comprimento=0;
+            c=-1;
+            d=-1;
+            for(a=C_GetVInicial(cabecalho);path->anterior[a-1]>0;a=b){
+                b=path->anterior[a-1];
+                if(comprimento ==C_GetFlag(cabecalho)-1){
+                    c=a;
+                    d=b;
+                }
+                if(b==-1)continue;
+                comprimento++;
+            }
+
+            /*se n existir o vertice a k vertices de distancia da origem*/
+            if(c==-1||d==-1){
+                fprintf(fp_saida, "%d %d D1 %d %d %d %d %.2lf -1\n",  M_GetMaxVertices(mapa),M_GetMaxArestas(mapa),C_GetVInicial(cabecalho),C_GetVFinal(cabecalho),C_GetFlag(cabecalho),comprimento,path->distancia[C_GetVInicial(cabecalho)-1]);
+            }
+            else{
+                pathalternativo = M_DJIKSTRAS_ARESTA(mapa,C_GetVFinal(cabecalho),C_GetVInicial(cabecalho),c,d);
+                if(pathalternativo==NULL) /*se a funcao Djikstras_Vertice falha*/
+                    fprintf(fp_saida, "%d %d D1 %d %d %d %d %.2lf -1\n",    M_GetMaxVertices(mapa),M_GetMaxArestas(mapa),C_GetVInicial(cabecalho),
+                                                                            C_GetVFinal(cabecalho),C_GetFlag(cabecalho),comprimento,path->distancia[C_GetVInicial(cabecalho)-1]);
+                
+                else if( pathalternativo->anterior[C_GetVInicial(cabecalho)-1]==-1) /*Se um caminho alternativo nao existe*/
+                    fprintf(fp_saida, "%d %d D1 %d %d %d %d %.2lf -1\n",    M_GetMaxVertices(mapa),M_GetMaxArestas(mapa),C_GetVInicial(cabecalho),
+                                                                            C_GetVFinal(cabecalho),C_GetFlag(cabecalho),comprimento,path->distancia[C_GetVInicial(cabecalho)-1]);
+                else fprintf(fp_saida, "%d %d D1 %d %d %d %d %.2lf %.2lf\n",M_GetMaxVertices(mapa),M_GetMaxArestas(mapa),C_GetVInicial(cabecalho),
+                                                                            C_GetVFinal(cabecalho),C_GetFlag(cabecalho),comprimento,path->distancia[C_GetVInicial(cabecalho)-1],
+                                                                            pathalternativo->distancia[C_GetVInicial(cabecalho)-1]-path->distancia[C_GetVInicial(cabecalho)-1]);
+                
+                /*Libertamos o caminho alternativo*/
+                FREEPATH(pathalternativo);                    
+            }
+        }
+    /*Libertamos o caminho*/
+    FREEPATH(path)
+    break;
     default:
         break;
     }

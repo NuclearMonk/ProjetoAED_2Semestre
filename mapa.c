@@ -18,7 +18,7 @@ struct _mapa
 mapa_t* M_Alocar(int vertices, int arestas){
     mapa_t* aux= (mapa_t*)malloc(sizeof(mapa_t));
     if(aux==NULL){exit(1);}
-    if((8*vertices*vertices)<(12+48*arestas+8*vertices)&&false){
+    if((8*vertices*vertices)<(12+48*arestas+8*vertices)){
     aux->_tipo=1;
     aux->_estrutura= MA_Alocar(vertices);
     }
@@ -219,10 +219,10 @@ path_t*   M_DJIKSTRAS_ARESTA(mapa_t* mapa, int a, int b, int vertice1, int verti
     switch (mapa->_tipo)
     {
     case 1:
-        custo=MA_Custo((madj_t*)mapa->_estrutura, mapa->_maxvertices, vertice1, vertice2);
-        MA_InserirAresta((madj_t*)mapa->_estrutura, mapa->_maxvertices, vertice1 , vertice2, 0);
-        path = MA_DJIKSTRAS((madj_t*)mapa->_estrutura,mapa->_maxvertices,a,b);
-        MA_InserirAresta((madj_t*)mapa->_estrutura, mapa->_maxvertices, vertice1 , vertice2, custo);
+        custo=MA_Custo((madj_t*)mapa->_estrutura, mapa->_maxvertices, vertice1, vertice2);          /*Guardamos o custo*/
+        MA_InserirAresta((madj_t*)mapa->_estrutura, mapa->_maxvertices, vertice1 , vertice2, 0);    /*retiramos a aresta definindo o seu custo a zero*/
+        path = MA_DJIKSTRAS((madj_t*)mapa->_estrutura,mapa->_maxvertices,a,b);                      /*Caminho sem a aresta*/
+        MA_InserirAresta((madj_t*)mapa->_estrutura, mapa->_maxvertices, vertice1 , vertice2, custo);/*Repor a aresta*/
         return path;
         break;
     case 2:

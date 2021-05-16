@@ -272,16 +272,19 @@ void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecal
         path = M_DJIKSTRAS(mapa,C_GetVFinal(cabecalho),C_GetVInicial(cabecalho));
         
         if(path==NULL){         /*Se o Djikstras for invalido*/
+            /*Se o caminho for invalido n existir porque um dos vertices esta fora dos limites*/
             if(!((0<C_GetVFinal(cabecalho) && C_GetVFinal(cabecalho)<= M_GetMaxVertices(mapa)) && (0<C_GetVInicial(cabecalho) && C_GetVInicial(cabecalho)<=M_GetMaxVertices(mapa)))){
                 fprintf(fp_saida, "%d %d C1 %d %d %d -1\n",  M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho),
                                                          C_GetVFinal(cabecalho),C_GetFlag(cabecalho));
                 break;
             }
+            /*o caminho e de V para V*/
             if(C_GetVFinal(cabecalho)==C_GetVInicial(cabecalho)){
                 fprintf(fp_saida, "%d %d C1 %d %d %d 0 0.00 -1\n",  M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho),
                                                                     C_GetVFinal(cabecalho),C_GetFlag(cabecalho));
                 break;           
             }
+            /*Invalido porque nao existe*/
             fprintf(fp_saida, "%d %d C1 %d %d %d -1\n",  M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho),
                                                          C_GetVFinal(cabecalho),C_GetFlag(cabecalho));
         }
@@ -315,16 +318,16 @@ void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecal
                 else if( pathalternativo->anterior[C_GetVInicial(cabecalho)-1]==-1){ /*Se um caminho alternativo nao existe*/
                     fprintf(fp_saida, "%d %d C1 %d %d %d %d %.2lf -1\n",    M_GetMaxVertices(mapa),M_GetMaxArestas(mapa),C_GetVInicial(cabecalho),
                                                                             C_GetVFinal(cabecalho),C_GetFlag(cabecalho),comprimento,path->distancia[C_GetVInicial(cabecalho)-1]);
-                FREEPATH(pathalternativo);
+                FREEPATH(pathalternativo); /*Libertamos o caminho alternativo*/
                 }
                 /*Se um caminho existe*/
                 else {
                     fprintf(fp_saida, "%d %d C1 %d %d %d %d %.2lf %.2lf\n",M_GetMaxVertices(mapa),M_GetMaxArestas(mapa),C_GetVInicial(cabecalho),
                                                                             C_GetVFinal(cabecalho),C_GetFlag(cabecalho),comprimento,path->distancia[C_GetVInicial(cabecalho)-1],
                                                                             pathalternativo->distancia[C_GetVInicial(cabecalho)-1]-path->distancia[C_GetVInicial(cabecalho)-1]);
-                FREEPATH(pathalternativo);
+                FREEPATH(pathalternativo);/*Libertamos o caminho alternativo*/
                 }
-                /*Libertamos o caminho alternativo*/
+               
                 
             }
 
@@ -343,21 +346,25 @@ void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecal
         path = M_DJIKSTRAS(mapa,C_GetVFinal(cabecalho),C_GetVInicial(cabecalho));
         
         if(path==NULL){         /*Se o Djikstras for invalido*/
+            /*Se um dos vertices nao pertence ao mapa*/
             if(!((0<C_GetVFinal(cabecalho) && C_GetVFinal(cabecalho)<= M_GetMaxVertices(mapa)) && (0<C_GetVInicial(cabecalho) && C_GetVInicial(cabecalho)<=M_GetMaxVertices(mapa)))){
                 fprintf(fp_saida, "%d %d D1 %d %d %d -1\n",  M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho),
                                                          C_GetVFinal(cabecalho),C_GetFlag(cabecalho));
                 break;
             }
+            /*Se o caminho for de V para V*/
             if(C_GetVFinal(cabecalho)==C_GetVInicial(cabecalho)){
                 fprintf(fp_saida, "%d %d D1 %d %d %d 0 0.00 -1\n",  M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho),
                                                                     C_GetVFinal(cabecalho),C_GetFlag(cabecalho));
                 break;           
-            }           
+            }
+            /*Se o caminho Nao Existe*/           
             fprintf(fp_saida, "%d %d D1 %d %d %d -1\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho),
                                                         C_GetVFinal(cabecalho),C_GetFlag(cabecalho));
                                 
         }
         else{
+            /*Mede o caminho e descobre a aresta a restringir*/
             comprimento=0;
             c=-1;
             d=-1;

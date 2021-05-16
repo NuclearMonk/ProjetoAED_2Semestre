@@ -25,6 +25,7 @@ void        HP_FixUp(pqueue_t* pqueue, int index){
 
 void        HP_FixDown(pqueue_t* pqueue, int index){
     int child=0;
+    if(index<0)return;
     /*Iterativamente trocamos cada pai com o pior dos seus filhos se o pai for pior que um dos filhos
       fica implicito que se apenas um dos filhos for pior que o pai esse filho vai ser o pior dos filhos*/
     while(2*index< pqueue->_n_elementos-1){

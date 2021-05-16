@@ -31,5 +31,6 @@ int             PQ_Size(pqueue_t* pqueue);
 
 int Less(double A, double B);
 
+void VerifyHeap(pqueue_t* pqueue,int j);
 void PrintHeap(pqueue_t* pq);
 #endif

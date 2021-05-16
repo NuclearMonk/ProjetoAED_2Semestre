@@ -151,7 +151,9 @@ path_t*    LA_DJIKSTRAS(ladj_t* ladj,int vertices,int inicio,int fim){
     PQ_InserirFim(pq,inicio-1,0); /*Inserimos o vertice inicial na Priority queue como e o unico fica no inicio da queue garantidamente*/
     
     while (PQ_Size(pq)>0){
+        VerifyHeap(pq,0);
         v=PQ_PrimeiroEApaga(pq)+1; /*v e o vertce nao visitado cuja distancia a origem e a menor*/
+        VerifyHeap(pq,1);
         if(v==fim){
             PQ_Libertar(pq);
             return(path);
@@ -159,11 +161,15 @@ path_t*    LA_DJIKSTRAS(ladj_t* ladj,int vertices,int inicio,int fim){
         for(auxlista=ladj->_array_listas[v-1]; auxlista != NULL; auxlista=SL_GetNext(auxlista)){  /*para todo os vizinhos de v*/
             u = A_Outro((aresta_t*)SL_GetData(auxlista),v);
             if(path->distancia[u-1]==-1){                                                                   /*se o vizinho nao esta na priority queue*/
+                VerifyHeap(pq,2);
                 PQ_InserirEUpdate(pq,u-1,path->distancia[v-1]+A_Custo((aresta_t*)SL_GetData(auxlista)));    /*colocamo-lo na priority queue e definimos v como antecedente de u*/
+                VerifyHeap(pq,2);
                 path->anterior[u-1]=v;                                                                  
             }
             else if(! Less(path->distancia[u-1],path->distancia[v-1]+A_Custo((aresta_t*)SL_GetData(auxlista)))){ /*se o vizinho estiver na priority queue e a sua prioridade atual for mairo que a nova prioridade*/
+                VerifyHeap(pq,3);
                 PQ_MudarPrioridadeEUpdate(pq,u-1,path->distancia[v-1]+A_Custo((aresta_t*)SL_GetData(auxlista))); /*Atualizamos a sua prioridade para ser a nova prioridade*/
+                VerifyHeap(pq,3);
                 path->anterior[u-1]=v;                                                                           /*definimos v como o antecedente de u*/
             }
         }

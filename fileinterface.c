@@ -286,9 +286,13 @@ void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecal
                 if(b==-1)continue;
                 comprimento++;
             }
-
+            /*Se o caminho original n existir*/
+            if(comprimento==0){
+                fprintf(fp_saida, "%d %d D1 %d %d %d -1\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho),
+                                                            C_GetVFinal(cabecalho),C_GetFlag(cabecalho));
+            }
             /*se n existir o vertice a k vertices de distancia da origem*/
-            if(c==-1){
+            else if(c==-1){
                 fprintf(fp_saida, "%d %d C1 %d %d %d %d %.2lf -1\n",  M_GetMaxVertices(mapa),M_GetMaxArestas(mapa),C_GetVInicial(cabecalho),C_GetVFinal(cabecalho),C_GetFlag(cabecalho),comprimento,path->distancia[C_GetVInicial(cabecalho)-1]);
             }
             else{
@@ -342,8 +346,14 @@ void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecal
                 if(b==-1)continue;
                 comprimento++;
             }
+
+            /*Se o caminho original n existir*/
+            if(comprimento==0){
+                fprintf(fp_saida, "%d %d D1 %d %d %d -1\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho),
+                                                            C_GetVFinal(cabecalho),C_GetFlag(cabecalho));
+            }
             /*se n existir o vertice a k vertices de distancia da origem*/
-            if(c==-1||d==-1){
+            else if(c==-1||d==-1){
                 fprintf(fp_saida, "%d %d D1 %d %d %d %d %.2lf -1\n",  M_GetMaxVertices(mapa),M_GetMaxArestas(mapa),C_GetVInicial(cabecalho),C_GetVFinal(cabecalho),C_GetFlag(cabecalho),comprimento,path->distancia[C_GetVInicial(cabecalho)-1]);
             }
             else{

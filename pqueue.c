@@ -16,6 +16,28 @@ struct _pqueue{
     int  (*_CompareFunction)(double valorA,double valorB);
 };
 
+void VerifyHeap(pqueue_t* pqueue,int j){
+    /****************************************************
+     * Insert VerifyHeap code here
+     ****************************************************/
+  int status = 1;
+  int i;
+  for(i =0;(i<pqueue->_n_elementos/2);i++){
+    if(pqueue->_CompareFunction(VALORINDEX(i*2+1),VALORINDEX(i))){
+      status=0;
+      break;
+    }
+    if(i*2+2 < pqueue->_n_elementos){
+      if(pqueue->_CompareFunction(VALORINDEX(i*2+2),VALORINDEX(i))){
+      status=0;
+      break;
+      }
+    }
+  }
+  if(status==1)return;
+  printf("|%d %d|\n",j,status);
+}
+
 void        HP_FixUp(pqueue_t* pqueue, int index){
     while(index>0 && pqueue->_CompareFunction(VALORINDEX(index),VALORINDEX((index-1)/2))){ /*Iterativamente troca cada filho com o seu pai se o pai tiver pior prioridade que o filho*/
         SWAP(index, (index-1)/2);
@@ -84,11 +106,11 @@ int         PQ_PrimeiroEApaga(pqueue_t* pqueue){
 void            PQ_MudarPrioridadeEUpdate(pqueue_t* pqueue,int chave, double valor){
     if(pqueue->_CompareFunction(valor,VALORCHAVE(chave))){
         VALORCHAVE(chave)=valor;
-        HP_FixUp(pqueue,pqueue->_chaves[chave]-1);
+        HP_FixUp(pqueue,pqueue->_chaves[chave]);
     }
     else if(!pqueue->_CompareFunction(valor,VALORCHAVE(chave))){
         VALORCHAVE(chave)=valor;
-        HP_FixDown(pqueue,pqueue->_chaves[chave]-1);
+        HP_FixDown(pqueue,pqueue->_chaves[chave]);
     }
 }
 

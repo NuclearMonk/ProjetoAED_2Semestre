@@ -195,6 +195,7 @@ path_t*   M_DJIKSTRAS_VERTICE(mapa_t* mapa, int a, int b, int vertice){
     if(!((0<a && a<= mapa->_maxvertices) && (0<b && b<=mapa->_maxvertices)))return NULL;
     if(vertice <=0|| vertice> mapa->_maxvertices)return NULL;
     if(a==b)return NULL;
+    if(vertice==a|| vertice == b)return NULL;
     switch (mapa->_tipo)
     {
     case 1:

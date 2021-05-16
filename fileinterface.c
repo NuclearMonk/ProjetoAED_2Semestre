@@ -312,16 +312,20 @@ void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecal
                     fprintf(fp_saida, "%d %d C1 %d %d %d %d %.2lf -1\n",    M_GetMaxVertices(mapa),M_GetMaxArestas(mapa),C_GetVInicial(cabecalho),
                                                                             C_GetVFinal(cabecalho),C_GetFlag(cabecalho),comprimento,path->distancia[C_GetVInicial(cabecalho)-1]);
                 
-                else if( pathalternativo->anterior[C_GetVInicial(cabecalho)-1]==-1) /*Se um caminho alternativo nao existe*/
+                else if( pathalternativo->anterior[C_GetVInicial(cabecalho)-1]==-1){ /*Se um caminho alternativo nao existe*/
                     fprintf(fp_saida, "%d %d C1 %d %d %d %d %.2lf -1\n",    M_GetMaxVertices(mapa),M_GetMaxArestas(mapa),C_GetVInicial(cabecalho),
                                                                             C_GetVFinal(cabecalho),C_GetFlag(cabecalho),comprimento,path->distancia[C_GetVInicial(cabecalho)-1]);
+                FREEPATH(pathalternativo);
+                }
                 /*Se um caminho existe*/
-                else fprintf(fp_saida, "%d %d C1 %d %d %d %d %.2lf %.2lf\n",M_GetMaxVertices(mapa),M_GetMaxArestas(mapa),C_GetVInicial(cabecalho),
+                else {
+                    fprintf(fp_saida, "%d %d C1 %d %d %d %d %.2lf %.2lf\n",M_GetMaxVertices(mapa),M_GetMaxArestas(mapa),C_GetVInicial(cabecalho),
                                                                             C_GetVFinal(cabecalho),C_GetFlag(cabecalho),comprimento,path->distancia[C_GetVInicial(cabecalho)-1],
                                                                             pathalternativo->distancia[C_GetVInicial(cabecalho)-1]-path->distancia[C_GetVInicial(cabecalho)-1]);
-                
-                /*Libertamos o caminho alternativo*/
                 FREEPATH(pathalternativo);
+                }
+                /*Libertamos o caminho alternativo*/
+                
             }
 
             /*escrevemos as arestas que formam o caminho original*/

@@ -17,6 +17,7 @@ int     LA_Grau(ladj_t* ladj, int a);
 bool    LA_Adjacente(ladj_t* ladj, int a, int b);
 path_t* LA_DJIKSTRAS(ladj_t* ladj,int vertices,int inicio, int fim);
 path_t* LA_DJIKSTRAS_VERTICE(ladj_t* ladj,int vertices,int inicio, int fim,int vertice);
+path_t* LA_DJIKSTRAS_ARESTA(ladj_t* ladj,int vertices,int inicio, int fim,int a, int b);
 
 /*Funcoes de arestas*/
 void    A_Preencher(aresta_t* aresta,int a, int b,double custo); 

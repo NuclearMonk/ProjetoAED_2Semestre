@@ -13,6 +13,7 @@ struct _madj
 {
     double*         _matriz; /*Matriz de doubles de ajacencia*/
     int*    _grau;  /*Array com os graus dos vertices para reduzir o seu tempo de computacao*/
+    double custo;/*guarda o custo da aresta retirada*/
 };
 
 

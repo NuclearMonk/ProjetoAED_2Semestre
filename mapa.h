@@ -31,4 +31,6 @@ path_t*   M_DJIKSTRAS(mapa_t* mapa, int a,int b);
 
 path_t*   M_DJIKSTRAS_VERTICE(mapa_t* mapa, int a, int b, int vertice);
 
+path_t*   M_DJIKSTRAS_ARESTA(mapa_t* mapa, int a, int b, int vertice1, int vertice2);
+
 #endif

@@ -263,19 +263,28 @@ void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecal
                 if(b==-1)continue;
                 fprintf(fp_saida,"%d %d %.2lf\n",a,b,(path->distancia[a-1])-(path->distancia[b-1]));
             }
-            /*libertamis i caminho*/
+            /*libertamos o caminho*/
             FREEPATH(path)
         }
         break;
     case 7: /*C1 caminho alternatico sem incluir um vertice*/
-        /*procuramos um caminho*/
+
         path = M_DJIKSTRAS(mapa,C_GetVFinal(cabecalho),C_GetVInicial(cabecalho));
         
         if(path==NULL){         /*Se o Djikstras for invalido*/
+            if(!((0<C_GetVFinal(cabecalho) && C_GetVFinal(cabecalho)<= M_GetMaxVertices(mapa)) && (0<C_GetVInicial(cabecalho) && C_GetVInicial(cabecalho)<=M_GetMaxVertices(mapa)))){
+                fprintf(fp_saida, "%d %d C1 %d %d %d -1\n",  M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho),
+                                                         C_GetVFinal(cabecalho),C_GetFlag(cabecalho));
+                break;
+            }
+            if(C_GetVFinal(cabecalho)==C_GetVInicial(cabecalho)){
+                fprintf(fp_saida, "%d %d C1 %d %d %d 0 0.00 -1\n",  M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho),
+                                                                    C_GetVFinal(cabecalho),C_GetFlag(cabecalho));
+                break;           
+            }
             fprintf(fp_saida, "%d %d C1 %d %d %d -1\n",  M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho),
                                                          C_GetVFinal(cabecalho),C_GetFlag(cabecalho));
         }
-
         else{
             /*procuramos o comprimento do caminho e procuramos o vertice a distancia k da origem, este vertice fica guardado em c*/
             comprimento=0;
@@ -286,9 +295,9 @@ void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecal
                 if(b==-1)continue;
                 comprimento++;
             }
-            /*Se o caminho original n existir*/
+            /*Se o caminho original n tem comprimento nao*/
             if(comprimento==0){
-                fprintf(fp_saida, "%d %d D1 %d %d %d -1\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho),
+                fprintf(fp_saida, "%d %d C1 %d %d %d -1\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho),
                                                             C_GetVFinal(cabecalho),C_GetFlag(cabecalho));
             }
             /*se n existir o vertice a k vertices de distancia da origem*/
@@ -330,8 +339,19 @@ void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecal
         path = M_DJIKSTRAS(mapa,C_GetVFinal(cabecalho),C_GetVInicial(cabecalho));
         
         if(path==NULL){         /*Se o Djikstras for invalido*/
-            fprintf(fp_saida, "%d %d D1 %d %d %d -1\n",  M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho),
+            if(!((0<C_GetVFinal(cabecalho) && C_GetVFinal(cabecalho)<= M_GetMaxVertices(mapa)) && (0<C_GetVInicial(cabecalho) && C_GetVInicial(cabecalho)<=M_GetMaxVertices(mapa)))){
+                fprintf(fp_saida, "%d %d D1 %d %d %d -1\n",  M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho),
+                                                         C_GetVFinal(cabecalho),C_GetFlag(cabecalho));
+                break;
+            }
+            if(C_GetVFinal(cabecalho)==C_GetVInicial(cabecalho)){
+                fprintf(fp_saida, "%d %d D1 %d %d %d 0 0.00 -1\n",  M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho),
+                                                                    C_GetVFinal(cabecalho),C_GetFlag(cabecalho));
+                break;           
+            }           
+            fprintf(fp_saida, "%d %d D1 %d %d %d -1\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho),
                                                         C_GetVFinal(cabecalho),C_GetFlag(cabecalho));
+                                
         }
         else{
             comprimento=0;

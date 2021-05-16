@@ -16,27 +16,6 @@ struct _pqueue{
     int  (*_CompareFunction)(double valorA,double valorB);
 };
 
-void VerifyHeap(pqueue_t* pqueue,int j){
-    /****************************************************
-     * Insert VerifyHeap code here
-     ****************************************************/
-  int status = 1;
-  int i;
-  for(i =0;(i<pqueue->_n_elementos/2);i++){
-    if(pqueue->_CompareFunction(VALORINDEX(i*2+1),VALORINDEX(i))){
-      status=0;
-      break;
-    }
-    if(i*2+2 < pqueue->_n_elementos){
-      if(pqueue->_CompareFunction(VALORINDEX(i*2+2),VALORINDEX(i))){
-      status=0;
-      break;
-      }
-    }
-  }
-  if(status==1)return;
-  printf("|%d %d|\n",j,status);
-}
 
 void        HP_FixUp(pqueue_t* pqueue, int index){
     while(index>0 && pqueue->_CompareFunction(VALORINDEX(index),VALORINDEX((index-1)/2))){ /*Iterativamente troca cada filho com o seu pai se o pai tiver pior prioridade que o filho*/
@@ -48,6 +27,7 @@ void        HP_FixUp(pqueue_t* pqueue, int index){
 void        HP_FixDown(pqueue_t* pqueue, int index){
     int child=0;
     if(index<0)return;
+    if(pqueue->_n_elementos<=1)return;
     /*Iterativamente trocamos cada pai com o pior dos seus filhos se o pai for pior que um dos filhos
       fica implicito que se apenas um dos filhos for pior que o pai esse filho vai ser o pior dos filhos*/
     while(2*index< pqueue->_n_elementos-1){
@@ -96,8 +76,7 @@ int         PQ_Primeiro(pqueue_t* pqueue){
 
 int         PQ_PrimeiroEApaga(pqueue_t* pqueue){
     int aux  = pqueue->_heap[0];
-    pqueue->_heap[0]=pqueue->_heap[pqueue->_n_elementos-1];
-    pqueue->_heap[pqueue->_n_elementos-1]=aux;
+    SWAP(0,pqueue->_n_elementos-1)
     pqueue->_n_elementos--;
     HP_FixDown(pqueue,0);
     return aux;

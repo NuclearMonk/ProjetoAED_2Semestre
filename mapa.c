@@ -18,7 +18,7 @@ struct _mapa
 mapa_t* M_Alocar(int vertices, int arestas){
     mapa_t* aux= (mapa_t*)malloc(sizeof(mapa_t));
     if(aux==NULL){exit(1);}
-    if((8*vertices*vertices)<(12+48*arestas+8*vertices)&&false){
+    if((8*vertices*vertices)<(12+48*arestas+8*vertices)){
     aux->_tipo=1;
     aux->_estrutura= MA_Alocar(vertices);
     }
@@ -175,6 +175,7 @@ void M_InsereCaracteristica(mapa_t* mapa,char caracteristicas[27],int vertice){
 
 path_t*   M_DJIKSTRAS(mapa_t* mapa, int a, int b){
     if(!((0<a && a<= mapa->_maxvertices) && (0<b && b<=mapa->_maxvertices)))return NULL;
+    if(a==b)return NULL;
     switch (mapa->_tipo)
     {
     case 1:
@@ -193,6 +194,7 @@ path_t*   M_DJIKSTRAS(mapa_t* mapa, int a, int b){
 path_t*   M_DJIKSTRAS_VERTICE(mapa_t* mapa, int a, int b, int vertice){
     if(!((0<a && a<= mapa->_maxvertices) && (0<b && b<=mapa->_maxvertices)))return NULL;
     if(vertice <=0|| vertice> mapa->_maxvertices)return NULL;
+    if(a==b)return NULL;
     switch (mapa->_tipo)
     {
     case 1:
@@ -212,6 +214,7 @@ path_t*   M_DJIKSTRAS_ARESTA(mapa_t* mapa, int a, int b, int vertice1, int verti
     path_t* path;
     if(!((0<a && a<= mapa->_maxvertices) && (0<b && b<=mapa->_maxvertices)))return NULL;
     if(vertice1 <=0 || vertice1 > mapa->_maxvertices || vertice2 <=0|| vertice2 > mapa->_maxvertices)return NULL;
+    if(a==b)return NULL;
     switch (mapa->_tipo)
     {
     case 1:

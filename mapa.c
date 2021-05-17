@@ -18,7 +18,7 @@ struct _mapa
 mapa_t* M_Alocar(int vertices, int arestas){
     mapa_t* aux= (mapa_t*)malloc(sizeof(mapa_t));
     if(aux==NULL){exit(1);}
-    if((8*vertices*vertices)<(12+48*arestas+8*vertices)){
+    if((8*vertices*vertices)<(12+48*arestas+8*vertices)&&false){
     aux->_tipo=1;
     aux->_estrutura= MA_Alocar(vertices);
     }
@@ -230,6 +230,19 @@ path_t*   M_DJIKSTRAS_ARESTA(mapa_t* mapa, int a, int b, int vertice1, int verti
         break;
     default:
         break;
+    }
+    return NULL;
+}
+
+path_t*   M_DJIKSTRAS_DESVIO(mapa_t* mapa, int a,int b,int carateristica){
+    switch(mapa->_tipo){
+        case 1:
+            break;
+        case 2:
+            return LA_DJIKSTRAS_DESVIO((ladj_t*)mapa->_estrutura, mapa->_maxvertices, a, b, mapa->_arraycaracteristicas[carateristica]);
+            break;
+        default:
+            break;
     }
     return NULL;
 }

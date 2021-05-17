@@ -3,6 +3,8 @@
 
 #include <stdbool.h>
 #include "pathfinding.h"
+#include "slist.h"
+
 /*Tipo abstrato, tanto pode ser uma matriz de adjacencia ou uma lista de adjacencia*/
 typedef struct _mapa mapa_t;
 
@@ -32,5 +34,7 @@ path_t*   M_DJIKSTRAS(mapa_t* mapa, int a,int b);
 path_t*   M_DJIKSTRAS_VERTICE(mapa_t* mapa, int a, int b, int vertice);
 
 path_t*   M_DJIKSTRAS_ARESTA(mapa_t* mapa, int a, int b, int vertice1, int vertice2);
+
+path_t*   M_DJIKSTRAS_DESVIO(mapa_t* mapa, int a,int b,int caracteristica);
 
 #endif

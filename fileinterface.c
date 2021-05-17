@@ -309,7 +309,6 @@ void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecal
                     comprimento++;
                 }
                 if(C_GetDesvio(cabecalho)>=0){
-                    printf("%lf\n",((aux-path->distancia[C_GetVFinal(cabecalho)-1])/path->distancia[C_GetVFinal(cabecalho)-1]));
                     if(((aux-path->distancia[C_GetVFinal(cabecalho)-1])/path->distancia[C_GetVFinal(cabecalho)-1])<=C_GetDesvio(cabecalho)){
                         fprintf(fp_saida, "%d %d B1 %d %d %c %.2lf %d %.2lf\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho), C_GetVFinal(cabecalho),(char)('a'+C_GetFlag(cabecalho)), C_GetDesvio(cabecalho),comprimento,aux);
                         EscreveArestasFimInicio(fp_saida,mapa,path,b);

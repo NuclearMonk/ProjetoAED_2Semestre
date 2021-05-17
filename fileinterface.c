@@ -299,6 +299,17 @@ void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecal
                     }
                 }
             }
+            if(b==-1){
+                if(C_GetDesvio(cabecalho)>=0){
+                    fprintf(fp_saida, "%d %d B1 %d %d %c %.2lf -1\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho), C_GetVFinal(cabecalho),(char)('a'+C_GetFlag(cabecalho)), C_GetDesvio(cabecalho));
+                }
+                else{
+                    fprintf(fp_saida, "%d %d B1 %d %d %c -1 -1\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho), C_GetVFinal(cabecalho),(char)('a'+C_GetFlag(cabecalho)));
+                }
+                FREEPATH(path)
+                FREEPATH(pathalternativo)
+                break;
+            }
             comprimento=0;
             for(a=b;path->anterior[a-1]>0;a=c){
                 c=path->anterior[a-1];
@@ -310,9 +321,11 @@ void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecal
                 if(c==-1)continue;
                 comprimento++;
             }
-
             if(C_GetDesvio(cabecalho)>=0){
-                if(aux==0){
+                if(aux<0){
+                    fprintf(fp_saida, "%d %d B1 %d %d %c %.2lf -1\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho), C_GetVFinal(cabecalho),(char)('a'+C_GetFlag(cabecalho)), C_GetDesvio(cabecalho));
+                }
+                else if(aux==0){
                     fprintf(fp_saida, "%d %d B1 %d %d %c %.2lf %d %.2lf\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho), C_GetVFinal(cabecalho),(char)('a'+C_GetFlag(cabecalho)), C_GetDesvio(cabecalho),comprimento,aux);
                     EscreveArestasFimInicio(fp_saida,mapa,path,b);
                     for(a=b;pathalternativo->anterior[a-1]>0;a=c){

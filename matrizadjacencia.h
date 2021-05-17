@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 #include "pathfinding.h"
+#include "slist.h"
 
 typedef struct _madj madj_t;
 
@@ -22,5 +23,7 @@ int         MA_DistanciaExata(madj_t* madj,int maxvertices, int a , int k);
 path_t*     MA_DJIKSTRAS(madj_t* madj,int vertices,int inicio,int fim);
 
 path_t*     MA_DJIKSTRAS_VERTICE(madj_t* madj,int vertices,int inicio,int fim,int vertice);
+
+path_t*     MA_DJIKSTRAS_DESVIO(madj_t* madj,int vertices, int inicio,int destino, slist_t* cidadescategoria);
 
 #endif

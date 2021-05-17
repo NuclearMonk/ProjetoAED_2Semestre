@@ -13,5 +13,6 @@ FILE*        Abre_ficheiro_prob(char *ficheiroprob);
 FILE*        Abre_ficheiro_mapa(char *ficheiromapa);
 FILE*        Abre_ficheiro_saida(char *ficheiromapa);
 void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecalho);
+void         EscreveArestasFimInicio(FILE* fp_saida,mapa_t* mapa,path_t* path, int fim);
 
 #endif

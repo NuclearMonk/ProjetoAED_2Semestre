@@ -173,6 +173,10 @@ void M_InsereCaracteristica(mapa_t* mapa,char caracteristicas[27],int vertice){
     return;
 }
 
+slist_t*  M_GetCidadesCaracteristica(mapa_t* mapa, int caracteristica){
+    return mapa->_arraycaracteristicas[caracteristica];
+}
+
 path_t*   M_DJIKSTRAS(mapa_t* mapa, int a, int b){
     if(!((0<a && a<= mapa->_maxvertices) && (0<b && b<=mapa->_maxvertices)))return NULL;
     if(a==b)return NULL;
@@ -235,6 +239,7 @@ path_t*   M_DJIKSTRAS_ARESTA(mapa_t* mapa, int a, int b, int vertice1, int verti
 }
 
 path_t*   M_DJIKSTRAS_DESVIO(mapa_t* mapa, int a,int b,int carateristica){
+    if(!((0<a && a<= mapa->_maxvertices) && (0<b && b<=mapa->_maxvertices)))return NULL;
     switch(mapa->_tipo){
         case 1:
             break;

@@ -27,7 +27,9 @@ int    M_GetMaxArestas(mapa_t* mapa);
 
 int    M_GetMaxVertices(mapa_t* mapa);
 
-void   M_InsereCaracteristica(mapa_t* mapa, char caracteristica[27], int vertice);
+slist_t*  M_GetCidadesCaracteristica(mapa_t* mapa, int caracteristica);
+
+void      M_InsereCaracteristica(mapa_t* mapa, char caracteristica[27], int vertice);
 
 path_t*   M_DJIKSTRAS(mapa_t* mapa, int a,int b);
 

@@ -247,14 +247,17 @@ void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecal
         path = M_DJIKSTRAS(mapa,C_GetVFinal(cabecalho),C_GetVInicial(cabecalho));
         /*Se o pedido de caminho for invalido*/
         if(path==NULL){
+            /*invalido por out of bounds*/
             if(!((0<C_GetVFinal(cabecalho) && C_GetVFinal(cabecalho)<= M_GetMaxVertices(mapa)) && (0<C_GetVInicial(cabecalho) && C_GetVInicial(cabecalho)<=M_GetMaxVertices(mapa)))){
                 fprintf(fp_saida, "%d %d A1 %d %d -1\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho), C_GetVFinal(cabecalho));
                 break;
             }
+            /*invalido porque o caminho tem comprimento 0*/
             if(C_GetVInicial(cabecalho)== C_GetVFinal(cabecalho)){
                 fprintf(fp_saida, "%d %d A1 %d %d 0 0.00\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho), C_GetVFinal(cabecalho));
                 break;
             }
+            /*Nunca deve acontercer*/
             fprintf(fp_saida, "%d %d A1 %d %d -1\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho), C_GetVFinal(cabecalho));
         }
         else{
@@ -279,9 +282,12 @@ void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecal
         }
         break;
     case 6:
+        /*path de Inicio para fim e todas as cidades de categoria fornecida*/
         path= M_DJIKSTRAS_DESVIO(mapa,C_GetVInicial(cabecalho),C_GetVFinal(cabecalho),C_GetFlag(cabecalho));
         
+        
         if(path==NULL){
+            /*se o caminho nao existe por out of bounds*/
             if(C_GetDesvio(cabecalho)>=0){
                 fprintf(fp_saida, "%d %d B1 %d %d %c %.2lf -1\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho), C_GetVFinal(cabecalho),(char)('a'+C_GetFlag(cabecalho)), C_GetDesvio(cabecalho));
             }
@@ -290,10 +296,13 @@ void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecal
             }
             break;
         }
+        /*Se o caminho existe*/
         else{ 
+            /*path de fim para inicio e todas as cidades com a carateristica definida*/
             pathalternativo = M_DJIKSTRAS_DESVIO(mapa,C_GetVFinal(cabecalho),C_GetVInicial(cabecalho),C_GetFlag(cabecalho));
+            
             aux = -1;
-            b=-1;
+            b=-1;                                       /*Procurar a cidade com a carateristica que gera o menor comprmento total*/
             for(listacidades=M_GetCidadesCaracteristica(mapa,C_GetFlag(cabecalho));listacidades!=NULL;listacidades=SL_GetNext(listacidades)){
                 a=*(int*)SL_GetData(listacidades);
                 if(path->distancia[a-1]>=0 && pathalternativo->distancia[a-1]>=0){
@@ -307,7 +316,9 @@ void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecal
                     }
                 }
             }
-            if(b==-1){
+
+
+            if(b==-1){/*Se nao existe nenhuma cidade assecivel com essa carateristica*/
                 if(C_GetDesvio(cabecalho)>=0){
                     fprintf(fp_saida, "%d %d B1 %d %d %c %.2lf -1\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho), C_GetVFinal(cabecalho),(char)('a'+C_GetFlag(cabecalho)), C_GetDesvio(cabecalho));
                 }
@@ -318,22 +329,25 @@ void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecal
                 FREEPATH(pathalternativo)
                 break;
             }
+            /*Medir o comprimento do inicio para a o meio*/
             comprimento=0;
             for(a=b;path->anterior[a-1]>0;a=c){
                 c=path->anterior[a-1];
                 if(c==-1)continue;
                 comprimento++;
             }
+            /*medir o caminho do meio para o inicio*/
             for(a=b;pathalternativo->anterior[a-1]>0;a=c){
                 c=pathalternativo->anterior[a-1];
                 if(c==-1)continue;
                 comprimento++;
             }
+            /*calculo do racio do caminho*/
             if(C_GetDesvio(cabecalho)>=0){
-                if(aux<0){
+                if(aux<0){ /*se o caminho nao existe*/
                     fprintf(fp_saida, "%d %d B1 %d %d %c %.2lf -1\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho), C_GetVFinal(cabecalho),(char)('a'+C_GetFlag(cabecalho)), C_GetDesvio(cabecalho));
                 }
-                else if(aux==0){
+                else if(aux==0){ /*caminho de comprimento 0 cumpre todos os racios evita/se a divisao 0/0 */
                     fprintf(fp_saida, "%d %d B1 %d %d %c %.2lf %d %.2lf\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho), C_GetVFinal(cabecalho),(char)('a'+C_GetFlag(cabecalho)), C_GetDesvio(cabecalho),comprimento,aux);
                     EscreveArestasFimInicio(fp_saida,mapa,path,b);
                     for(a=b;pathalternativo->anterior[a-1]>0;a=c){
@@ -342,6 +356,7 @@ void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecal
                         fprintf(fp_saida,"%d %d %.2lf\n",a,c,(pathalternativo->distancia[a-1])-(pathalternativo->distancia[c-1]));
                     }     
                 }
+                /*Se nao se excede o racio maximo*/
                 else if(((aux-path->distancia[C_GetVFinal(cabecalho)-1])/path->distancia[C_GetVFinal(cabecalho)-1])<=C_GetDesvio(cabecalho)){
                     fprintf(fp_saida, "%d %d B1 %d %d %c %.2lf %d %.2lf\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho), C_GetVFinal(cabecalho),(char)('a'+C_GetFlag(cabecalho)), C_GetDesvio(cabecalho),comprimento,aux);
                     EscreveArestasFimInicio(fp_saida,mapa,path,b);
@@ -351,11 +366,11 @@ void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecal
                         fprintf(fp_saida,"%d %d %.2lf\n",a,c,(pathalternativo->distancia[a-1])-(pathalternativo->distancia[c-1]));
                     }                        
                 }
-                else{
+                else{/*excede-se o racio maximo*/
                     fprintf(fp_saida, "%d %d B1 %d %d %c %.2lf -1\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho), C_GetVFinal(cabecalho),(char)('a'+C_GetFlag(cabecalho)), C_GetDesvio(cabecalho));
                 }
             }
-            else{
+            else{/*se o desvio maximo for negatico nao e preciso fazer calculos de racio*/
                 fprintf(fp_saida, "%d %d B1 %d %d %c -1 %d %.2lf\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho), C_GetVFinal(cabecalho),(char)('a'+C_GetFlag(cabecalho)),comprimento,aux);
                 EscreveArestasFimInicio(fp_saida,mapa,path,b);
                 for(a=b;pathalternativo->anterior[a-1]>0;a=c){

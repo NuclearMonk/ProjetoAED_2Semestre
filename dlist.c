@@ -1,5 +1,4 @@
 #include "dlist.h"
-#include <stdio.h>
 
 
 struct _dlist

@@ -30,6 +30,4 @@ void            PQ_MudarPrioridadeEUpdate(pqueue_t* pqueue,int chave, double val
 int             PQ_Size(pqueue_t* pqueue);
 
 int Less(double A, double B);
-
-void PrintHeap(pqueue_t* pq);
 #endif

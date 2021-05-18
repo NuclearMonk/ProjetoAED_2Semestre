@@ -1,7 +1,6 @@
 #include "mapa.h"
 
 #include <stdlib.h>
-#include <stdio.h>
 #include "matrizadjacencia.h"
 #include "listaadjacencia.h"
 #include "slist.h"

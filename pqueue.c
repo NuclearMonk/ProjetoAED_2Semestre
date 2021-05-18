@@ -1,6 +1,5 @@
 #include "pqueue.h"
 #include <stdlib.h>
-#include <stdio.h>
 
 #define SWAP(A,B)       {int aux = pqueue->_heap[A];pqueue->_chaves[aux]=B;pqueue->_chaves[pqueue->_heap[B]]=A;pqueue->_heap[A]=pqueue->_heap[B];pqueue->_heap[B]=aux;}
 #define INSERIRFIM(A,V)   {pqueue->_heap[pqueue->_n_elementos]=A;pqueue->_chaves[A]=pqueue->_n_elementos;pqueue->_n_elementos++;pqueue->_valores[A]=V;}
@@ -99,9 +98,4 @@ int             PQ_Size(pqueue_t* pqueue){
 
 int Less(double A, double B){
     return A<B;
-}
-
-void PrintHeap(pqueue_t* pqueue){
-    for(int i=0;i<pqueue->_n_elementos;i++)printf("||%d %lf||\n",pqueue->_heap[i]+1,VALORINDEX(i));
-    printf("%d\n",PQ_Size(pqueue));
 }

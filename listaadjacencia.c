@@ -4,7 +4,6 @@
 
 #include "Data.h"
 #include "pqueue.h"
-#include <stdio.h>
 
 struct _aresta
 {

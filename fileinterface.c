@@ -247,6 +247,14 @@ void         Resolve_problema(FILE *fp_saida, mapa_t* mapa, cabecalho_t* cabecal
         path = M_DJIKSTRAS(mapa,C_GetVFinal(cabecalho),C_GetVInicial(cabecalho));
         /*Se o pedido de caminho for invalido*/
         if(path==NULL){
+            if(!((0<C_GetVFinal(cabecalho) && C_GetVFinal(cabecalho)<= M_GetMaxVertices(mapa)) && (0<C_GetVInicial(cabecalho) && C_GetVInicial(cabecalho)<=M_GetMaxVertices(mapa)))){
+                fprintf(fp_saida, "%d %d A1 %d %d -1\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho), C_GetVFinal(cabecalho));
+                break;
+            }
+            if(C_GetVInicial(cabecalho)== C_GetVFinal(cabecalho)){
+                fprintf(fp_saida, "%d %d A1 %d %d 0 0.00\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho), C_GetVFinal(cabecalho));
+                break;
+            }
             fprintf(fp_saida, "%d %d A1 %d %d -1\n", M_GetMaxVertices(mapa), M_GetMaxArestas(mapa),C_GetVInicial(cabecalho), C_GetVFinal(cabecalho));
         }
         else{

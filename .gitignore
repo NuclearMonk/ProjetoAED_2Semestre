@@ -1,14 +1,2 @@
-projeto
-slist.o
-projeto
-main.o
-stack.o
-aresta.o
-cabecalho.o
-dlist.o
-fileinterface.o
-listaadjacencia.o
-mapa.o
-matrizadjacencia.o
 aedmaps
-pqueue.o
+*.o
